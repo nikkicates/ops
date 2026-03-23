@@ -10,17 +10,15 @@
         :root { --navy: #050A18; --teal: #58BBC2; --slate: #94A3B8; --red: #EF4444; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .section-header { border-left: 4px solid #050A18; padding-left: 1.5rem; margin-bottom: 2rem; }
-        .tech-card { background: white; padding: 1.5rem; border-radius: 1.5rem; border: 1px solid #e2e8f0; transition: all 0.3s ease; }
-        .tech-card:hover { border-color: var(--teal); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="p-6 md:p-16">
 
     <div class="max-w-6xl mx-auto">
-        <a href="index.html" class="text-slate-400 hover:text-navy text-xs font-bold uppercase tracking-widest mb-12 inline-block">← Return to Hub</a>
+        <a href="index.html" class="text-slate-400 hover:text-navy text-xs font-bold uppercase tracking-widest mb-12 inline-block transition-colors">← Return to Hub</a>
 
         <header class="mb-20">
-            <h1 class="text-4xl font-bold">Infrastructure & <span class="text-slate-400">Finance</span></h1>
+            <h1 class="text-4xl font-bold text-navy">Infrastructure & <span class="text-slate-400">Finance</span></h1>
             <p class="text-slate-500 mt-2">The "Engine Room" architecture and the $183,500 Revenue Roadmap.</p>
         </header>
 
@@ -29,7 +27,7 @@
             <h2 class="section-header text-xl font-bold">Financial Operations & Funding</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="md:col-span-2 bg-[#050A18] text-white p-10 rounded-[2.5rem] shadow-2xl">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-teal-400 mb-8">90-Day Revenue Targets</h3>
+                    <h3 class="text-[10px] font-bold uppercase tracking-widest text-teal-400 mb-8">90-Day Revenue Targets</h3>
                     <div class="grid grid-cols-2 gap-12">
                         <div>
                             <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Total Goal</p>
@@ -51,7 +49,7 @@
                 </div>
                 <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200">
                     <h3 class="text-xs font-bold uppercase text-slate-400 mb-6 tracking-widest">Seed Capital Sprint</h3>
-                    <p class="text-sm text-slate-600 leading-relaxed mb-6">Current Priority: Secure **$25,000** for GHL migration and Vol 3 distribution scaling.</p>
+                    <p class="text-sm text-slate-600 leading-relaxed mb-6">Current Priority: Secure **$30,000** for infrastructure scaling, GHL migration, and distribution.</p>
                     <div class="space-y-4">
                         <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
                             <p class="text-[10px] font-bold uppercase">Initiative 1</p>
@@ -60,6 +58,10 @@
                         <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
                             <p class="text-[10px] font-bold uppercase">Initiative 2</p>
                             <p class="text-xs font-medium">Corporate ERG Sponsorship Pitch</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <p class="text-[10px] font-bold uppercase">Initiative 3</p>
+                            <p class="text-xs font-medium">Strategic Partnerships Outreach</p>
                         </div>
                     </div>
                 </div>
@@ -70,47 +72,46 @@
         <section class="mb-20">
             <h2 class="section-header text-xl font-bold">White-Glove Tech Ops</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="tech-card">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h4 class="text-[10px] font-bold uppercase text-teal-600 mb-2">Airtable</h4>
-                    <p class="text-sm font-bold">Master CRM/Engine</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Use: LMI Calculations & Lead Tracking.</p>
+                    <p class="text-sm font-bold">Database & Logic</p>
+                    <p class="text-[10px] text-slate-500 mt-2">v5 UNMASK Engine</p>
                 </div>
-                <div class="tech-card">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h4 class="text-[10px] font-bold uppercase text-teal-600 mb-2">DocsAutomator</h4>
                     <p class="text-sm font-bold">Manufacturing</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Use: Generating $22k PDF Reports.</p>
+                    <p class="text-[10px] text-slate-500 mt-2">Report Generation</p>
                 </div>
-                <div class="tech-card">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h4 class="text-[10px] font-bold uppercase text-teal-600 mb-2">Make.com</h4>
-                    <p class="text-sm font-bold">The Logistics Bridge</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Use: Multi-app workflows & email delivery.</p>
+                    <p class="text-sm font-bold">Workflow Bridge</p>
+                    <p class="text-[10px] text-slate-500 mt-2">Multi-Channel Delivery</p>
                 </div>
-                <div class="tech-card">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <h4 class="text-[10px] font-bold uppercase text-teal-600 mb-2">GoHighLevel</h4>
-                    <p class="text-sm font-bold">The White-Glove CRM</p>
-                    <p class="text-[10px] text-slate-500 mt-2">Use: Client portals & nurture automation.</p>
+                    <p class="text-sm font-bold">Fulfillment</p>
+                    <p class="text-[10px] text-slate-500 mt-2">Client Portal & Nurture</p>
                 </div>
             </div>
         </section>
 
         <!-- TROUBLESHOOTING SOP -->
         <section>
-            <h2 class="section-header text-xl font-bold">Systems Troubleshooting</h2>
+            <h2 class="section-header text-xl font-bold text-red-600">Emergency Protocol</h2>
             <div class="bg-red-50 p-10 rounded-[2.5rem] border border-red-100">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div>
-                        <h4 class="text-xs font-bold text-red-700 uppercase mb-4 tracking-widest">Failure Mode: "The Report Didn't Send"</h4>
+                        <h4 class="text-xs font-bold text-red-700 uppercase mb-4 tracking-widest">Issue: "Report Failure"</h4>
                         <ol class="text-sm text-red-900/80 space-y-4 list-decimal ml-4">
-                            <li>Open **Airtable Automations**. Look for "Failed" script runs.</li>
-                            <li>Verify <code>recId</code> is correctly mapped as an input variable.</li>
-                            <li>Check **DocsAutomator Logs**. If it shows a 401 Error, the API key has expired.</li>
-                            <li>Verify field names in Airtable match the Google Doc tags exactly.</li>
+                            <li>Access **Airtable Automations**. Check "Run History" for script timeouts.</li>
+                            <li>Check input variables for <code>recId</code> mapping.</li>
+                            <li>Verify Google Doc template tags against Airtable field names.</li>
                         </ol>
                     </div>
                     <div class="bg-white/40 p-6 rounded-2xl">
-                        <h4 class="text-xs font-bold text-red-700 uppercase mb-4 tracking-widest">White-Glove Provision</h4>
+                        <h4 class="text-xs font-bold text-red-700 uppercase mb-4 tracking-widest">Mogul Pivot</h4>
                         <p class="text-sm text-red-900 leading-relaxed italic">
-                            "If a tech failure occurs during a live briefing, pivot immediately to the manual 'Structural Health Audit' deck. Never troubleshoot in front of the client. Re-center on the insight, not the engine."
+                            "If the engine fails, lead with the manual Audit Deck. The insight is the value, not the automation."
                         </p>
                     </div>
                 </div>
