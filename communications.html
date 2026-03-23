@@ -5,180 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Communications Playbook | Mogul Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --blue: #3B82F6; --slate: #94A3B8; }
+        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --blue: #3B82F6; --slate: #F1F5F9; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .sidebar-teal { border-left: 4px solid var(--teal); }
-        .sidebar-lilac { border-left: 4px solid var(--lilac); }
-        .sidebar-blue { border-left: 4px solid var(--blue); }
-        .serif { font-family: 'Playfair Display', serif; }
-        .rhythm-card { transition: all 0.3s ease; }
-        .rhythm-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .schedule-card { border-top: 4px solid var(--blue); transition: all 0.3s ease; }
+        .schedule-card:hover { transform: translateY(-4px); }
+        .cta-box { background: #050A18; color: white; padding: 2rem; border-radius: 1.5rem; }
     </style>
 </head>
 <body class="p-6 md:p-16">
 
     <div class="max-w-6xl mx-auto">
-        <!-- Breadcrumb -->
-        <a href="index.html" class="text-slate-400 hover:text-navy text-xs font-bold uppercase tracking-widest mb-12 inline-block transition-colors">← Return to Hub</a>
+        <a href="index.html" class="text-slate-400 hover:text-navy text-xs font-bold uppercase tracking-widest mb-12 inline-block">← Return to Hub</a>
 
         <header class="mb-16">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="px-3 py-1 bg-blue-500/10 text-blue-600 font-bold text-[10px] uppercase tracking-widest rounded-full">Communications SOP</span>
-                <span class="text-slate-300">|</span>
-                <span class="text-slate-500 text-[10px] uppercase font-bold tracking-widest">Authority & Lead Gen</span>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-navy">The Content <span class="text-blue-600">Engine</span></h1>
-            <p class="text-slate-500 mt-4 max-w-2xl leading-relaxed">
-                The high-authority broadcast system for Strategic Transformations and Unbothered Resistance. 
-            </p>
+            <h1 class="text-4xl font-bold text-navy">The Content <span class="text-blue-600">Engine</span></h1>
+            <p class="text-slate-500 mt-2">The high-authority broadcast system for URI & Strategic Transformations.</p>
         </header>
 
-        <!-- THE WEEKLY RHYTHM -->
+        <!-- CORRECTED WEEKLY DEPLOYMENT RHYTHM -->
         <section class="mb-20">
-            <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 mb-8">The Weekly Deployment Rhythm</h2>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="rhythm-card bg-white p-6 rounded-2xl border border-slate-100">
-                    <p class="text-[10px] font-bold text-blue-500 uppercase mb-2">Monday</p>
-                    <p class="text-xs font-bold">Structural Friction</p>
-                    <p class="text-[10px] text-slate-400 mt-2">LinkedIn Carousel Focus</p>
+            <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 mb-8 border-b pb-4">Weekly Deployment Rhythm</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- MONDAY -->
+                <div class="schedule-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-[10px] font-bold text-lilac uppercase mb-2">Monday (AM)</p>
+                    <p class="font-bold text-lg mb-1">URI Newsletter</p>
+                    <p class="text-xs text-slate-500 mb-4">Deep research & Womanist theology focus.</p>
+                    <div class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded inline-block">Unbothered Insights</div>
                 </div>
-                <div class="rhythm-card bg-white p-6 rounded-2xl border border-slate-100">
-                    <p class="text-[10px] font-bold text-teal-500 uppercase mb-2">Tuesday</p>
-                    <p class="text-xs font-bold">Weekday Insights</p>
-                    <p class="text-[10px] text-slate-400 mt-2">The "Mogul" Email</p>
+                <!-- TUESDAY -->
+                <div class="schedule-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-[10px] font-bold text-teal-600 uppercase mb-2">Tuesday (AM)</p>
+                    <p class="font-bold text-lg mb-1">The UNMASK Report</p>
+                    <p class="text-xs text-slate-500 mb-4">LinkedIn Newsletter focusing on Industrial Metrics.</p>
+                    <div class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded inline-block">Unbothered Insights</div>
                 </div>
-                <div class="rhythm-card bg-white p-6 rounded-2xl border border-slate-100">
-                    <p class="text-[10px] font-bold text-lilac-500 uppercase mb-2">Wednesday</p>
-                    <p class="text-xs font-bold">Vol 3 Synthesis</p>
-                    <p class="text-[10px] text-slate-400 mt-2">URI Deep Dive</p>
+                <!-- WED-FRI -->
+                <div class="schedule-card bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-[10px] font-bold text-blue-600 uppercase mb-2">Wed — Fri (AM)</p>
+                    <p class="font-bold text-lg mb-1">Unbothered Insights</p>
+                    <p class="text-xs text-slate-500 mb-4">Daily structural takes on LinkedIn.</p>
+                    <div class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded inline-block">Authority Posts</div>
                 </div>
-                <div class="rhythm-card bg-white p-6 rounded-2xl border border-slate-100">
-                    <p class="text-[10px] font-bold text-blue-500 uppercase mb-2">Thursday</p>
-                    <p class="text-xs font-bold">The Blueprint Case</p>
-                    <p class="text-[10px] text-slate-400 mt-2">Evidence-Based Post</p>
-                </div>
-                <div class="rhythm-card bg-slate-900 text-white p-6 rounded-2xl">
-                    <p class="text-[10px] font-bold text-teal-400 uppercase mb-2">Friday</p>
-                    <p class="text-xs font-bold">Weekly Newsletter</p>
-                    <p class="text-[10px] text-slate-500 mt-2">The Weekend Off-Ramp</p>
+                <!-- ADDITION -->
+                <div class="schedule-card bg-slate-50 p-6 rounded-2xl shadow-sm border-dashed border-2 border-slate-200">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Variable</p>
+                    <p class="font-bold text-lg mb-1">Addition Content</p>
+                    <p class="text-xs text-slate-500 mb-4">Case studies, live event announcements, guest spots.</p>
                 </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            <!-- LEFT COLUMN: CHANNELS -->
-            <div class="lg:col-span-7 space-y-16">
-                
-                <!-- LINKEDIN STRATEGY -->
-                <section>
-                    <h3 class="sidebar-blue pl-6 text-xl font-bold mb-8">LinkedIn Authority Protocol</h3>
-                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                        <h4 class="text-xs font-bold uppercase text-blue-600 mb-4 tracking-widest">Comment Logic (The "First Hour")</h4>
-                        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
-                            LinkedIn's algorithm prioritizes the first 60 minutes. Use the <a href="#" class="text-blue-500 underline">Comment Cheat Sheet</a> to paste links immediately after posting.
-                        </p>
-                        <div class="space-y-4">
-                            <div class="bg-slate-50 p-4 rounded-xl">
-                                <p class="text-xs font-bold mb-1">Link A: The Evidence</p>
-                                <p class="text-[10px] text-slate-500 italic">"Download the research briefing here: [Link]"</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-xl">
-                                <p class="text-xs font-bold mb-1">Link B: The CTA</p>
-                                <p class="text-[10px] text-slate-500 italic">"Apply for the Executive Briefing: [Link]"</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- WEEKDAY INSIGHTS & NEWSLETTER -->
-                <section>
-                    <h3 class="sidebar-teal pl-6 text-xl font-bold mb-8">Deep Content: Insights & Newsletters</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-8 rounded-3xl border border-slate-100">
-                            <h4 class="text-xs font-bold text-teal-600 uppercase mb-4 tracking-widest">Weekday Insights</h4>
-                            <p class="text-xs text-slate-500 leading-relaxed">
-                                Short, punchy "Architect" notes delivered via GHL to your active list. Focus on a single RAA or Masking metric.
-                            </p>
-                        </div>
-                        <div class="bg-white p-8 rounded-3xl border border-slate-100">
-                            <h4 class="text-xs font-bold text-teal-600 uppercase mb-4 tracking-widest">The Sabbath Bridge</h4>
-                            <p class="text-xs text-slate-500 leading-relaxed">
-                                Friday afternoon newsletter. Re-centers the leader for rest. High-authority reflection before the professional sunset.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- VOLUME 3 SYNTHESIS WORKFLOW -->
-                <section>
-                    <h3 class="sidebar-lilac pl-6 text-xl font-bold mb-8">Volume 3: "Soul of the System"</h3>
-                    <div class="bg-lilac/5 p-8 rounded-3xl border border-lilac/10">
-                        <h4 class="text-xs font-bold text-lilac uppercase mb-4 tracking-widest">The AI Ghostwriter Prompt</h4>
-                        <div class="bg-white p-6 rounded-xl border border-lilac/20 font-mono text-xs text-slate-600 mb-4 leading-relaxed">
-                            "Persona: Senior Executive Ghostwriter. Voice: Strategic Architect. 
-                            Task: Center the BIWOC experience in my notes for Chapter [X]. 
-                            Output: 1. The Structural Tax. 2. The Recalibration. 3. The Bridge Insight."
-                        </div>
-                        <p class="text-[10px] text-lilac font-bold uppercase italic">Current Status: Chapter 2 (The Masking Tax) — 55%</p>
-                    </div>
-                </section>
-
+        <!-- TOP CTA LIBRARY -->
+        <section class="mb-20">
+            <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 mb-8 border-b pb-4">The CTA Library (Copy & Deploy)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="cta-box border-l-4 border-l-teal-500">
+                    <h3 class="text-teal-400 font-bold uppercase text-[10px] tracking-widest mb-4">CTA 01: Speaking</h3>
+                    <p class="text-sm font-light mb-6">"Is your organization ready to move from survival to sovereignty? Book Nikki Cates for a keynote or workshop on structural leadership."</p>
+                    <a href="https://nikkicates.github.io/structural-speaker-pages/" target="_blank" class="text-xs font-bold underline">Link to Speaker Page →</a>
+                </div>
+                <div class="cta-box border-l-4 border-l-blue-500">
+                    <h3 class="text-blue-400 font-bold uppercase text-[10px] tracking-widest mb-4">CTA 02: Briefing</h3>
+                    <p class="text-sm font-light mb-6">"Map your load-paths. Schedule a 60-minute Executive Briefing to identify where your architecture is failing your best talent."</p>
+                    <a href="https://nikkicates.github.io/structural-speaker-pages/briefing.html" target="_blank" class="text-xs font-bold underline">Apply for Briefing →</a>
+                </div>
+                <div class="cta-box border-l-4 border-l-lilac">
+                    <h3 class="text-lilac font-bold uppercase text-[10px] tracking-widest mb-4">CTA 03: The Blueprint</h3>
+                    <p class="text-sm font-light mb-6">"Pre-order the UNMASK Blueprint Trilogy. The definitive manual for structural leadership and unbothered resistance."</p>
+                    <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="text-xs font-bold underline">Secure the Blueprint →</a>
+                </div>
             </div>
+        </section>
 
-            <!-- RIGHT COLUMN: OUTREACH & ASSETS -->
-            <div class="lg:col-span-5 space-y-12">
-                
-                <!-- THE 2-5-3 RULE -->
-                <section class="bg-slate-900 text-white p-10 rounded-[2.5rem] shadow-2xl">
-                    <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-blue-400 mb-8">The "2-5-3" Outreach Rule</h3>
-                    <div class="space-y-8">
-                        <div>
-                            <p class="text-2xl font-bold text-white mb-1">2 <span class="text-xs font-normal opacity-50 uppercase tracking-widest">CFPs</span></p>
-                            <p class="text-[10px] text-slate-400">Submit to speaking portals (Target: IAEM/Roots).</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold text-white mb-1">5 <span class="text-xs font-normal opacity-50 uppercase tracking-widest">Direct Pitches</span></p>
-                            <p class="text-[10px] text-slate-400">Personalized DMs to target CHROs/CEOs.</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold text-white mb-1">3 <span class="text-xs font-normal opacity-50 uppercase tracking-widest">Podcasts</span></p>
-                            <p class="text-[10px] text-slate-400">Guest requests for leadership/social impact shows.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- CONTENT ASSETS -->
-                <section>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Signature Assets</h3>
-                    <div class="space-y-4">
-                        <div class="bg-white p-6 rounded-2xl border border-slate-100 group cursor-pointer">
-                            <h5 class="text-xs font-bold group-hover:text-blue-600 transition-colors">Vol 3 Research Briefing PDF</h5>
-                            <p class="text-[10px] text-slate-400 mt-1 uppercase">Lead Magnet / Evidence Asset</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl border border-slate-100 group cursor-pointer">
-                            <h5 class="text-xs font-bold group-hover:text-blue-600 transition-colors">Executive Briefing Scripts</h5>
-                            <p class="text-[10px] text-slate-400 mt-1 uppercase">Stage 3 Closing Language</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- QUOTE BOX -->
-                <section class="p-8 bg-blue-50 rounded-3xl border border-blue-100">
-                    <p class="serif text-xl italic text-blue-900 leading-relaxed">
-                        "Your content is the structural blueprint. Your outreach is the construction crew. You need both to build a house that stands."
-                    </p>
-                </section>
-
-            </div>
-        </div>
-
-        <footer class="mt-24 border-t border-slate-200 pt-12 text-center text-slate-400">
-            <p class="text-[10px] font-bold uppercase tracking-[0.5em]">NC Communications Protocol — 2026</p>
-        </footer>
     </div>
-
 </body>
 </html>
