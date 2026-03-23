@@ -22,9 +22,9 @@
 <body class="min-h-screen pb-20">
 
     <!-- GLOBAL HUD NAVIGATION -->
-    <nav class="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#050A18]/90 backdrop-blur-xl z-50">
+    <nav class="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#050A18]/95 backdrop-blur-xl z-50">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-lilac-500 flex items-center justify-center font-bold text-navy">NC</div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-lilac-500 flex items-center justify-center font-bold text-navy shadow-lg">NC</div>
             <div>
                 <h2 class="text-sm font-bold tracking-widest uppercase text-white/90">Mogul <span class="mogul-gradient">OS</span></h2>
                 <p class="text-[10px] text-slate-500 uppercase tracking-tighter">Strategic Transformations v5.0</p>
@@ -42,22 +42,22 @@
 
     <main class="max-w-7xl mx-auto px-6 mt-16">
         
-        <!-- WELCOME & CEO MOTIVATION -->
+        <!-- WELCOME & CEO MOTIVATION BAR -->
         <header class="mb-20">
             <h1 class="text-5xl md:text-7xl font-bold mb-8">Welcome home, <span class="serif mogul-gradient">Nikki.</span></h1>
-            <div class="ceo-bar p-8 rounded-[2rem] relative overflow-hidden shimmer">
+            <div class="ceo-bar p-8 rounded-[2rem] relative overflow-hidden shimmer shadow-2xl">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                     <div class="max-w-2xl">
-                        <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-teal-400 mb-4">Principal Insight</p>
+                        <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-teal-400 mb-4">Executive Reflection</p>
                         <p class="text-2xl md:text-3xl font-light leading-relaxed text-slate-100 italic serif">
-                            "The building leaned on you and called it dedication. Today, we redesign the architecture so it carries its own weight."
+                            "Resistance is not a retreat; it is an architectural demand for structural integrity."
                         </p>
                     </div>
-                    <div class="flex flex-col items-end justify-center border-l border-white/10 pl-8 h-full">
+                    <div class="flex flex-col items-end justify-center border-l border-white/10 pl-8 h-full min-w-[220px]">
                         <p class="text-[10px] uppercase font-bold text-slate-500 mb-2">90-Day Target</p>
                         <div class="text-right">
-                            <span class="text-3xl font-bold tracking-tight text-white">$183,500</span>
-                            <div class="w-full bg-white/5 h-1 rounded-full mt-2"><div class="bg-teal-500 h-full w-[0%]"></div></div>
+                            <span class="text-3xl font-bold tracking-tight text-white" id="revenue-total">$183,500</span>
+                            <div class="w-full bg-white/5 h-1 rounded-full mt-2"><div class="bg-teal-500 h-full w-[12%]"></div></div>
                         </div>
                     </div>
                 </div>
@@ -71,17 +71,20 @@
                 <div class="flex justify-between items-start mb-10">
                     <div>
                         <h2 class="text-2xl font-bold">Capital Funding <span class="text-gold">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Investor & ERG Pipeline</p>
+                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Seed Investment & ERG Pipeline</p>
                     </div>
-                    <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest">Active</span>
+                    <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest">Target: $30k</span>
                 </div>
                 <div class="space-y-8">
                     <div>
-                        <div class="flex justify-between text-xs mb-3"><span class="text-slate-400">Seed Funding Goal</span><span class="font-bold">$0 / $25,000</span></div>
-                        <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden"><div class="bg-gold h-full w-[0%]"></div></div>
+                        <div class="flex justify-between text-xs mb-3"><span class="text-slate-400">Total Raise Goal</span><span class="font-bold text-gold">$0 / $30,000</span></div>
+                        <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden"><div class="bg-gold h-full w-[0%]"></div></div>
                     </div>
                     <div class="grid grid-cols-1 gap-3">
-                        <div class="flex items-center gap-3 text-xs text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Update Investor Hub presentation</div>
+                        <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="flex items-center justify-between text-xs text-slate-400 hover:text-gold transition-colors">
+                            <span>Update Investor Hub Presentation</span>
+                            <span class="text-[10px] font-bold">EXECUTE →</span>
+                        </a>
                         <div class="flex items-center gap-3 text-xs text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-gold"></span> Send ERG Sponsorship pitches</div>
                     </div>
                 </div>
@@ -92,14 +95,14 @@
                 <div class="flex justify-between items-start mb-10">
                     <div>
                         <h2 class="text-2xl font-bold">Revenue <span class="text-teal-400">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">90-Day High Ticket Goal</p>
+                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">MGA Checklist</p>
                     </div>
-                    <span class="px-3 py-1 bg-teal-500/10 text-teal-400 rounded-full text-[10px] font-bold uppercase tracking-widest">MGA Mode</span>
+                    <span class="px-3 py-1 bg-teal-500/10 text-teal-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Tracking</span>
                 </div>
                 <div class="grid grid-cols-2 gap-8">
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Weekly Leads</p>
-                        <p class="text-3xl font-bold">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
+                        <p class="text-3xl font-bold" id="lead-count">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
                     </div>
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Set</p>
@@ -109,84 +112,60 @@
             </section>
         </div>
 
-        <!-- OPERATIONAL PLAYBOOKS (SOPS) -->
-        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Internal Operating Procedures</h2>
+        <!-- PLAYBOOK CARDS -->
+        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Operational Playbooks</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
-            <a href="growth.html" class="card p-8 rounded-2xl group text-center md:text-left">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">Growth & Sales</h4>
+            <a href="growth.html" class="card p-8 rounded-2xl group">
+                <h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors tracking-tight">Growth & Sales</h4>
                 <p class="text-xs text-slate-500 leading-relaxed">Briefing Deck, Closing Scripts, Speaking Tracker.</p>
             </a>
-            <a href="fulfillment.html" class="card p-8 rounded-2xl group text-center md:text-left">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors">UNMASK Journey</h4>
+            <a href="fulfillment.html" class="card p-8 rounded-2xl group">
+                <h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors tracking-tight">UNMASK Journey</h4>
                 <p class="text-xs text-slate-500 leading-relaxed">Fulfillment SOPs, Diagnostics, Architecture.</p>
             </a>
-            <a href="communications.html" class="card p-8 rounded-2xl group text-center md:text-left">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">Communications</h4>
+            <a href="content.html" class="card p-8 rounded-2xl group">
+                <h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors tracking-tight">Communications</h4>
                 <p class="text-xs text-slate-500 leading-relaxed">LinkedIn Cadence, Newsletters, Vol 3 Synthesis.</p>
             </a>
-            <a href="infra.html" class="card p-8 rounded-2xl group text-center md:text-left">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors">Admin & Ops</h4>
+            <a href="infra.html" class="card p-8 rounded-2xl group">
+                <h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors tracking-tight">Admin & Ops</h4>
                 <p class="text-xs text-slate-500 leading-relaxed">Financial Ops, Stack Repair, Troubleshooting.</p>
             </a>
         </div>
 
-        <!-- THE ATLAS: HUB & PAGE DIRECTORY -->
+        <!-- ATLAS DIRECTORY -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Hubs & Company Pages</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Strategic Transformations Speaker -->
             <a href="https://nikkicates.github.io/structural-speaker-pages/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div>
-                    <h5 class="font-bold text-sm">ST Speaker Page</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Corporate & Industrial</p>
-                </div>
-                <span class="text-teal-500 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm">ST Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Industrial Brand</p></div>
+                <span class="text-teal-500">↗</span>
             </a>
-            <!-- URI Speaker -->
             <a href="https://nikkicates.github.io/structural-speaker-pages/uri" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div>
-                    <h5 class="font-bold text-sm">URI Speaker Page</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Justice & Sovereignty</p>
-                </div>
-                <span class="text-lilac-500 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm">URI Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Justice Brand</p></div>
+                <span class="text-lilac-500">↗</span>
             </a>
-            <!-- URI Landing -->
             <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div>
-                    <h5 class="font-bold text-sm">URI Landing Page</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Unbothered Resistance</p>
-                </div>
-                <span class="text-lilac-500 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm">URI Landing Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Unbothered Resistance</p></div>
+                <span class="text-lilac-500">↗</span>
             </a>
-            <!-- Investor Hub -->
             <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div>
-                    <h5 class="font-bold text-sm text-gold">Investor/Client Hub</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Strategic Recalibration</p>
-                </div>
-                <span class="text-gold opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm text-gold">Investor/Client Hub</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Strategic Recalibration</p></div>
+                <span class="text-gold">↗</span>
             </a>
-            <!-- Solutions Catalog -->
             <a href="https://nikkicates.github.io/structuralburnout/services.html" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div>
-                    <h5 class="font-bold text-sm">Solutions Catalog</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Product Mix & Pricing</p>
-                </div>
-                <span class="text-teal-500 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm">Solutions Catalog</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Pricing & Packaging</p></div>
+                <span class="text-teal-500">↗</span>
             </a>
-            <!-- Audit Engine -->
             <a href="https://nikkicates.github.io/unmask-audit-engine/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group border-red-900/30">
-                <div>
-                    <h5 class="font-bold text-sm text-red-400">UNMASK Audit Engine</h5>
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Direct Logic & Manufacturing</p>
-                </div>
-                <span class="text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                <div><h5 class="font-bold text-sm text-red-400">UNMASK Audit Engine</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Diagnostic Logic</p></div>
+                <span class="text-red-400">↗</span>
             </a>
         </div>
 
     </main>
 
     <footer class="mt-32 border-t border-white/5 p-12 text-center">
-        <p class="text-[10px] uppercase font-bold tracking-[0.5em] text-white/10">Strategic Transformations — NC Principal Portal — 2026</p>
+        <p class="text-[10px] uppercase font-bold tracking-[0.5em] text-white/10 italic">Strategic Transformations — NC Principal Portal — 2026</p>
     </footer>
 
 </body>
