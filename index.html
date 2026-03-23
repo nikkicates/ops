@@ -17,6 +17,9 @@
         .shimmer { position: relative; overflow: hidden; }
         .shimmer::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); animation: shimmer 4s infinite; }
         @keyframes shimmer { 100% { left: 200%; } }
+        .checkbox-custom { width: 14px; height: 14px; border: 1px solid var(--slate); border-radius: 3px; display: inline-block; margin-right: 8px; flex-shrink: 0; }
+        .checked { background: var(--teal); border-color: var(--teal); position: relative; }
+        .checked::after { content: '✓'; color: var(--navy); font-size: 10px; font-weight: 900; position: absolute; top: -2px; left: 2px; }
     </style>
 </head>
 <body class="min-h-screen pb-20">
@@ -63,7 +66,7 @@
             </div>
         </header>
 
-        <!-- THE SPRINT TRACKERS -->
+        <!-- SPRINT TRACKERS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
             <!-- CAPITAL FUNDING SPRINT -->
             <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-gold">
@@ -88,15 +91,14 @@
             <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-teal-500">
                 <div class="flex justify-between items-start mb-10">
                     <div>
-                        <h2 class="text-2xl font-bold">Revenue <span class="text-teal-400">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">MGA Checklist</p>
+                        <h2 class="text-2xl font-bold text-white">Revenue <span class="text-teal-400">Sprint</span></h2>
+                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">90-Day MGA Tracking</p>
                     </div>
-                    <span class="px-3 py-1 bg-teal-500/10 text-teal-400 rounded-full text-[10px] font-bold uppercase tracking-widest">Tracking</span>
                 </div>
                 <div class="grid grid-cols-2 gap-8">
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Weekly Leads</p>
-                        <p class="text-3xl font-bold" id="lead-count">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
+                        <p class="text-3xl font-bold">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
                     </div>
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Set</p>
@@ -106,29 +108,54 @@
             </section>
         </div>
 
+        <!-- CEO READINESS: INFRASTRUCTURE ROADMAP -->
+        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">CEO Readiness: Infrastructure Roadmap</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <!-- LEGAL & FINANCE -->
+            <div class="card p-8 rounded-3xl">
+                <h3 class="text-sm font-bold text-gold uppercase tracking-widest mb-6">Legal & Finance</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-xs text-slate-300 font-light">Seed Capital Target ($30k) set</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Business Insurance (E&O/General Liability)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Operating Agreement & Corporate Minutes</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Profit First Bank Account setup</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Standard SOW & Speaker Contract templates</span></div>
+                </div>
+            </div>
+            <!-- BRAND & AUTHORITY -->
+            <div class="card p-8 rounded-3xl">
+                <h3 class="text-sm font-bold text-teal-400 uppercase tracking-widest mb-6">Brand & Authority</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-xs text-slate-300 font-light">Speaker One-Sheet (v2) Finalized</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-xs text-slate-300 font-light">Engagement Pricing Sheet (v1) Finalized</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Professional Media Kit (Headshots/Brand Assets)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Intellectual Property Copyrighting (UNMASK)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Podcast Guest Pitch Kit (Bio/Topic List)</span></div>
+                </div>
+            </div>
+            <!-- SYSTEMIC SCALE -->
+            <div class="card p-8 rounded-3xl">
+                <h3 class="text-sm font-bold text-lilac uppercase tracking-widest mb-6">Systemic Scale</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-xs text-slate-300 font-light">Mogul OS v5.0 Command Center Live</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">GHL Automation: Onboarding Sequence</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Make.com: Multi-channel Pipeline Bridge</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Knowledge Base: Fulfillment SOPs v1</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-xs text-slate-300 font-light">Virtual Assistant / Chief of Staff role defined</span></div>
+                </div>
+            </div>
+        </div>
+
         <!-- OPERATIONAL PLAYBOOKS (SOPS) -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Operational Playbooks</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
-            <a href="growth.html" class="card p-8 rounded-2xl group">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors tracking-tight">Growth & Sales</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Briefing Deck, Closing Scripts, Speaking Tracker.</p>
-            </a>
-            <a href="fulfillment.html" class="card p-8 rounded-2xl group">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors tracking-tight">UNMASK Journey</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Fulfillment SOPs, Diagnostics, Architecture.</p>
-            </a>
-            <a href="communications.html" class="card p-8 rounded-2xl group">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors tracking-tight">Communications</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">LinkedIn Cadence, Newsletters, Vol 3 Synthesis.</p>
-            </a>
-            <a href="infra.html" class="card p-8 rounded-2xl group">
-                <h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors tracking-tight">Admin & Ops</h4>
-                <p class="text-xs text-slate-500 leading-relaxed">Financial Ops, Stack Repair, Troubleshooting.</p>
-            </a>
+            <a href="growth.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors">Growth & Sales</h4></a>
+            <a href="fulfillment.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors">UNMASK Journey</h4></a>
+            <a href="communications.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">Communications</h4></a>
+            <a href="infra.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors">Admin & Ops</h4></a>
         </div>
 
-        <!-- THE ATLAS: DIRECTORY -->
-        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Hubs & Company Pages</h2>
+        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Internal Hubs & Decks</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=sharing" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
                 <div><h5 class="font-bold text-sm text-teal-400">Executive Briefing Deck</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Master Sales Presentation</p></div>
@@ -142,29 +169,11 @@
                 <div><h5 class="font-bold text-sm">URI Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Justice Brand</p></div>
                 <span class="text-lilac-500">↗</span>
             </a>
-            <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div><h5 class="font-bold text-sm">URI Landing Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Unbothered Resistance</p></div>
-                <span class="text-lilac-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div><h5 class="font-bold text-sm text-gold">Investor/Client Hub</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Strategic Recalibration</p></div>
-                <span class="text-gold">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/structuralburnout/services.html" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div><h5 class="font-bold text-sm">Solutions Catalog</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Pricing & Packaging</p></div>
-                <span class="text-teal-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/unmask-audit-engine/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group border-red-900/30">
-                <div><h5 class="font-bold text-sm text-red-400">UNMASK Audit Engine</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Diagnostic Logic</p></div>
-                <span class="text-red-400">↗</span>
-            </a>
         </div>
-
     </main>
 
-    <footer class="mt-32 border-t border-white/5 p-12 text-center">
-        <p class="text-[10px] uppercase font-bold tracking-[0.5em] text-white/10 italic">Strategic Transformations — NC Principal Portal — 2026</p>
+    <footer class="mt-32 border-t border-white/5 p-12 text-center text-white/10 italic">
+        <p class="text-[10px] uppercase font-bold tracking-[0.5em]">Strategic Transformations — NC Principal Portal</p>
     </footer>
-
 </body>
 </html>
