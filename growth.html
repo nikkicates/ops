@@ -5,118 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growth & Authority | Nikki Cates</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .sidebar { border-left: 4px solid #58BBC2; padding-left: 1.5rem; }
-        .script-card { background: #f1f5f9; border-left: 3px solid #AC6DBF; padding: 1.5rem; border-radius: 0 0.75rem 0.75rem 0; }
+        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --slate: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--slate); }
+        .section-header { border-left: 4px solid var(--teal); padding-left: 1rem; margin-bottom: 2rem; }
+        .architect-card { background: var(--navy); color: white; border: 1px solid rgba(255,255,255,0.08); transition: all 0.3s ease; }
+        .architect-card:hover { border-color: var(--teal); background: #080F25; }
+        .badge { background: rgba(88,187,194,0.1); color: var(--teal); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
     </style>
 </head>
 <body class="p-6 md:p-16">
     <div class="max-w-6xl mx-auto">
-        <a href="index.html" class="text-slate-400 hover:text-teal-600 text-xs font-bold uppercase tracking-widest mb-12 inline-block">← Return to Command Center</a>
-        
+        <a href="index.html" class="text-slate-400 hover:text-teal-600 text-xs font-bold uppercase tracking-widest mb-12 inline-block transition-colors">← Return to Command Center</a>
+
         <header class="mb-20">
             <h1 class="text-4xl font-bold">Growth & <span class="text-teal-600">Authority</span></h1>
-            <p class="text-slate-500 mt-2">Lead Generation, Capital Pursuit, and Executive Conversion.</p>
+            <p class="text-slate-500 mt-2">Conversion Playbooks and Public Authority Assets.</p>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <section class="mb-24">
+            <h2 class="section-header text-xl font-bold text-navy">Executive Briefing System</h2>
             
-            <!-- LEFT: CONVERSION ASSETS -->
-            <div class="lg:col-span-8 space-y-20">
-                
-                <!-- EXECUTIVE BRIEFING -->
-                <section>
-                    <h2 class="sidebar text-xl font-bold mb-8">Executive Briefing System</h2>
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                        <div class="p-8 bg-slate-50 flex justify-between items-center border-b border-slate-100">
-                            <div>
-                                <span class="text-[10px] font-bold uppercase text-slate-400 tracking-widest">Master Sales Tool</span>
-                                <h3 class="font-bold text-lg">Briefing Pitch Deck</h3>
-                            </div>
-                            <a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=drive_link" target="_blank" class="bg-[#070E24] text-white px-6 py-3 rounded-xl text-xs font-bold hover:bg-teal-600 transition-colors">
-                                Open Presentation Deck
-                            </a>
-                        </div>
-                        <div class="p-8">
-                            <h4 class="text-xs font-bold text-teal-600 uppercase mb-4 tracking-widest">Key Script: The Diagnostic Bridge</h4>
-                            <div class="script-card italic text-sm text-slate-700 leading-relaxed">
-                                "We aren't here to discuss morale; we are here to discuss structural integrity. The RAA Gap in your organization is currently costing you [Calculated Liability]. The UNMASK Diagnostic is the tool that tells us exactly where the leak is occurring."
-                            </div>
-                        </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                <div class="lg:col-span-4 architect-card p-8 rounded-[2rem] flex flex-col justify-between shadow-xl">
+                    <div>
+                        <span class="badge mb-4 inline-block">Primary Asset</span>
+                        <h3 class="text-2xl font-bold mb-4">Briefing Pitch Deck</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-8">Deliver the 60-minute structural audit briefing. Focus on Financial Impact to anchor the $22k value.</p>
                     </div>
-                </section>
+                    <a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=sharing" target="_blank" class="bg-teal-600 text-white text-center py-4 rounded-xl text-xs font-bold hover:bg-teal-500 transition-all shadow-lg shadow-teal-500/20">OPEN PRESENTATION DECK</a>
+                </div>
 
-                <!-- CAPITAL FUNDING PITCHES -->
-                <section>
-                    <h2 class="sidebar text-xl font-bold mb-8">Capital Funding Sprints</h2>
-                    <div class="space-y-6">
-                        <div class="bg-white p-8 rounded-3xl border border-slate-100">
-                            <h3 class="font-bold text-gold mb-2 uppercase text-xs tracking-widest">Investor Hub Pitch</h3>
-                            <p class="text-sm text-slate-600 mb-6">Positioning Strategic Transformations for Seed Capital ($25k Phase).</p>
-                            <div class="script-card border-l-gold">
-                                <p class="text-sm font-bold text-slate-800 mb-2">The "Mogul" Hook:</p>
-                                <p class="text-sm text-slate-700 italic">
-                                    "I am building the industrial diagnostics for the future of work. We automate the detection of structural leadership failure. My 90-day roadmap targets $183k in high-margin diagnostic units. This capital injection accelerates our GHL migration and fuels the UNMASK v5 rollout."
-                                </p>
-                            </div>
-                        </div>
-                        <div class="bg-white p-8 rounded-3xl border border-slate-100">
-                            <h3 class="font-bold text-teal-600 mb-2 uppercase text-xs tracking-widest">Corporate ERG Pitch</h3>
-                            <p class="text-sm text-slate-600 mb-6">Seeking (1) Founding Partner for the UNMASK Trilogy series.</p>
-                            <div class="script-card border-l-teal-500">
-                                <p class="text-sm font-bold text-slate-800 mb-2">The Framing:</p>
-                                <p class="text-sm text-slate-700 italic">
-                                    "Your BIWOC leaders are your most accurate diagnostic instruments. By sponsoring the UNMASK Trilogy, you aren't just funding a book; you are investing in the structural blueprints that stop leadership extraction at the root."
-                                </p>
-                            </div>
-                        </div>
+                <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <p class="text-teal-600 text-[10px] font-bold uppercase mb-2">Stage 1: Qualification</p>
+                        <h4 class="font-bold text-sm mb-2">Decision Rights Check</h4>
+                        <p class="text-xs text-slate-500">Confirm authority, org size (200+), and investment readiness.</p>
                     </div>
-                </section>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <p class="text-teal-600 text-[10px] font-bold uppercase mb-2">Stage 2: Intelligence</p>
+                        <h4 class="font-bold text-sm mb-2">Industry Strain Pattern</h4>
+                        <p class="text-xs text-slate-500">Research industry-specific load paths and recent executive exits.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <p class="text-teal-600 text-[10px] font-bold uppercase mb-2">Stage 3: The Delivery</p>
+                        <h4 class="font-bold text-sm mb-2">Fiscal Reality Pitch</h4>
+                        <p class="text-xs text-slate-500">Pivot Script: "The question isn't whether this is happening, it's where."</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                        <p class="text-teal-600 text-[10px] font-bold uppercase mb-2">Stage 5: Onboarding</p>
+                        <h4 class="font-bold text-sm mb-2">Seed the Recalibration</h4>
+                        <p class="text-xs text-slate-500">Mention the arc: "Diagnostic maps it; Recalibration repairs it."</p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- RIGHT: PURSUIT TRACKER -->
-            <div class="lg:col-span-4 space-y-12">
-                <section>
-                    <h2 class="sidebar text-xl font-bold mb-8">Speaking Pursuit</h2>
-                    <div class="bg-slate-900 text-white p-8 rounded-[2rem] shadow-2xl">
-                        <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-400 mb-6">High-Priority Targets</h4>
-                        <ul class="space-y-6">
-                            <li class="border-b border-white/5 pb-4">
-                                <p class="text-xs font-bold">IAEM Annual</p>
-                                <p class="text-[10px] text-slate-400 mt-1 uppercase">Deadline: April 10</p>
-                                <span class="inline-block mt-2 px-2 py-0.5 bg-teal-500/10 text-teal-400 text-[9px] font-bold rounded">Pitching</span>
-                            </li>
-                            <li class="border-b border-white/5 pb-4">
-                                <p class="text-xs font-bold">Roots of Change</p>
-                                <p class="text-[10px] text-slate-400 mt-1 uppercase">Deadline: April 28</p>
-                                <span class="inline-block mt-2 px-2 py-0.5 bg-lilac-500/10 text-lilac-400 text-[9px] font-bold rounded">Drafting</span>
-                            </li>
-                            <li class="border-b border-white/5 pb-4">
-                                <p class="text-xs font-bold">UNLEASH America</p>
-                                <p class="text-[10px] text-slate-400 mt-1 uppercase">Rolling Selection</p>
-                                <span class="inline-block mt-2 px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[9px] font-bold rounded">In Review</span>
-                            </li>
-                        </ul>
-                    </div>
-                </section>
-
-                <section>
-                    <h2 class="sidebar text-xl font-bold mb-8">Signature Decks</h2>
-                    <div class="space-y-4">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-100 flex justify-between items-center group">
-                            <span class="text-xs font-bold">The Junior Cliff</span>
-                            <span class="text-[10px] text-teal-600 font-bold opacity-0 group-hover:opacity-100">View Deck →</span>
+        <section>
+            <h2 class="section-header text-xl font-bold text-navy">Speaking Pursuit & Assets</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-navy text-white p-8 rounded-[2rem] shadow-2xl">
+                    <h4 class="text-teal-400 text-[10px] font-bold uppercase tracking-widest mb-6 italic">Active Pipeline</h4>
+                    <ul class="space-y-6">
+                        <li class="border-b border-white/5 pb-4">
+                            <p class="text-xs font-bold">IAEM Annual</p>
+                            <p class="text-[9px] text-slate-400 mt-1 uppercase">Deadline: April 10 · Pitching</p>
+                        </li>
+                        <li class="border-b border-white/5 pb-4">
+                            <p class="text-xs font-bold">Roots of Change</p>
+                            <p class="text-[9px] text-slate-400 mt-1 uppercase">Deadline: April 28 · Drafting</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm md:col-span-2">
+                    <h4 class="text-navy text-xs font-bold uppercase tracking-widest mb-6">Signature Speech Outlines</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl">
+                            <h5 class="font-bold text-sm text-teal-700">The Junior Cliff</h5>
+                            <p class="text-[10px] text-slate-500 mt-1 uppercase">AI Risk & Infrastructure</p>
                         </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-100 flex justify-between items-center group">
-                            <span class="text-xs font-bold">Unbothered Resistance</span>
-                            <span class="text-[10px] text-teal-600 font-bold opacity-0 group-hover:opacity-100">View Deck →</span>
+                        <div class="bg-slate-50 p-4 rounded-xl">
+                            <h5 class="font-bold text-sm text-lilac-700">Unbothered Resistance</h5>
+                            <p class="text-[10px] text-slate-500 mt-1 uppercase">Sovereignty & Structural Integrity</p>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
-        </div>
+        </section>
     </div>
 </body>
 </html>
