@@ -5,123 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growth & Authority | Nikki Cates</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --slate: #1e293b; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--slate); }
         .section-header { border-left: 4px solid var(--teal); padding-left: 1.5rem; margin-bottom: 3rem; }
-        .card-navy { background: var(--navy); color: white; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.08); }
-        
-        /* Playbook Styles */
-        .stage { border: 0.5px solid #e2e8f0; border-radius: 12px; background: white; margin-bottom: 10px; overflow: hidden; }
-        .stage-hdr { display: flex; align-items: center; gap: 10px; padding: 1rem; cursor: pointer; user-select: none; transition: background 0.2s; }
-        .stage-hdr:hover { background: #f1f5f9; }
-        .badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; text-transform: uppercase; }
-        .s1 .badge { background: #E1F5EE; color: #085041; }
-        .s2 .badge { background: #EEEDFE; color: #26215C; }
-        .s3 .badge { background: #E6F1FB; color: #042C53; }
-        .s4 .badge { background: #FAEEDA; color: #412402; }
-        .s5 .badge { background: #EAF3DE; color: #173404; }
-        .stage-body { padding: 0 1.5rem 1.5rem; display: none; border-top: 1px solid #f1f5f9; }
-        .stage-body.open { display: block; }
-        .chev { transition: transform 0.2s; color: #94a3b8; }
-        .chev.open { transform: rotate(90deg); }
-        .lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-        .val { font-size: 13px; color: #334155; line-height: 1.5; }
-        .script-block { background: #f8fafc; border-left: 3px solid var(--teal); padding: 1rem; font-style: italic; font-size: 13px; margin-top: 10px; }
+        .product-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2.5rem; height: 100%; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; }
+        .product-card:hover { border-color: var(--teal); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body class="p-6 md:p-16">
-
     <div class="max-w-6xl mx-auto">
-        <a href="index.html" class="text-slate-400 hover:text-teal-600 text-xs font-bold uppercase tracking-widest mb-12 inline-block transition-colors">← Hub Hub</a>
-
+        <a href="index.html" class="text-slate-400 hover:text-teal-600 text-xs font-bold uppercase tracking-widest mb-12 inline-block transition-colors">← Back to Hub</a>
         <header class="mb-20">
             <h1 class="text-4xl font-bold text-navy">Growth & <span class="text-teal-600">Authority</span></h1>
-            <p class="text-slate-500 mt-2">Executive Conversion and Speaking Catalog.</p>
+            <p class="text-slate-500 mt-2 italic font-serif">Tiered Distribution and Signature Sales Assets.</p>
         </header>
 
-        <!-- 5-STAGE EXECUTIVE BRIEFING PLAYBOOK -->
+        <!-- THE UNMASK TRILOGY -->
         <section class="mb-24">
-            <h2 class="section-header text-xl font-bold">Executive Briefing — 5-Stage Playbook</h2>
-            
-            <div class="space-y-3">
-                <!-- STAGE 1 -->
-                <div class="stage s1">
-                    <div class="stage-hdr" onclick="toggle('s1')">
-                        <span class="badge">Stage 1</span>
-                        <span class="flex-1 font-bold text-sm">Pre-Qualification — Application Review</span>
-                        <span class="chev" id="chev-s1">▶</span>
-                    </div>
-                    <div class="stage-body" id="s1">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                            <div><div class="lbl">Objective</div><div class="val">Confirm the prospect meets minimum criteria (200+ employees, authority) before any time is invested.</div></div>
-                            <div><div class="lbl">Owner</div><div class="val">Nikki. Review within 24 hours of submission.</div></div>
-                        </div>
-                        <div class="mt-6 p-4 bg-red-50 rounded-xl border border-red-100">
-                            <p class="text-[10px] font-bold text-red-700 uppercase mb-1">Route to Nurture if:</p>
-                            <p class="text-xs text-red-900">No authority, org under 50, or "Not at this time" readiness. Send to UNMASK Report.</p>
-                        </div>
-                    </div>
+            <h2 class="section-header text-xl font-bold text-navy text-balance">The UNMASK Trilogy: Tiered Distribution</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="product-card border-t-4 border-t-slate-400 shadow-sm">
+                    <span class="badge mb-4 bg-slate-100 text-slate-600">Tier 1: Discovery</span>
+                    <h3 class="text-xl font-black mb-2 uppercase">Volume 1 (Print)</h3>
+                    <p class="text-xs text-slate-500 mb-6 leading-relaxed flex-grow">Physical credibility card repositioned for <strong>Amazon Print</strong> at $19.99–$24.99. Mail to potential high-impact collaborators.</p>
+                    <div class="bg-slate-50 p-4 rounded-xl text-[10px] text-slate-400 font-bold uppercase text-center italic">Authority seeding tool</div>
                 </div>
-
-                <!-- STAGE 2 -->
-                <div class="stage s2">
-                    <div class="stage-hdr" onclick="toggle('s2')">
-                        <span class="badge">Stage 2</span>
-                        <span class="flex-1 font-bold text-sm">Pre-Briefing Preparation</span>
-                        <span class="chev" id="chev-s2">▶</span>
-                    </div>
-                    <div class="stage-body" id="s2">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                            <div><div class="lbl">Adaptive Strategy</div><div class="val">If CHRO: Lead with retention costs. If CEO: Lead with AI risk & misdiagnosis. If COO: Lead with RAA operacional gaps.</div></div>
-                            <div><div class="lbl">Materials</div><div class="val">13-slide Deck, Org Research on LinkedIn, Confirmation Email.</div></div>
-                        </div>
-                    </div>
+                <div class="product-card border-t-4 border-t-teal-500 shadow-xl">
+                    <span class="badge mb-4 bg-teal-50 text-teal-700">Tier 2: Community</span>
+                    <h3 class="text-xl font-black mb-2 uppercase">Digital Bundle</h3>
+                    <p class="text-xs text-slate-500 mb-6 leading-relaxed flex-grow">Direct digital sales via <strong>Stan Store</strong> at $87. Retain the buyer relationship and email nurture sequence.</p>
+                    <div class="bg-teal-50 p-4 rounded-xl text-[10px] text-teal-700 font-bold uppercase text-center italic">Relationship management</div>
                 </div>
-
-                <!-- STAGE 3 -->
-                <div class="stage s3">
-                    <div class="stage-hdr" onclick="toggle('s3')">
-                        <span class="badge">Stage 3</span>
-                        <span class="flex-1 font-bold text-sm text-navy">Briefing Delivery — 60-Minute Session</span>
-                        <span class="chev" id="chev-s3">▶</span>
-                    </div>
-                    <div class="stage-body" id="s3">
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-                            <div class="bg-slate-50 p-4 rounded-xl text-center"><p class="lbl">0–5m</p><p class="text-[10px] font-bold">Anchor Frame</p></div>
-                            <div class="bg-slate-50 p-4 rounded-xl text-center"><p class="lbl">5–20m</p><p class="text-[10px] font-bold">Structural Failure</p></div>
-                            <div class="bg-slate-50 p-4 rounded-xl text-center"><p class="lbl">20–40m</p><p class="text-[10px] font-bold">Financial Anchor</p></div>
-                            <div class="bg-slate-50 p-4 rounded-xl text-center"><p class="lbl">40–60m</p><p class="text-[10px] font-bold">Close to LMI</p></div>
-                        </div>
-                        <div class="script-block mt-6">
-                            "The question is no longer whether this is happening in your organization — it's where. The LMI Assessment gives us that map. It's the targeted diagnostic that shows us exactly which structural layers are carrying the heaviest load."
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STAGE 4 -->
-                <div class="stage s4">
-                    <div class="stage-hdr" onclick="toggle('s4')">
-                        <span class="badge">Stage 4</span>
-                        <span class="flex-1 font-bold text-sm">Proposal & Close</span>
-                        <span class="chev" id="chev-s4">▶</span>
-                    </div>
-                    <div class="stage-body" id="s4">
-                        <p class="val mt-4">Convert within 48 hours. Reference the specific turnover liability identified. investment vs. cost of one more exit.</p>
-                    </div>
-                </div>
-
-                <!-- STAGE 5 -->
-                <div class="stage s5">
-                    <div class="stage-hdr" onclick="toggle('s5')">
-                        <span class="badge">Stage 5</span>
-                        <span class="flex-1 font-bold text-sm">Onboarding — LMI Launch</span>
-                        <span class="chev" id="chev-s5">▶</span>
-                    </div>
-                    <div class="stage-body" id="s5">
-                        <p class="val mt-4">Welcome email, kickoff call, and LMI intake survey deployment within 5-7 days of signed engagement.</p>
-                    </div>
+                <div class="product-card border-t-4 border-t-navy bg-[#050A18] text-white shadow-sm">
+                    <span class="badge mb-4 bg-white/10 text-teal-400">Tier 3: Enterprise</span>
+                    <h3 class="text-xl font-black mb-2 uppercase">Volume 2 (Direct)</h3>
+                    <p class="text-xs text-slate-400 mb-6 leading-relaxed flex-grow">B2B Institutional manual priced at <strong>$197+</strong>. Mandatory executive pre-read for leadership teams.</p>
+                    <div class="bg-white/5 p-4 rounded-xl text-[10px] font-bold uppercase text-teal-400 text-center border border-white/5">Includes Team Licensing</div>
                 </div>
             </div>
         </section>
@@ -129,85 +51,33 @@
         <!-- SPEAKING CATALOG -->
         <section class="mb-24">
             <h2 class="section-header text-xl font-bold">Signature Speaking Catalog</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- KEYNOTE 1 -->
-                <div class="card-navy p-10 flex flex-col justify-between">
-                    <div>
-                        <span class="text-teal-400 font-bold uppercase text-[10px] tracking-widest">Anchor Keynote</span>
-                        <h3 class="text-2xl font-bold mt-4 mb-2">Stop the Strain Transfer</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed mb-6">Why Your Best Leaders Are Burning Out. Reframes burnout as an architectural engineering failure, not a personal one.</p>
-                        <div class="bg-white/5 p-4 rounded-xl">
-                            <p class="text-[10px] font-bold text-teal-400 uppercase mb-2">Audience Leaves With:</p>
-                            <p class="text-xs text-slate-300">A new diagnostic language and a clear mandate for structural change at the source.</p>
-                        </div>
-                    </div>
-                    <p class="text-xs font-bold text-teal-400 mt-8">Fee: Starting at $7,500</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="product-card">
+                    <span class="text-[10px] font-bold text-teal-600 uppercase tracking-widest">Anchor Keynote</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Stop the Strain Transfer</h4>
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">Reframes burnout as an architectural failure. Moves from wellness to engineering. Fee: $7,500+</p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-[10px] font-bold text-slate-400">Outcome: Structural mandate for change.</div>
                 </div>
-
-                <!-- KEYNOTE 2 -->
-                <div class="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="text-blue-500 font-bold uppercase text-[10px] tracking-widest">Executive Summit Track</span>
-                        <h3 class="text-2xl font-bold text-navy mt-4 mb-2">Your Leadership Pipeline Is Leaking</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-6">Identifies the authority gap costing organizations 213% in replacement costs and shows exactly where the breaks hide.</p>
-                        <div class="bg-slate-50 p-4 rounded-xl">
-                            <p class="text-[10px] font-bold text-blue-600 uppercase mb-2">Audience Leaves With:</p>
-                            <p class="text-xs text-slate-700">A shared leadership language and a clear intervention priority for the board.</p>
-                        </div>
-                    </div>
-                    <p class="text-xs font-bold text-navy mt-8">Fee: Starting at $7,500</p>
+                <div class="product-card">
+                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Executive Summit</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">Leadership Pipeline Leak</h4>
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">Identifies the authority gap costing orgs 213% in replacement costs. Fee: $7,500+</p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-[10px] font-bold text-slate-400">Outcome: Intervention priority list.</div>
                 </div>
-
-                <!-- KEYNOTE 3 -->
-                <div class="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="text-navy font-bold uppercase text-[10px] tracking-widest">Operations Track</span>
-                        <h3 class="text-2xl font-bold text-navy mt-4 mb-2">False Urgency</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed mb-6">How "Everything Is Critical" is destroying your organization. Dismantling overwork and decision chaos architecture.</p>
-                        <div class="bg-slate-50 p-4 rounded-xl">
-                            <p class="text-[10px] font-bold text-navy uppercase mb-2">Audience Leaves With:</p>
-                            <p class="text-xs text-slate-700">A concrete framework for separating real operational urgency from structural noise.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- KEYNOTE 4 -->
-                <div class="card-navy p-10 flex flex-col justify-between border-l-4 border-l-lilac">
-                    <div>
-                        <span class="text-lilac font-bold uppercase text-[10px] tracking-widest">AI-Era Track</span>
-                        <h3 class="text-2xl font-bold mt-4 mb-2">When AI Breaks the Bridge</h3>
-                        <p class="text-xs text-slate-400 leading-relaxed mb-6">Why deploying AI onto misaligned human architecture accelerates collapse. Decision-rights protocols for the age of automation.</p>
-                        <div class="bg-white/5 p-4 rounded-xl">
-                            <p class="text-[10px] font-bold text-lilac uppercase mb-2">Audience Leaves With:</p>
-                            <p class="text-xs text-slate-300">A structural risk map for AI deployment and a prioritized fix list for technical leaders.</p>
-                        </div>
-                    </div>
+                <div class="product-card">
+                    <span class="text-[10px] font-bold text-red-600 uppercase tracking-widest">AI-Era Track</span>
+                    <h4 class="text-lg font-bold mt-4 mb-2">When AI Breaks the Bridge</h4>
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">Decision-rights protocols for the age of automation. Structural risk map. Fee: $7,500+</p>
+                    <div class="bg-slate-50 p-3 rounded-lg text-[10px] font-bold text-slate-400">Outcome: Structural risk map.</div>
                 </div>
             </div>
         </section>
 
-        <!-- BOOKING TERMS -->
-        <section class="bg-slate-900 text-white p-12 rounded-[3rem] mb-20">
-            <h2 class="text-[10px] font-bold uppercase tracking-widest text-teal-400 mb-10 text-center">Booking Terms & Travel Policy</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div><p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Deposit</p><p class="text-xs">50% due at signing to secure date. Balance due 7 days prior.</p></div>
-                <div><p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Air Travel</p><p class="text-xs">Comfort Plus or Business Class only. Billed at cost.</p></div>
-                <div><p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Hotel</p><p class="text-xs">4-star properties or above. Billed at cost.</p></div>
-                <div><p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Ground</p><p class="text-xs">Executive car service for event-day transport.</p></div>
-            </div>
-        </section>
-
+        <footer class="bg-navy text-white p-12 rounded-[3rem] bg-[#050A18] text-center">
+            <p class="text-sm font-serif italic text-slate-200 leading-relaxed max-w-3xl mx-auto">
+                "This is a practitioner-developed framework grounded in lived experience, operational leadership, and ongoing qualitative research, currently moving toward empirical validation through formal academic study."
+            </p>
+        </footer>
     </div>
-
-    <script>
-        function toggle(id) {
-            const body = document.getElementById(id);
-            const chev = document.getElementById('chev-' + id);
-            const isOpen = body.classList.contains('open');
-            body.classList.toggle('open', !isOpen);
-            chev.classList.toggle('open', !isOpen);
-        }
-    </script>
 </body>
 </html>
