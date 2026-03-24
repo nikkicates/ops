@@ -22,7 +22,7 @@
         .checked::after { content: '✓'; color: var(--navy); font-size: 10px; font-weight: 900; position: absolute; top: -3px; left: 2px; }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="min-h-screen pb-20 font-sans">
 
     <!-- GLOBAL HUD NAVIGATION -->
     <nav class="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#050A18]/95 backdrop-blur-xl z-50">
@@ -30,7 +30,7 @@
             <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-lilac-500 flex items-center justify-center font-bold text-navy shadow-lg">NC</div>
             <div>
                 <h2 class="text-sm font-bold tracking-widest uppercase text-white/90">Mogul <span class="mogul-gradient">OS</span></h2>
-                <p class="text-[10px] text-slate-500 uppercase tracking-tighter font-bold">Principal Architect v5.1</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-tighter font-bold">Principal Architect v5.4</p>
             </div>
         </div>
         
@@ -42,7 +42,7 @@
         </div>
     </nav>
 
-    <main class="max-w-[1400px] mx-auto px-6 mt-16">
+    <main class="max-w-[1440px] mx-auto px-6 mt-16">
         
         <!-- WELCOME & CEO MOTIVATION BAR -->
         <header class="mb-20">
@@ -52,13 +52,13 @@
                     <div class="max-w-2xl">
                         <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-teal-400 mb-4">Executive Reflection</p>
                         <p class="text-2xl md:text-3xl font-light leading-relaxed text-slate-100 italic serif">
-                            "The building leaned on you and called it dedication. Redesign the architecture so it carries its own weight."
+                            "You are not selling books. You are selling entry into a framework that redesigns the future of work."
                         </p>
                     </div>
                     <div class="flex flex-col items-end border-l border-white/10 pl-8 h-full min-w-[240px]">
                         <p class="text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">90-Day Revenue Target</p>
                         <div class="text-right">
-                            <span class="text-3xl font-bold tracking-tight text-white">$183,500</span>
+                            <span class="text-3xl font-bold tracking-tight text-white" id="revenue-total">$183,500</span>
                             <div class="w-full bg-white/5 h-1 rounded-full mt-2"><div class="bg-teal-500 h-full w-[15%]"></div></div>
                         </div>
                     </div>
@@ -71,19 +71,25 @@
             <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-gold">
                 <div class="flex justify-between items-start mb-10">
                     <div>
-                        <h2 class="text-2xl font-bold">Capital Funding <span class="text-gold">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Target: $30k Seed</p>
+                        <h2 class="text-2xl font-bold">Capital & Distribution <span class="text-gold">Sprint</span></h2>
+                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">BBIF & Amazon Print Setup</p>
                     </div>
-                    <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest">In Motion</span>
+                    <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest">High Priority</span>
                 </div>
                 <div class="space-y-8">
-                    <div class="flex justify-between text-xs mb-3 font-bold"><span class="text-slate-400 uppercase tracking-tighter">Current Progress</span><span class="text-gold">$0 / $30,000</span></div>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden shadow-inner"><div class="bg-gold h-full w-[0%]"></div></div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-3 font-bold"><span class="text-slate-400 uppercase tracking-tighter">Seed Capital Progress</span><span class="text-gold font-black">$0 / $30,000</span></div>
+                        <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden shadow-inner"><div class="bg-gold h-full w-[0%]"></div></div>
+                    </div>
                     <div class="grid grid-cols-1 gap-3">
-                        <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="flex items-center justify-between text-xs text-slate-400 hover:text-gold transition-colors font-bold uppercase tracking-widest">
-                            <span>Update Investor Hub Presentation</span>
-                            <span class="text-[10px] px-2 py-0.5 border border-gold/40 rounded">EXECUTE →</span>
-                        </a>
+                        <div class="flex items-center justify-between text-xs text-slate-400 bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="font-bold">Amazon KDP (Vol 1):</span>
+                            <span class="text-gold uppercase text-[9px] font-black italic">Awaiting Print Proof</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs text-slate-400 bg-white/5 p-3 rounded-xl border border-white/5">
+                            <span class="font-bold">Institutional Repricing (Vol 2):</span>
+                            <span class="text-teal-400 uppercase text-[9px] font-black italic">Set to $197+</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -101,36 +107,34 @@
                         <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
                     </div>
                     <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Set</p>
+                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Booked</p>
                         <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 5</span></p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- CEO READINESS: COMPREHENSIVE ROADMAP -->
+        <!-- EXPANDED CEO READINESS ROADMAP -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">CEO Readiness: Infrastructure Roadmap</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             <!-- LEGAL & FINANCE -->
             <div class="card p-8 rounded-3xl">
-                <h3 class="text-xs font-bold text-gold uppercase tracking-widest mb-6">Legal & Finance</h3>
+                <h3 class="text-xs font-bold text-gold uppercase tracking-widest mb-6">Capital & Finance</h3>
                 <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Seed Capital Target ($30k) set</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Business E&O / Liability Insurance</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Standard SOW & Speaker Contract</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Tax Liability Reserve Account (25%)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Airtable Finance Dashboard Integration</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Seed Capital Target ($30k)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">BBIF Grant Application Submission</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Licensing Agreement (Vol 2)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Profit First: Tax Reserve Account</span></div>
                 </div>
             </div>
             <!-- BRAND & AUTHORITY -->
             <div class="card p-8 rounded-3xl">
-                <h3 class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-6">Brand & Authority</h3>
+                <h3 class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-6">Distribution & IP</h3>
                 <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Speaker One-Sheet (v2) Finalized</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Engagement Pricing (v1) Finalized</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Intellectual Property Trademark Filing</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Podcast Guest Pitch Kit (Bio/Blurbs)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Volume 3 "Sovereign" Landing Page</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Amazon Print proofing (Vol 1)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Repricing ($197+) for Vol 2</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Audio Recording (Findaway/Broad Distro)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Vol 3 Manuscript Completion (30 Days)</span></div>
                 </div>
             </div>
             <!-- SYSTEMIC SCALE -->
@@ -138,35 +142,31 @@
                 <h3 class="text-xs font-bold text-lilac uppercase tracking-widest mb-6">Systemic Scale</h3>
                 <div class="space-y-4">
                     <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Mogul OS Command Center Live</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">GHL: Automated Intake Workflow</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Make.com: Failure Notification Sync</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Client-Facing "Status" Dashboard</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Chief of Staff / VA Role Charter</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Mailing List: High-Tier Print Recipients</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">GHL: "The Manual" Post-Purchase Nurture</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Chief of Staff Role Charter</span></div>
                 </div>
             </div>
-            <!-- ASSET READINESS (NEW) -->
+            <!-- ASSET READINESS -->
             <div class="card p-8 rounded-3xl border-teal-500/20">
                 <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-6">Asset Readiness</h3>
                 <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Manual Structural Audit Deck (Non-AI)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Analog RAA Engine (Google Sheet)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Emergency Briefing Pitch Template</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Manual Structural Audit Deck (Pivot)</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Legacy Print Copies (V1/V2) for Outreach</span></div>
+                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Post-Audit Recalibration Proposal</span></div>
                     <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Onboarding Welcome Kit (Master PDF)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Post-Diagnostic $45k Proposal Doc</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- OPERATIONAL PLAYBOOKS -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Operational Playbooks</h2>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20 text-center md:text-left">
-            <a href="growth.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors tracking-tight">Growth & Sales</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Lead Gen & Speaking</p></a>
-            <a href="fulfillment.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors tracking-tight">UNMASK Journey</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Diagnostic SOPs</p></a>
-            <a href="communications.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors tracking-tight">Communications</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Authority Rhythm</p></a>
-            <a href="infra.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors tracking-tight">Admin & Ops</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Finance & Logic</p></a>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+            <a href="growth.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors tracking-tight">Growth & Sales</h4></a>
+            <a href="fulfillment.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors tracking-tight">UNMASK Journey</h4></a>
+            <a href="communications.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors tracking-tight">Communications</h4></a>
+            <a href="infra.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors tracking-tight">Admin & Ops</h4></a>
         </div>
 
-        <!-- THE ATLAS: FULLY RESTORED 8 LINKS -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Internal Hubs & Digital Estate</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=sharing" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
@@ -177,12 +177,12 @@
                 <div><h5 class="font-bold text-sm">ST Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-tighter">Corporate</p></div>
                 <span class="text-teal-500">↗</span>
             </a>
-            <a href="https://nikkicates.github.io/structural-speaker-pages/uri" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div><h5 class="font-bold text-sm">URI Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-tighter">Justice</p></div>
+            <a href="uri.html" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
+                <div><h5 class="font-bold text-sm">URI Research Hub</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-tighter">Research Institute</p></div>
                 <span class="text-lilac-500">↗</span>
             </a>
-            <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
-                <div><h5 class="font-bold text-sm">URI Landing</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-tighter">Market</p></div>
+            <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group border-lilac-500/20">
+                <div><h5 class="font-bold text-sm">URI Landing</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-tighter">Market Facing</p></div>
                 <span class="text-lilac-500">↗</span>
             </a>
             <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group">
@@ -204,8 +204,11 @@
         </div>
     </main>
 
-    <footer class="mt-32 border-t border-white/5 p-12 text-center text-white/10 italic">
-        <p class="text-[10px] uppercase font-bold tracking-[0.5em]">Strategic Transformations — NC Principal Portal — 2026</p>
+    <footer class="mt-32 border-t border-white/5 p-12 text-center text-white/20">
+        <p class="text-[10px] uppercase font-bold tracking-[0.5em] mb-4">Strategic Transformations — NC Principal Portal — 2026</p>
+        <p class="text-[9px] max-w-2xl mx-auto italic font-light leading-relaxed">
+            "This is a practitioner-developed framework grounded in lived experience, operational leadership, and ongoing qualitative research, currently moving toward empirical validation through formal academic study."
+        </p>
     </footer>
 </body>
 </html>
