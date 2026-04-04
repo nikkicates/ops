@@ -64,15 +64,14 @@
             <details open>
                 <summary class="cursor-pointer text-teal-400 font-bold uppercase tracking-widest text-xs mb-4">📋 Offer Design Report – March 2026 (Internal Only)</summary>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
-                    <div>Keynote (Tier 1): $12,500–$25,000<br>Workshop Add-on: $15,000–$35,000<br>Diagnostic (Tier 2): $22,000–$45,000</div>
-                    <div>Recalibration (Tier 3): $45,000–$85,000+<br>Advisory Retainer (Tier 4): $7,500–$15,000/month</div>
+                    <div>Keynote: $12,500–$25,000<br>Workshop: $15,000–$35,000<br>Diagnostic: $22,000–$45,000</div>
+                    <div>Recalibration: $45,000–$85,000+<br>Advisory: $7,500–$15,000/month</div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-4 italic">IP-First: Speaking as entry → Diagnostics as precision → Recalibration as transformation.</p>
             </details>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-            <!-- Capital & Seeding Sprint (your original) -->
+            <!-- Capital & Seeding Sprint (kept your original) -->
             <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-gold">
                 <div class="flex justify-between items-start mb-10">
                     <div>
@@ -109,9 +108,26 @@
             </section>
         </div>
 
-        <!-- Weekly + Quarterly Tasks -->
+        <!-- This Week • This Quarter (with clickable checkboxes) -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">This Week • This Quarter</h2>
-        <div id="task-list" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            <div class="card p-8 rounded-3xl">
+                <h3 class="text-teal-400 font-bold mb-6 text-sm">THIS WEEK</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start"><span id="wk1" class="checkbox-custom"></span><span class="text-[13px]">Schedule next week's newsletters (Mon URI + Tue UNMASK)</span></div>
+                    <div class="flex items-start"><span id="wk2" class="checkbox-custom"></span><span class="text-[13px]">Launch Blueprint series sales on LinkedIn + other platforms</span></div>
+                    <div class="flex items-start"><span id="wk3" class="checkbox-custom"></span><span class="text-[13px]">Draft RAA + AI Acceleration Burnout Index Typeforms</span></div>
+                </div>
+            </div>
+            <div class="card p-8 rounded-3xl">
+                <h3 class="text-lilac font-bold mb-6 text-sm">THIS QUARTER (Q2)</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start"><span id="q1" class="checkbox-custom"></span><span class="text-[13px]">Reach 500 AI Acceleration Burnout data points</span></div>
+                    <div class="flex items-start"><span id="q2" class="checkbox-custom"></span><span class="text-[13px]">Finalize UNMASK Recalibrate app MVP</span></div>
+                    <div class="flex items-start"><span id="q3" class="checkbox-custom"></span><span class="text-[13px]">Submit Lilly Endowment grant (June cycle)</span></div>
+                </div>
+            </div>
+        </div>
 
         <!-- Diagnostics & Data Moat -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Diagnostics & Data Moat (IP Engine)</h2>
@@ -130,7 +146,7 @@
             </div>
         </div>
 
-        <!-- The Atlas: Digital Estate -->
+        <!-- The Atlas: Digital Estate (all links) -->
         <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Digital Estate</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <a href="communications.html" class="card p-6 rounded-2xl flex items-center justify-between group"><div><h5 class="font-bold text-sm text-teal-400">Communications</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Newsletters</p></div><span class="text-teal-500">↗</span></a>
@@ -151,7 +167,7 @@
     </footer>
 
     <script>
-        // Clickable + persistent checkboxes
+        // Clickable checkboxes that persist
         document.addEventListener('click', e => {
             if (e.target.classList.contains('checkbox-custom')) {
                 e.target.classList.toggle('checked');
