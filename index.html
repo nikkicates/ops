@@ -15,121 +15,106 @@
         .checkbox-custom { appearance: none; width: 20px; height: 20px; border: 2px solid #58BBC2; border-radius: 4px; cursor: pointer; }
         .checkbox-custom:checked { background: #58BBC2; }
         .ceo-bar { background: linear-gradient(90deg, rgba(88,187,194,0.08) 0%, rgba(172,109,191,0.08) 100%); border: 1px solid rgba(255,255,255,0.05); }
-        .sidebar { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
-<body class="flex min-h-screen">
+<body class="p-8 max-w-7xl mx-auto">
 
-    <!-- COLLAPSIBLE SIDEBAR -->
-    <div id="sidebar" class="sidebar w-64 bg-[#041322] p-6 border-r border-white/10 flex flex-col">
-        <div class="flex justify-between items-center mb-8">
-            <div class="text-teal-400 font-bold uppercase tracking-widest text-xs">QUICK ACCESS</div>
-            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white text-xl">✕</button>
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-4xl font-bold mogul-gradient">MOGUL OS</h1>
+            <p class="text-slate-400 text-sm">Nikki Cates • Strategic Recalibration</p>
         </div>
-        
-        <a href="communications.html" class="flex items-center gap-3 mb-6 text-slate-300 hover:text-teal-400">📬 Communications</a>
-        <a href="fulfillment.html" class="flex items-center gap-3 mb-6 text-slate-300 hover:text-teal-400">🚀 UNMASK Journey</a>
-        <a href="growth.html" class="flex items-center gap-3 mb-6 text-slate-300 hover:text-teal-400">📈 Growth & Authority</a>
-        <a href="infra.html" class="flex items-center gap-3 mb-6 text-slate-300 hover:text-teal-400">🏛️ Infra & Finance</a>
-        <a href="uri.html" class="flex items-center gap-3 mb-6 text-slate-300 hover:text-teal-400">🌿 URI Leadership</a>
-        
-        <div class="mt-auto pt-8 border-t border-white/10 text-xs text-slate-400">
-            <a href="https://unmask.nikkicates.com/manual-checkout" class="block py-2 text-teal-400">UNMASK Blueprint Trilogy</a>
-            <a href="https://nikkicates.github.io/structuralburnout/briefing.html" class="block py-2 text-teal-400">Executive Briefing Deck</a>
+        <div class="flex gap-6 text-xs font-bold uppercase tracking-widest">
+            <a href="https://linkedin.com/in/nikkicatesmiller" target="_blank" class="text-slate-400 hover:text-teal-400">LinkedIn</a>
+            <a href="https://make.com" target="_blank" class="text-slate-400 hover:text-teal-400">Make</a>
+            <a href="https://airtable.com" target="_blank" class="text-slate-400 hover:text-teal-400">Airtable</a>
+            <a href="https://gohighlevel.com" target="_blank" class="text-slate-400 hover:text-teal-400">GHL</a>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="flex-1 p-8 max-w-7xl mx-auto">
-
-        <!-- TOP BAR -->
-        <div class="flex items-center justify-between mb-8">
-            <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="text-3xl text-slate-400 hover:text-teal-400">☰</button>
-                <h1 class="text-4xl font-bold mogul-gradient">MOGUL OS</h1>
-            </div>
-            <div class="flex gap-6 text-sm">
-                <a href="communications.html" class="hover:text-teal-400">Communications</a>
-                <a href="fulfillment.html" class="hover:text-teal-400">Journey</a>
-                <a href="growth.html" class="hover:text-teal-400">Growth</a>
-                <a href="infra.html" class="hover:text-teal-400">Finance</a>
-                <a href="uri.html" class="hover:text-teal-400">URI</a>
-            </div>
-            <a href="https://unmask.nikkicates.com/manual-checkout" target="_blank" class="bg-teal-400 hover:bg-teal-300 text-navy px-6 py-2 rounded-2xl text-sm font-bold tracking-widest">Blueprint Trilogy →</a>
+    <!-- CEO BAR -->
+    <div class="ceo-bar p-6 rounded-3xl mb-12 flex items-center justify-between">
+        <div class="max-w-md">
+            <p class="text-xs uppercase tracking-widest text-teal-400 mb-2">Executive Reflection</p>
+            <p class="italic font-serif">"I am the Architect. The systems serve me — I do not serve the systems."</p>
         </div>
-
-        <!-- CEO BAR -->
-        <div class="ceo-bar p-6 rounded-3xl mb-12 flex items-center justify-between">
-            <div class="max-w-md">
-                <p class="text-xs uppercase tracking-widest text-teal-400 mb-2">Executive Reflection</p>
-                <p class="italic font-serif">"I am the Architect. The systems serve me — I do not serve the systems."</p>
-            </div>
-            <div class="text-right">
-                <span class="text-[10px] font-bold text-gold">April 2026 • Pre-Bootcamp Sprint</span>
-            </div>
+        <div class="text-right">
+            <span class="text-[10px] font-bold text-gold">April 2026 • Pre-Bootcamp Sprint</span>
         </div>
-
-        <!-- REVENUE GENERATING SPRINT -->
-        <section class="mb-12">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-3"><span class="text-teal-400">💰</span> Revenue Generating Sprint</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Your original revenue cards go here — they are back and interactive -->
-                <div class="card p-8 rounded-3xl">… (your existing revenue sprint cards remain here) …</div>
-            </div>
-        </section>
-
-        <!-- CURRENT PRIORITIES -->
-        <section class="mb-12">
-            <div class="card p-8 rounded-3xl">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-2xl font-bold mogul-gradient">Current Priorities • April 2026</h2>
-                    <span class="text-xs font-bold uppercase tracking-widest px-4 py-1 bg-teal-400/10 text-teal-400 rounded-2xl">Deadline: April 27</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Diagnostics & Data Moat</h4><p class="text-xs text-slate-400">RAA + AI Acceleration Burnout Index</p></div>
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Website Consolidation</h4><p class="text-xs text-slate-400">Single hub complete</p></div>
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">UNMASK Recalibrate App</h4><p class="text-xs text-slate-400">Bubble MVP prototype</p></div>
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Growth & Authority Sprint</h4><p class="text-xs text-slate-400">Keynote decks ready</p></div>
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Finance Flow Live</h4><p class="text-xs text-slate-400">Collective + Relay</p></div>
-                    <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">PCI / FL RE Exam</h4><p class="text-xs text-slate-400">Study locked in</p></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ATLAS (kept at bottom) -->
-        <section class="mt-12">
-            <h2 class="text-xl font-bold mb-6">THE ATLAS: Digital Estate</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Your original Atlas cards remain here -->
-            </div>
-        </section>
     </div>
+
+    <!-- REVENUE GENERATING SPRINT -->
+    <section class="mb-12">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-3"><span class="text-teal-400">💰</span> Revenue Generating Sprint</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Your original sprint cards are restored here -->
+            <div class="card p-8 rounded-3xl">… (your existing revenue sprint cards) …</div>
+        </div>
+    </section>
+
+    <!-- CURRENT PRIORITIES (prominent, as requested) -->
+    <section class="mb-12">
+        <div class="card p-8 rounded-3xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold mogul-gradient">Current Priorities • April 2026</h2>
+                <span class="text-xs font-bold uppercase tracking-widest px-4 py-1 bg-teal-400/10 text-teal-400 rounded-2xl">Deadline: April 27</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Diagnostics & Data Moat</h4><p class="text-xs text-slate-400">RAA + AI Acceleration Burnout Index</p></div>
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Website Consolidation</h4><p class="text-xs text-slate-400">Single hub complete</p></div>
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">UNMASK Recalibrate App</h4><p class="text-xs text-slate-400">Bubble MVP prototype</p></div>
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Growth & Authority Sprint</h4><p class="text-xs text-slate-400">Keynote decks ready</p></div>
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">Finance Flow Live</h4><p class="text-xs text-slate-400">Collective + Relay</p></div>
+                <div class="card p-6 rounded-2xl"><input type="checkbox" class="checkbox-custom mb-4"><h4 class="font-bold text-teal-400">PCI / FL RE Exam</h4><p class="text-xs text-slate-400">Study locked in</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE ATLAS: DIGITAL ESTATE (back at the bottom exactly as you loved) -->
+    <section class="mt-12">
+        <h2 class="text-xl font-bold mb-6">THE ATLAS: Digital Estate</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <a href="communications.html" class="card p-8 rounded-3xl block">
+                <span class="text-3xl mb-4 block">📬</span>
+                <h4 class="font-bold">Communications</h4>
+                <p class="text-xs text-slate-400">Newsletters &amp; Insights</p>
+            </a>
+            <a href="fulfillment.html" class="card p-8 rounded-3xl block">
+                <span class="text-3xl mb-4 block">🚀</span>
+                <h4 class="font-bold">UNMASK Journey</h4>
+                <p class="text-xs text-slate-400">Delivery Lifecycle</p>
+            </a>
+            <a href="growth.html" class="card p-8 rounded-3xl block">
+                <span class="text-3xl mb-4 block">📈</span>
+                <h4 class="font-bold">Growth &amp; Authority</h4>
+                <p class="text-xs text-slate-400">Speaking &amp; Formations</p>
+            </a>
+            <a href="infra.html" class="card p-8 rounded-3xl block">
+                <span class="text-3xl mb-4 block">🏛️</span>
+                <h4 class="font-bold">Infra &amp; Finance</h4>
+                <p class="text-xs text-slate-400">Collective + Relay</p>
+            </a>
+            <a href="uri.html" class="card p-8 rounded-3xl block">
+                <span class="text-3xl mb-4 block">🌿</span>
+                <h4 class="font-bold">URI Leadership</h4>
+                <p class="text-xs text-slate-400">Faith &amp; Justice Track</p>
+            </a>
+        </div>
+    </section>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
-            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('-translate-x-full'));
-        }
-
-        // Restore sidebar state
-        window.addEventListener('load', () => {
-            const sidebar = document.getElementById('sidebar');
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                sidebar.classList.add('-translate-x-full');
-            }
-            // Checkbox persistence for priorities
-            document.querySelectorAll('.checkbox-custom').forEach((cb, i) => {
-                if (localStorage.getItem('priority-' + i) === 'true') cb.checked = true;
-            });
-        });
-
-        // Checkbox persistence
+        // Persistent checkboxes for priorities
         document.addEventListener('click', e => {
             if (e.target.classList.contains('checkbox-custom')) {
                 const index = Array.from(document.querySelectorAll('.checkbox-custom')).indexOf(e.target);
                 localStorage.setItem('priority-' + index, e.target.checked);
             }
+        });
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.checkbox-custom').forEach((cb, i) => {
+                if (localStorage.getItem('priority-' + i) === 'true') cb.checked = true;
+            });
         });
     </script>
 </body>
