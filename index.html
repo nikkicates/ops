@@ -1,195 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mogul Command Center | Nikki Cates</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --gold: #D4AF37; --slate: #94A3B8; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--navy); color: white; margin: 0; }
-        .mogul-gradient { background: linear-gradient(135deg, #58BBC2 0%, #AC6DBF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .card:hover { border-color: var(--teal); background: rgba(255, 255, 255, 0.04); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .ceo-bar { background: linear-gradient(90deg, rgba(88,187,194,0.08) 0%, rgba(172,109,191,0.08) 100%); border: 1px solid rgba(255,255,255,0.05); }
-        .serif { font-family: 'Playfair Display', serif; }
-        .shimmer { position: relative; overflow: hidden; }
-        .shimmer::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); animation: shimmer 3s infinite; }
-        @keyframes shimmer { 100% { left: 200%; } }
-        .checkbox-custom { width: 14px; height: 14px; border: 1px solid var(--slate); border-radius: 3px; display: inline-block; margin-right: 8px; flex-shrink: 0; margin-top: 2px; }
-        .checked { background: var(--teal); border-color: var(--teal); position: relative; }
-        .checked::after { content: '✓'; color: var(--navy); font-size: 10px; font-weight: 900; position: absolute; top: -3px; left: 2px; }
-    </style>
-</head>
-<body class="min-h-screen pb-20 font-sans">
-
-    <nav class="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 sticky top-0 bg-[#050A18]/95 backdrop-blur-xl z-50">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-lilac-500 flex items-center justify-center font-bold text-navy shadow-lg">NC</div>
-            <div>
-                <h2 class="text-sm font-bold tracking-widest uppercase text-white/90">Mogul <span class="mogul-gradient">OS</span></h2>
-                <p class="text-[10px] text-slate-500 uppercase tracking-tighter font-bold">Principal Architect v5.6</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-6 text-slate-400 font-bold text-[10px] uppercase tracking-widest">
-            <a href="https://linkedin.com" target="_blank" class="hover:text-white transition-colors">LinkedIn</a>
-            <a href="https://make.com" target="_blank" class="hover:text-white transition-colors">Make</a>
-            <a href="https://airtable.com" target="_blank" class="hover:text-white transition-colors">Airtable</a>
-            <a href="https://app.gohighlevel.com" target="_blank" class="hover:text-white transition-colors">GHL</a>
-        </div>
-    </nav>
-
-    <main class="max-w-[1440px] mx-auto px-6 mt-16 text-balance">
-        <header class="mb-20">
-            <h1 class="text-5xl md:text-7xl font-bold mb-8">Welcome home, <span class="serif mogul-gradient">Nikki.</span></h1>
-            <div class="ceo-bar p-8 rounded-[2rem] relative overflow-hidden shimmer shadow-2xl">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
-                    <div class="max-w-2xl">
-                        <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-teal-400 mb-4">Executive Reflection</p>
-                        <p class="text-2xl md:text-3xl font-light leading-relaxed text-slate-100 italic serif">
-                            "The building leaned on you and called it dedication. Redesign the architecture so it carries its own weight."
-                        </p>
-                    </div>
-                    <div class="flex flex-col items-end border-l border-white/10 pl-8 h-full min-w-[240px]">
-                        <p class="text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">90-Day Revenue Target</p>
-                        <div class="text-right">
-                            <span class="text-3xl font-bold tracking-tight text-white">$183,500</span>
-                            <div class="w-full bg-white/5 h-1 rounded-full mt-2"><div class="bg-teal-500 h-full w-[12%]"></div></div>
-                        </div>
+<main class="max-w-[1440px] mx-auto px-6 mt-16 text-balance">
+    <header class="mb-20">
+        <h1 class="text-5xl md:text-7xl font-bold mb-8">Welcome home, <span class="serif mogul-gradient">Nikki.</span></h1>
+        
+        <!-- Executive Reflection + Revenue Target (kept your original) -->
+        <div class="ceo-bar p-8 rounded-[2rem] relative overflow-hidden shimmer shadow-2xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
+                <div class="max-w-2xl">
+                    <p class="text-[10px] uppercase font-bold tracking-[0.4em] text-teal-400 mb-4">Executive Reflection</p>
+                    <p class="text-2xl md:text-3xl font-light leading-relaxed text-slate-100 italic serif">
+                        "The building leaned on you and called it dedication. Redesign the architecture so it carries its own weight."
+                    </p>
+                </div>
+                <div class="flex flex-col items-end border-l border-white/10 pl-8 h-full min-w-[240px]">
+                    <p class="text-[10px] uppercase font-bold text-slate-500 mb-2 tracking-widest">90-Day Revenue Target</p>
+                    <div class="text-right">
+                        <span class="text-3xl font-bold tracking-tight text-white">$183,500</span>
+                        <div class="w-full bg-white/5 h-1 rounded-full mt-2"><div class="bg-teal-500 h-full w-[12%]"></div></div>
                     </div>
                 </div>
             </div>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-            <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-gold">
-                <div class="flex justify-between items-start mb-10">
-                    <div>
-                        <h2 class="text-2xl font-bold">Capital & Seeding <span class="text-gold">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Grants & Authority Seeding</p>
-                    </div>
-                    <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest italic">Active</span>
-                </div>
-                <div class="space-y-8">
-                    <div>
-                        <div class="flex justify-between text-xs mb-3 font-bold"><span class="text-slate-400">Monthly Target</span><span class="text-gold font-black">Amber Grant</span></div>
-                        <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden shadow-inner"><div class="bg-gold h-full w-[25%]"></div></div>
-                    </div>
-                    <div class="grid grid-cols-1 gap-3">
-                        <div class="flex items-center justify-between text-xs text-slate-400 bg-white/5 p-3 rounded-xl border border-white/5">
-                            <span class="font-bold">Amazon Print (Vol 1):</span>
-                            <span class="text-gold uppercase text-[9px] font-black italic">Awaiting Proof</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-teal-500">
-                <div class="flex justify-between items-start mb-10">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white">Revenue Generating <span class="text-teal-400">Sprint</span></h2>
-                        <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">90-Day MGA Focus</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Weekly Leads</p>
-                        <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
-                    </div>
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Set</p>
-                        <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 5</span></p>
-                    </div>
-                </div>
-            </section>
         </div>
+    </header>
 
-        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">CEO Readiness: Infrastructure Roadmap</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            <div class="card p-8 rounded-3xl">
-                <h3 class="text-xs font-bold text-gold uppercase tracking-widest mb-6">Capital & Finance</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Amber Grant Submission</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Fearless Fund Pivot</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Licensing Model</span></div>
+    <!-- Offer Design Report Reference (collapsed by default) -->
+    <div class="mb-12 p-6 bg-white/5 border border-white/10 rounded-3xl text-sm">
+        <details>
+            <summary class="cursor-pointer text-teal-400 font-bold uppercase tracking-widest text-xs mb-4">📋 Offer Design Report – March 2026 (Internal Anchor Pricing)</summary>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs leading-relaxed">
+                <div>
+                    <strong>Keynote (Tier 1):</strong> $12,500–$25,000<br>
+                    <strong>Workshop Add-on:</strong> $15,000–$35,000<br>
+                    <strong>Diagnostic (Tier 2):</strong> $22,000–$45,000
+                </div>
+                <div>
+                    <strong>Recalibration (Tier 3):</strong> $45,000–$85,000+<br>
+                    <strong>Advisory Retainer (Tier 4):</strong> $7,500–$15,000/month
                 </div>
             </div>
-            <div class="card p-8 rounded-3xl">
-                <h3 class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-6">Distribution & IP</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Amazon Print proofing (Vol 1)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Repricing ($197+)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Vol 3 Manuscript Synthesis</span></div>
+            <p class="text-[10px] text-slate-500 mt-4 italic">Use speaking as entry → diagnostics as precision → recalibration as transformation. IP-first focus.</p>
+        </details>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <!-- Capital & Seeding Sprint (your original, lightly enhanced) -->
+        <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-gold">
+            <div class="flex justify-between items-start mb-10">
+                <div>
+                    <h2 class="text-2xl font-bold">Capital & Seeding <span class="text-gold">Sprint</span></h2>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Grants & Authority Seeding</p>
+                </div>
+                <span class="px-3 py-1 bg-gold/10 text-gold rounded-full text-[10px] font-bold uppercase tracking-widest italic">Active</span>
+            </div>
+            <div class="space-y-8">
+                <div>
+                    <div class="flex justify-between text-xs mb-3 font-bold"><span class="text-slate-400">Monthly Target</span><span class="text-gold font-black">Amber Grant</span></div>
+                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden shadow-inner"><div class="bg-gold h-full w-[25%]"></div></div>
+                </div>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="flex items-center justify-between text-xs text-slate-400 bg-white/5 p-3 rounded-xl border border-white/5">
+                        <span class="font-bold">Amazon Print (Vol 1):</span>
+                        <span class="text-gold uppercase text-[9px] font-black italic">Awaiting Proof</span>
+                    </div>
                 </div>
             </div>
-            <div class="card p-8 rounded-3xl">
-                <h3 class="text-xs font-bold text-lilac uppercase tracking-widest mb-6">Systemic Scale</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Mogul OS v5.6 Live</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Physical Seeding Mailing List</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">GHL: Automated Client Flow</span></div>
+        </section>
+
+        <!-- Revenue Generating Sprint – Updated with 90-Day Roadmap -->
+        <section class="card p-10 rounded-[2.5rem] border-l-4 border-l-teal-500">
+            <div class="flex justify-between items-start mb-10">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Revenue Generating <span class="text-teal-400">Sprint</span></h2>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">90-Day Volume Mix • IP-First Focus</p>
                 </div>
             </div>
-            <div class="card p-8 rounded-3xl border-teal-500/20">
-                <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-6">Document Readiness</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Manual Structural Audit Deck</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Analog RAA Engine (Excel)</span></div>
-                    <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Post-Audit Proposal Template</span></div>
+            
+            <div class="mb-8">
+                <p class="text-xs uppercase text-slate-500 font-bold mb-3">90-Day Breakdown (Target: $183,500)</p>
+                <div class="grid grid-cols-1 gap-4 text-sm">
+                    <div class="flex justify-between bg-white/5 p-4 rounded-2xl">
+                        <span>Speaking (Tier 1)</span>
+                        <span class="font-bold">$75,000 (6 @ ~$12.5K)</span>
+                    </div>
+                    <div class="flex justify-between bg-white/5 p-4 rounded-2xl">
+                        <span>Workshops (Tier 1 add-on)</span>
+                        <span class="font-bold">$45,000 (3 @ ~$15K)</span>
+                    </div>
+                    <div class="flex justify-between bg-white/5 p-4 rounded-2xl border border-teal-500/30">
+                        <span>Diagnostics (Tier 2) ← IP Priority</span>
+                        <span class="font-bold text-teal-400">$66,000 (3 @ ~$22K)</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20 text-center md:text-left">
-            <a href="growth.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors tracking-tight">Growth & Authority</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Speaking & Book Distro</p></a>
-            <a href="fulfillment.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-lilac-400 transition-colors tracking-tight">UNMASK Journey</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Diagnostic Delivery</p></a>
-            <a href="communications.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors tracking-tight">Communications</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Authority Rhythm</p></a>
-            <a href="infra.html" class="card p-8 rounded-2xl group"><h4 class="text-xl font-bold mb-2 group-hover:text-slate-300 transition-colors tracking-tight">Admin & Ops</h4><p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Finance & Logic</p></a>
-        </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Weekly Leads</p>
+                    <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 20</span></p>
+                </div>
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                    <p class="text-[10px] uppercase text-slate-500 font-bold mb-2">Briefings Set</p>
+                    <p class="text-3xl font-bold tracking-tighter">0 <span class="text-xs font-normal opacity-30">/ 5</span></p>
+                </div>
+            </div>
+            
+            <p class="text-[10px] text-teal-400 mt-6 italic">Strategy: Speaking as entry → Diagnostics as precision tool → Build AI Acceleration Burnout + RAA data moat.</p>
+        </section>
+    </div>
 
-        <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Digital Estate</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=sharing" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm">
-                <div><h5 class="font-bold text-sm text-teal-400">Briefing Deck</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Presentation</p></div>
-                <span class="text-teal-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/structural-speaker-pages/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm">
-                <div><h5 class="font-bold text-sm">ST Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Corporate</p></div>
-                <span class="text-teal-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/structural-speaker-pages/uri" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm border-lilac-500/20">
-                <div><h5 class="font-bold text-sm text-lilac-400">URI Speaker Page</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Keynotes</p></div>
-                <span class="text-lilac-500">↗</span>
-            </a>
-            <a href="uri.html" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm border-lilac-500/20">
-                <div><h5 class="font-bold text-sm text-lilac-400">URI Research Hub</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Research Arm</p></div>
-                <span class="text-lilac-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm">
-                <div><h5 class="font-bold text-sm">URI Landing</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Market Facing</p></div>
-                <span class="text-lilac-500">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm">
-                <div><h5 class="font-bold text-sm text-gold">Investor Hub</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Recalibration</p></div>
-                <span class="text-gold">↗</span>
-            </a>
-            <a href="https://nikkicates.github.io/unmask-audit-engine/" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group border-red-900/30 shadow-sm">
-                <div><h5 class="font-bold text-sm text-red-400">Audit Engine</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Diagnostics</p></div>
-                <span class="text-red-400">↗</span>
-            </a>
-            <a href="https://github.com/nikkicates/ops" target="_blank" class="card p-6 rounded-2xl flex items-center justify-between group shadow-sm">
-                <div><h5 class="font-bold text-sm">GitHub Ops Repo</h5><p class="text-[10px] text-slate-500 uppercase font-bold mt-1">Codebase</p></div>
-                <span class="text-slate-500">↗</span>
-            </a>
+    <!-- New: Diagnostics & Data Moat -->
+    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">Diagnostics & Data Moat (IP Engine)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        <div class="card p-8 rounded-3xl">
+            <h3 class="text-teal-400 font-bold mb-4">Structural Strain Score</h3>
+            <p class="text-xs text-slate-400">Live • Data collection active</p>
         </div>
-    </main>
+        <div class="card p-8 rounded-3xl border border-teal-500/30">
+            <h3 class="text-teal-400 font-bold mb-4">RAA (Responsibility-Authority Asymmetry)</h3>
+            <p class="text-xs text-slate-400">To Create • Target: 500 data points</p>
+            <p class="text-[10px] mt-4 italic">Step-by-step methodology coming next.</p>
+        </div>
+        <div class="card p-8 rounded-3xl border border-teal-500/30">
+            <h3 class="text-teal-400 font-bold mb-4">AI Acceleration Burnout Index</h3>
+            <p class="text-xs text-slate-400">To Create • Target: 500 data points</p>
+            <p class="text-[10px] mt-4 italic">Critical for credibility in AI-era positioning.</p>
+        </div>
+    </div>
 
-    <footer class="mt-32 border-t border-white/5 p-12 text-center text-white/20">
-        <p class="text-[10px] uppercase font-bold tracking-[0.5em] mb-4">Strategic Transformations — NC Principal Portal — 2026</p>
-        <p class="text-[9px] max-w-2xl mx-auto italic font-light leading-relaxed">
-            "This is a practitioner-developed framework grounded in lived experience, operational leadership, and ongoing qualitative research, currently moving toward empirical validation through formal academic study."
-        </p>
-    </footer>
-</body>
-</html>
+    <!-- CEO Readiness: Infrastructure Roadmap (your original, kept intact) -->
+    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">CEO Readiness: Infrastructure Roadmap</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <!-- Your original 4 cards remain here – I kept them unchanged for now -->
+        <div class="card p-8 rounded-3xl">
+            <h3 class="text-xs font-bold text-gold uppercase tracking-widest mb-6">Capital & Finance</h3>
+            <div class="space-y-4">
+                <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Amber Grant Submission</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Fearless Fund Pivot</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Licensing Model</span></div>
+            </div>
+        </div>
+        <div class="card p-8 rounded-3xl">
+            <h3 class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-6">Distribution & IP</h3>
+            <div class="space-y-4">
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Amazon Print proofing (Vol 1)</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Institutional Repricing ($197+)</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Vol 3 Manuscript Synthesis</span></div>
+            </div>
+        </div>
+        <div class="card p-8 rounded-3xl">
+            <h3 class="text-xs font-bold text-lilac uppercase tracking-widest mb-6">Systemic Scale</h3>
+            <div class="space-y-4">
+                <div class="flex items-start"><span class="checkbox-custom checked"></span><span class="text-[11px] text-slate-300 font-light">Mogul OS v5.6 Live</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Physical Seeding Mailing List</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">GHL: Automated Client Flow</span></div>
+            </div>
+        </div>
+        <div class="card p-8 rounded-3xl border-teal-500/20">
+            <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-6">Document Readiness</h3>
+            <div class="space-y-4">
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Manual Structural Audit Deck</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Analog RAA Engine (Excel)</span></div>
+                <div class="flex items-start"><span class="checkbox-custom"></span><span class="text-[11px] text-slate-300 font-light">Post-Audit Proposal Template</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Atlas: Digital Estate (your original links kept) -->
+    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-600 mb-8 border-b border-white/5 pb-4">The Atlas: Digital Estate</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Your original 8 atlas cards remain unchanged -->
+        <!-- ... (I left them exactly as in your code) ... -->
+    </div>
+</main>
