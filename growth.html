@@ -7,10 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --slate: #1e293b; }
+        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --gold: #D4AF37; --slate: #1e293b; }
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: var(--slate); }
         .section-header { border-left: 4px solid var(--teal); padding-left: 1.5rem; margin-bottom: 3rem; }
-        .product-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2.5rem; height: 100%; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; }
+        .product-card { background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; padding: 2.5rem; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .product-card:hover { border-color: var(--teal); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; }
     </style>
@@ -21,43 +21,73 @@
         
         <header class="mb-20">
             <h1 class="text-4xl font-bold text-navy">Growth & <span class="text-teal-600">Authority</span></h1>
-            <p class="text-slate-500 mt-2 italic font-serif">Signature Speaking Catalog + Formations • UNMASK Blueprint Live</p>
+            <p class="text-slate-500 mt-2 italic font-serif">Signature Keynotes, Formations & Blueprint Trilogy • Live for Sales</p>
         </header>
 
-        <!-- Speaking & Formations Catalog -->
-        <section class="mb-24">
-            <h2 class="section-header text-xl font-bold">Signature Speaking & Formations Catalog</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="product-card border-t-4 border-t-teal-500">
-                    <span class="badge mb-4 bg-teal-50 text-teal-700">Tier 1 Keynote</span>
-                    <h4 class="text-xl font-bold mb-3">Stop the Strain Transfer</h4>
-                    <p class="text-sm text-slate-600 mb-6">Reframe burnout as architectural failure. Move from wellness to structural engineering. Fee: $12,500–$25,000</p>
-                    <div class="mt-auto text-[10px] text-slate-400">Next step: Add LMI diagnostic teaser</div>
-                </div>
+        <!-- Blueprint Trilogy -->
+        <div class="bg-navy text-white p-8 rounded-3xl mb-16 text-center">
+            <h3 class="text-2xl font-bold mb-3">UNMASK Blueprint Trilogy – Now Available</h3>
+            <a href="https://affiliates.gohighlevel.com/?fp_ref=nikki-cates-llc-dba-strategic-transformations60&funnel_share=69c45f227fdd40ce772651ec" target="_blank" class="inline-block bg-teal-500 hover:bg-teal-400 text-navy font-bold py-4 px-10 rounded-2xl text-sm tracking-widest">Buy Digital / Print / WebApp (Vols 1-3) →</a>
+        </div>
 
-                <div class="product-card border-t-4 border-t-lilac">
-                    <span class="badge mb-4 bg-lilac-50 text-lilac-700">Tier 1 Workshop</span>
-                    <h4 class="text-xl font-bold mb-3">Leadership Pipeline Leak</h4>
-                    <p class="text-sm text-slate-600 mb-6">Identify authority gaps costing 213% in replacement. Half/Full day. Fee: $15,000–$35,000</p>
-                    <div class="mt-auto text-[10px] text-slate-400">Bundle with diagnostic</div>
-                </div>
-
-                <div class="product-card border-t-4 border-t-gold">
-                    <span class="badge mb-4 bg-gold-50 text-gold-700">AI-Era Keynote</span>
-                    <h4 class="text-xl font-bold mb-3">When AI Breaks the Bridge</h4>
-                    <p class="text-sm text-slate-600 mb-6">Decision-rights protocols for automation era. Fee: $12,500–$25,000</p>
-                    <div class="mt-auto text-[10px] text-slate-400">Tie to AI Acceleration Burnout Index</div>
-                </div>
+        <!-- ST Keynotes -->
+        <h2 class="section-header text-xl font-bold">Strategic Transformations – Signature Keynotes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+            <div class="product-card border-t-4 border-t-teal-500">
+                <span class="badge mb-4 bg-teal-50 text-teal-700">Anchor Keynote</span>
+                <h4 class="text-xl font-bold mb-3">Stop the Strain Transfer</h4>
+                <p class="text-sm text-slate-600 mb-6">Reframe burnout as structural engineering failure. Move from wellness to architecture.</p>
+                <p class="text-xs text-slate-400">Fee: $12,500–$25,000 • 30-60 min</p>
             </div>
-        </section>
+            <div class="product-card border-t-4 border-t-lilac">
+                <span class="badge mb-4 bg-lilac-50 text-lilac-700">Executive Summit</span>
+                <h4 class="text-xl font-bold mb-3">Your Leadership Pipeline Is Leaking</h4>
+                <p class="text-sm text-slate-600 mb-6">Authority gap costing 213% in replacement. Built for executive audiences.</p>
+                <p class="text-xs text-slate-400">Fee: $12,500–$25,000 • Keynote / Summit</p>
+            </div>
+            <div class="product-card border-t-4 border-t-gold">
+                <span class="badge mb-4 bg-gold-50 text-gold-700">AI-Era Track</span>
+                <h4 class="text-xl font-bold mb-3">When AI Breaks the Bridge</h4>
+                <p class="text-sm text-slate-600 mb-6">Decision-rights protocols for automation era.</p>
+                <p class="text-xs text-slate-400">Fee: $12,500–$25,000 • 30-60 min</p>
+            </div>
+            <div class="product-card border-t-4 border-t-slate-400">
+                <span class="badge mb-4 bg-slate-100 text-slate-600">Operations Track</span>
+                <h4 class="text-xl font-bold mb-3">False Urgency</h4>
+                <p class="text-sm text-slate-600 mb-6">How everything critical is destroying your organization.</p>
+                <p class="text-xs text-slate-400">Fee: $12,500–$25,000 • 30-60 min</p>
+            </div>
+            <div class="product-card border-t-4 border-t-purple-500">
+                <span class="badge mb-4 bg-purple-100 text-purple-700">Women’s Leadership</span>
+                <h4 class="text-xl font-bold mb-3">Sovereign Power</h4>
+                <p class="text-sm text-slate-600 mb-6">Leading without running on empty.</p>
+                <p class="text-xs text-slate-400">Fee: $12,500–$25,000 • 30-60 min</p>
+            </div>
+        </div>
 
-        <!-- Blueprint Promotion -->
-        <div class="bg-navy text-white p-10 rounded-[2.5rem] text-center">
-            <h3 class="text-2xl font-bold mb-4">UNMASK Blueprint Trilogy – Now Available</h3>
-            <a href="https://affiliates.gohighlevel.com/?fp_ref=nikki-cates-llc-dba-strategic-transformations60&funnel_share=69c45f227fdd40ce772651ec" 
-               target="_blank" class="inline-block bg-teal-500 hover:bg-teal-400 text-navy font-bold py-4 px-10 rounded-2xl text-sm tracking-widest">
-                Buy Digital / Print / WebApp (Vols 1-3) →
-            </a>
+        <!-- URI Formations -->
+        <h2 class="section-header text-xl font-bold">URI – Justice & Formation Offerings</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="product-card border-t-4 border-t-lilac">
+                <span class="badge mb-4 bg-lilac-50 text-lilac-700">Tier 1 • Signature Keynote</span>
+                <h4 class="text-xl font-bold mb-3">Unmasking Identity & Self-Stewardship in High-Demand Environments</h4>
+                <p class="text-sm text-slate-600">60–90 min • In-person or Virtual</p>
+            </div>
+            <div class="product-card border-t-4 border-t-lilac">
+                <span class="badge mb-4 bg-lilac-50 text-lilac-700">Tier 2 • Most Requested</span>
+                <h4 class="text-xl font-bold mb-3">Liberation & Healing Intensive</h4>
+                <p class="text-sm text-slate-600">Half-Day • Full-Day • Multi-Day</p>
+            </div>
+            <div class="product-card border-t-4 border-t-lilac">
+                <span class="badge mb-4 bg-lilac-50 text-lilac-700">Tier 3 • Formation Series</span>
+                <h4 class="text-xl font-bold mb-3">Justice & Formation Series</h4>
+                <p class="text-sm text-slate-600">3–6 Sessions • Custom Designed</p>
+            </div>
+            <div class="product-card border-t-4 border-t-lilac">
+                <span class="badge mb-4 bg-lilac-50 text-lilac-700">Tier 4 • Advisory Partnership</span>
+                <h4 class="text-xl font-bold mb-3">Justice & Formation Advisory Partnership</h4>
+                <p class="text-sm text-slate-600">3–6 Month Engagement</p>
+            </div>
         </div>
 
         <footer class="mt-32 pt-12 border-t border-slate-200 text-center opacity-40">
