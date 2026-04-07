@@ -5,16 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mogul Command Center | Nikki Cates</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #050A18; --teal: #58BBC2; --lilac: #AC6DBF; --gold: #D4AF37; --slate: #94A3B8; }
+        :root {
+            --navy: #050A18;
+            --teal: #58BBC2;
+            --lilac: #AC6DBF;
+            --gold: #D4AF37;
+            --slate: #94A3B8;
+            --deep: #0A1428;
+        }
+
         body { font-family: 'Inter', sans-serif; background-color: var(--navy); color: white; margin: 0; }
+
         .mogul-gradient { background: linear-gradient(135deg, #58BBC2 0%, #AC6DBF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #F0D060 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
         .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .card:hover { border-color: var(--teal); background: rgba(255,255,255,0.04); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .checkbox-custom { appearance: none; width: 20px; height: 20px; border: 2px solid #58BBC2; border-radius: 4px; cursor: pointer; }
+
+        .checkbox-custom { appearance: none; width: 20px; height: 20px; border: 2px solid #58BBC2; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
         .checkbox-custom:checked { background: #58BBC2; }
+
         .ceo-bar { background: linear-gradient(90deg, rgba(88,187,194,0.08) 0%, rgba(172,109,191,0.08) 100%); border: 1px solid rgba(255,255,255,0.05); }
+
+        /* Agent Cards */
+        .agent-card {
+            background: rgba(10, 20, 40, 0.6);
+            border: 1px solid rgba(88,187,194,0.15);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--teal), var(--lilac));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .agent-card:hover { border-color: rgba(88,187,194,0.4); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(0,0,0,0.5); }
+        .agent-card:hover::before { opacity: 1; }
+
+        .agent-card.optional {
+            border-color: rgba(172,109,191,0.15);
+        }
+        .agent-card.optional::before {
+            background: linear-gradient(90deg, var(--lilac), var(--gold));
+        }
+        .agent-card.optional:hover { border-color: rgba(172,109,191,0.4); }
+
+        /* Agent Status Badge */
+        .badge-live { background: rgba(88,187,194,0.15); color: var(--teal); border: 1px solid rgba(88,187,194,0.3); }
+        .badge-soon { background: rgba(172,109,191,0.15); color: var(--lilac); border: 1px solid rgba(172,109,191,0.3); }
+
+        /* Command Menu Buttons */
+        .cmd-btn {
+            background: rgba(88,187,194,0.06);
+            border: 1px solid rgba(88,187,194,0.2);
+            color: rgba(255,255,255,0.85);
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-align: left;
+        }
+        .cmd-btn:hover {
+            background: rgba(88,187,194,0.15);
+            border-color: var(--teal);
+            color: white;
+            transform: translateX(4px);
+        }
+        .cmd-btn .cmd-arrow { opacity: 0; transition: opacity 0.2s ease; }
+        .cmd-btn:hover .cmd-arrow { opacity: 1; }
+
+        /* Weekly Flow */
+        .flow-day {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-left: 3px solid var(--teal);
+            transition: all 0.2s ease;
+        }
+        .flow-day:hover { background: rgba(88,187,194,0.04); border-left-color: var(--gold); }
+
+        /* Agent section divider */
+        .section-rule {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(88,187,194,0.3), rgba(172,109,191,0.3), transparent);
+        }
+
+        /* Rule banner */
+        .rule-banner {
+            background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(88,187,194,0.06) 100%);
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+
+        /* Pulse dot */
+        .pulse-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--teal);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
     </style>
 </head>
 <body class="p-8 max-w-7xl mx-auto">
@@ -25,7 +123,8 @@
             <h1 class="text-4xl font-bold mogul-gradient">MOGUL OS</h1>
             <p class="text-slate-400 text-sm">Nikki Cates • Strategic Recalibration</p>
         </div>
-        <div class="flex gap-6 text-xs font-bold uppercase tracking-widest">
+        <div class="flex gap-6 text-xs font-bold uppercase tracking-widest items-center">
+            <a href="https://nikkicates.github.io" target="_blank" class="text-white hover:text-teal-400 border border-white/20 hover:border-teal-400 px-3 py-1.5 rounded-xl transition-all">🏠 Home</a>
             <a href="https://linkedin.com/in/nikkicatesmiller" target="_blank" class="text-slate-400 hover:text-teal-400">LinkedIn</a>
             <a href="https://make.com" target="_blank" class="text-slate-400 hover:text-teal-400">Make</a>
             <a href="https://airtable.com" target="_blank" class="text-slate-400 hover:text-teal-400">Airtable</a>
@@ -66,7 +165,225 @@
         </div>
     </section>
 
-    <!-- STRATEGIC TASK TRACKER (new interactive section) -->
+    <!-- ============================================ -->
+    <!-- TEAM NIKKI C — AGENT COMMAND CENTER          -->
+    <!-- ============================================ -->
+    <section class="mb-12">
+        <div class="card p-8 rounded-3xl">
+
+            <!-- Section Header -->
+            <div class="flex items-start justify-between mb-2">
+                <div>
+                    <h2 class="text-2xl font-bold mogul-gradient mb-1">Team Nikki C</h2>
+                    <p class="text-xs uppercase tracking-widest text-slate-400">Agent Command Center</p>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 rounded-2xl badge-live text-xs font-bold uppercase tracking-wider">
+                    <div class="pulse-dot"></div>
+                    Active
+                </div>
+            </div>
+
+            <p class="text-sm text-slate-400 mb-8 max-w-2xl">
+                Keep the business clear, premium, and moving. Use the Daily Chief of Staff to run the day, Source Miner to surface what matters, and the Router to decide what the team acts on.
+            </p>
+
+            <div class="section-rule mb-8"></div>
+
+            <!-- CORE 5 AGENTS -->
+            <div class="mb-10">
+                <h3 class="text-xs uppercase tracking-widest text-teal-400 mb-5 flex items-center gap-2">
+                    <span>⚡</span> Core 5 Agents
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                    <!-- Daily Chief of Staff -->
+                    <div class="agent-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🧭</span>
+                            <span class="badge-live text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Core</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Daily Chief of Staff</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Runs the day: priorities, inbox, calendar, pipeline, drafts, and what to ignore.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono text-teal-400/70">→ "Give me my Daily COS Brief"</span>
+                        </div>
+                    </div>
+
+                    <!-- Source Miner -->
+                    <div class="agent-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🔍</span>
+                            <span class="badge-live text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Core</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Source Miner</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Research + trends desk. Finds weekly signals, data, news, and event themes.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono text-teal-400/70">→ "Run Source Miner"</span>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Router -->
+                    <div class="agent-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🗺️</span>
+                            <span class="badge-live text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Core</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Weekly Router</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Chooses 1 ST signal + 1 URI signal, then turns them into a weekly action plan.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono text-teal-400/70">→ "Route this week"</span>
+                        </div>
+                    </div>
+
+                    <!-- Speaking / Workshops Agent -->
+                    <div class="agent-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🎤</span>
+                            <span class="badge-live text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Core</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Speaking / Workshops Agent</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Finds, scores, and drafts outreach for speaking, workshop, retreat, and conference opportunities.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono text-teal-400/70">→ "Find speaking leads"</span>
+                        </div>
+                    </div>
+
+                    <!-- Executive Briefing / UNMASK Agent -->
+                    <div class="agent-card p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🔓</span>
+                            <span class="badge-live text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Core</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Executive Briefing / UNMASK Agent</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Finds, scores, and drafts outreach for Executive Briefing → Diagnostics → Recalibration → Stabilization.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono text-teal-400/70">→ "Find Executive Briefing leads"</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- OPTIONAL AGENTS -->
+            <div class="mb-10">
+                <h3 class="text-xs uppercase tracking-widest text-lilac-400 mb-5 flex items-center gap-2" style="color: var(--lilac);">
+                    <span>🌱</span> Optional — Add After Core 5 Are Running Smoothly
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <div class="agent-card optional p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">✍🏾</span>
+                            <span class="badge-soon text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Later</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Content + Thought Leadership</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Turns signals and source material into newsletter, LinkedIn, and executive briefing angles.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono" style="color: rgba(172,109,191,0.7);">→ "Turn this into content"</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card optional p-6 rounded-2xl">
+                        <div class="flex items-start justify-between mb-3">
+                            <span class="text-2xl">🏗️</span>
+                            <span class="badge-soon text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-xl">Later</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1">Speaking / Offer Architect</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Builds talk titles, abstracts, workshop language, and event-facing offer copy.</p>
+                        <div class="mt-4 pt-4 border-t border-white/5">
+                            <span class="text-[10px] font-mono" style="color: rgba(172,109,191,0.7);">→ "Turn this into a keynote/workshop"</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="section-rule mb-8"></div>
+
+            <!-- COMMAND MENU + WEEKLY FLOW (side by side) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Command Menu -->
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-teal-400 mb-5 flex items-center gap-2">
+                        <span>⌨️</span> Command Menu
+                    </h3>
+                    <div class="space-y-2">
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Give me my Daily COS Brief')">
+                            <span>Give me my Daily COS Brief</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Run Source Miner')">
+                            <span>Run Source Miner</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Route this week')">
+                            <span>Route this week</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Find speaking leads')">
+                            <span>Find speaking leads</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Find Executive Briefing leads')">
+                            <span>Find Executive Briefing leads</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Draft outreach')">
+                            <span>Draft outreach</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Turn this into content')">
+                            <span>Turn this into content</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Turn this into a keynote/workshop')">
+                            <span>Turn this into a keynote/workshop</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                        <button class="cmd-btn w-full px-4 py-3 rounded-xl flex justify-between items-center" onclick="copyCmd(this, 'Show me my command menu')">
+                            <span>Show me my command menu</span>
+                            <span class="cmd-arrow text-teal-400">→</span>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-3">Click any command to copy it to clipboard.</p>
+                </div>
+
+                <!-- Weekly Flow -->
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-teal-400 mb-5 flex items-center gap-2">
+                        <span>📅</span> Weekly Operating Flow
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flow-day p-4 rounded-xl">
+                            <div class="text-xs font-bold text-gold uppercase tracking-wider mb-1">Monday</div>
+                            <p class="text-xs text-slate-300">Run Source Miner → Route this week. Set the direction before anything else.</p>
+                        </div>
+                        <div class="flow-day p-4 rounded-xl">
+                            <div class="text-xs font-bold text-teal-400 uppercase tracking-wider mb-1">Then</div>
+                            <p class="text-xs text-slate-300">Use the Speaking Agent for front-door opportunities. Use the Executive Briefing Agent for deeper ST leads.</p>
+                        </div>
+                        <div class="flow-day p-4 rounded-xl">
+                            <div class="text-xs font-bold text-teal-400 uppercase tracking-wider mb-1">Daily</div>
+                            <p class="text-xs text-slate-300">Use the Daily COS to protect focus, track movement, and keep follow-through tight.</p>
+                        </div>
+                    </div>
+
+                    <!-- The Rule -->
+                    <div class="rule-banner p-5 rounded-2xl mt-6">
+                        <p class="text-xs font-bold text-gold uppercase tracking-widest mb-2">The Rule</p>
+                        <p class="text-sm text-white/80 leading-relaxed">
+                            Do not chase every signal. Act on <span class="text-teal-400 font-bold">1 Strategic Transformations signal</span> and <span style="color: var(--lilac); font-weight: bold;">1 URI signal</span> each week.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- STRATEGIC TASK TRACKER -->
     <section class="mb-12">
         <div class="card p-8 rounded-3xl">
             <div class="flex justify-between items-center mb-8">
@@ -78,10 +395,10 @@
             <div class="mb-10">
                 <h3 class="text-teal-400 uppercase text-xs tracking-widest mb-4">Week 1 • April 6–12 → Website Consolidation + Volume 1 Migration</h3>
                 <div class="space-y-4">
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Migrate Volume 1 from Google Site to new unified page</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Set up redirects for all old domains</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Update all internal links across pages</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">New unified header/nav on hub</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Migrate Volume 1 from Google Site to new unified page</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Set up redirects for all old domains</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Update all internal links across pages</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">New unified header/nav on hub</span></div>
                 </div>
             </div>
 
@@ -89,9 +406,9 @@
             <div class="mb-10">
                 <h3 class="text-teal-400 uppercase text-xs tracking-widest mb-4">Week 2 • April 13–19 → Diagnostics & Data Moat</h3>
                 <div class="space-y-4">
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Build RAA Index (methodology + Typeform + Airtable)</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Build AI Acceleration Burnout Index</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Update fulfillment.html with both new diagnostics</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Build RAA Index (methodology + Typeform + Airtable)</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Build AI Acceleration Burnout Index</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Update fulfillment.html with both new diagnostics</span></div>
                 </div>
             </div>
 
@@ -99,11 +416,11 @@
             <div>
                 <h3 class="text-teal-400 uppercase text-xs tracking-widest mb-4">Week 3 • April 20–26 → App Prototype + Growth + Finance + Polish</h3>
                 <div class="space-y-4">
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Bubble.io MVP (SSS, LMI, RAA, offline PDFs)</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Keynote decks + workshop outlines ready</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Collective + Relay live and connected</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Book 3–5 Executive Briefings</span></div>
-                    <div class="flex gap-4"><input type="checkbox" class="checkbox-custom"><span class="text-sm">Final test + polish all pages</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Bubble.io MVP (SSS, LMI, RAA, offline PDFs)</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Keynote decks + workshop outlines ready</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Collective + Relay live and connected</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Book 3–5 Executive Briefings</span></div>
+                    <div class="flex gap-4 items-start"><input type="checkbox" class="checkbox-custom mt-0.5"><span class="text-sm">Final test + polish all pages</span></div>
                 </div>
             </div>
         </div>
@@ -114,7 +431,7 @@
         <h2 class="text-xl font-bold mb-6 flex items-center gap-3"><span class="text-teal-400">🔬</span> IP Tracker • Diagnostics & Data Moat</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="card p-8 rounded-3xl border-teal-400 border">
-                <div class="flex justify-between"><span class="text-teal-400 font-bold">LMI</span><span class="text-xs bg-teal-400 text-navy px-3 py-1 rounded-2xl">LIVE</span></div>
+                <div class="flex justify-between"><span class="text-teal-400 font-bold">LMI</span><span class="text-xs bg-teal-400 text-navy px-3 py-1 rounded-2xl" style="color: var(--navy);">LIVE</span></div>
                 <p class="text-sm mt-4">Leadership Masking Index • Typeform + Airtable</p>
             </div>
             <div class="card p-8 rounded-3xl">
@@ -128,7 +445,7 @@
         </div>
     </section>
 
-    <!-- THE ATLAS: DIGITAL ESTATE (back exactly as you loved) -->
+    <!-- THE ATLAS: DIGITAL ESTATE -->
     <section>
         <h2 class="text-xl font-bold mb-6">THE ATLAS: Digital Estate</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -153,6 +470,15 @@
                 if (localStorage.getItem('task-' + i) === 'true') cb.checked = true;
             });
         });
+
+        // Copy command to clipboard
+        function copyCmd(btn, cmd) {
+            navigator.clipboard.writeText(cmd).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = `<span class="text-teal-400">✓ Copied!</span>`;
+                setTimeout(() => { btn.innerHTML = original; }, 1500);
+            });
+        }
     </script>
 </body>
 </html>
