@@ -2,1353 +2,1368 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mogul OS | Nikki Cates</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#58BBC2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mogul OS">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
+    /* ══ TOKENS ══ */
     :root {
-      --navy: #050A18; --deep: #0A1428; --teal: #58BBC2; --lilac: #AC6DBF;
-      --gold: #D4AF37; --slate: #94A3B8; --sidebar-w: 220px;
+      --navy: #050A18; --deep: #080F20; --surface: #0D1830;
+      --teal: #58BBC2; --lilac: #AC6DBF; --gold: #D4AF37;
+      --slate: #94A3B8; --muted: rgba(148,163,184,0.5);
+      --urgent: #ef4444; --important: #f59e0b; --done: #22c55e;
+      --sidebar-w: 200px; --header-h: 52px; --mobile-nav-h: 60px;
+      --panel-w: 460px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; }
-    body { font-family: 'Inter', sans-serif; background: var(--navy); color: white; display: flex; flex-direction: column; }
+    html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: white; }
 
-    /* ── OS HEADER ── */
+    /* ══ LAYOUT ══ */
     #os-header {
-      height: 52px; background: rgba(5,10,24,0.98);
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+      background: rgba(5,10,24,0.97); backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; padding: 0 20px;
-      gap: 16px; flex-shrink: 0; z-index: 50; position: relative;
+      display: flex; align-items: center; gap: 14px; padding: 0 16px;
+      z-index: 60;
     }
-    .os-logo { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
-      background: linear-gradient(135deg,#58BBC2,#AC6DBF); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; letter-spacing: 0.15em; }
-    .os-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.1); }
-    #live-clock { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--slate); letter-spacing: 0.05em; }
-    #live-date { font-size: 11px; color: rgba(148,163,184,0.6); }
-    .os-spacer { flex: 1; }
-    .status-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--slate); }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ade80;
-      animation: blink 3s ease-in-out infinite; }
-    .status-dot.offline { background: #ef4444; animation: none; }
-    .status-dot.standby { background: var(--gold); animation: none; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .header-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-      color: var(--slate); padding: 5px 10px; border-radius: 8px; cursor: pointer;
-      font-size: 11px; font-family: 'DM Mono', monospace; transition: all 0.2s; }
-    .header-btn:hover { border-color: var(--teal); color: white; background: rgba(88,187,194,0.08); }
-
-    /* ── BODY LAYOUT ── */
-    #os-body { display: flex; flex: 1; overflow: hidden; }
-
-    /* ── SIDEBAR ── */
+    #os-body {
+      display: flex; height: 100%;
+      padding-top: var(--header-h);
+      padding-bottom: 0;
+    }
     #sidebar {
-      width: var(--sidebar-w); background: rgba(5,10,24,0.95);
+      width: var(--sidebar-w); flex-shrink: 0;
+      background: rgba(5,10,24,0.95);
       border-right: 1px solid rgba(255,255,255,0.05);
-      display: flex; flex-direction: column; flex-shrink: 0;
-      padding: 16px 0; overflow-y: auto;
+      display: flex; flex-direction: column;
+      overflow-y: auto; overflow-x: hidden;
+      padding: 12px 0 0;
     }
-    .nav-section-label {
-      font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: rgba(148,163,184,0.4);
-      padding: 16px 18px 8px; text-transform: uppercase;
+    #main-content {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      padding-bottom: 24px;
     }
-    .nav-btn {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 18px; cursor: pointer; transition: all 0.2s;
-      border: none; background: none; color: rgba(148,163,184,0.7);
-      font-size: 12px; font-family: 'Inter', sans-serif; width: 100%; text-align: left;
-      border-left: 2px solid transparent; position: relative;
-    }
-    .nav-btn:hover { color: white; background: rgba(255,255,255,0.03); }
-    .nav-btn.active { color: var(--teal); border-left-color: var(--teal);
-      background: rgba(88,187,194,0.06); }
-    .nav-btn .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
-    .nav-badge { margin-left: auto; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--teal); opacity: 0; transition: opacity 0.3s; }
-    .nav-badge.show { opacity: 1; }
-    .sidebar-footer { margin-top: auto; padding: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .agent-launch-btn {
-      width: 100%; padding: 10px; background: linear-gradient(135deg, rgba(88,187,194,0.15), rgba(172,109,191,0.15));
-      border: 1px solid rgba(88,187,194,0.3); border-radius: 10px; color: white;
-      font-size: 11px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all 0.25s; text-align: center;
-    }
-    .agent-launch-btn:hover { background: linear-gradient(135deg,rgba(88,187,194,0.25),rgba(172,109,191,0.25)); border-color: var(--teal); }
-
-    /* ── MAIN CONTENT ── */
-    #main-content { flex: 1; overflow-y: auto; position: relative; }
-    .tab-content { display: none; padding: 32px; max-width: 1100px; }
+    .tab-content { display: none; padding: 24px 28px; max-width: 1060px; }
     .tab-content.active { display: block; }
 
-    /* ── SHARED COMPONENTS ── */
-    .mogul-gradient { background: linear-gradient(135deg,#58BBC2,#AC6DBF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .gold-text { color: var(--gold); }
-    .teal-text { color: var(--teal); }
-    .card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px; transition: all 0.3s; }
-    .card:hover { border-color: rgba(88,187,194,0.25); background: rgba(255,255,255,0.035); }
-    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-    .section-sub { font-size: 12px; color: var(--slate); }
-    .badge-teal { background: rgba(88,187,194,0.12); color: var(--teal); border: 1px solid rgba(88,187,194,0.25);
-      font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
-    .badge-gold { background: rgba(212,175,55,0.12); color: var(--gold); border: 1px solid rgba(212,175,55,0.25);
-      font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
-    .badge-lilac { background: rgba(172,109,191,0.12); color: var(--lilac); border: 1px solid rgba(172,109,191,0.25);
-      font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
-    .divider { height: 1px; background: linear-gradient(90deg,transparent,rgba(88,187,194,0.2),rgba(172,109,191,0.2),transparent); margin: 28px 0; }
+    /* ══ HEADER ══ */
+    .os-logo {
+      font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+      background: linear-gradient(135deg,#58BBC2,#AC6DBF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 0.2em; white-space: nowrap;
+    }
+    .hdiv { width: 1px; height: 18px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+    #live-clock { font-family: 'DM Mono', monospace; font-size: 12px; color: white; letter-spacing: 0.04em; }
+    #live-date { font-size: 11px; color: var(--muted); }
+    .hspace { flex: 1; }
+    .status-pill {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10px; color: var(--muted); white-space: nowrap;
+    }
+    .sdot { width: 6px; height: 6px; border-radius: 50%; background: var(--done); animation: glow 3s infinite; }
+    .sdot.standby { background: var(--gold); animation: none; }
+    @keyframes glow { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hbtn {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      color: var(--slate); padding: 5px 10px; border-radius: 8px; cursor: pointer;
+      font-size: 11px; font-family: 'DM Mono', monospace; transition: all .2s;
+      white-space: nowrap;
+    }
+    .hbtn:hover { border-color: var(--teal); color: white; background: rgba(88,187,194,.08); }
 
-    /* ── KPI CARDS ── */
-    .kpi-card { padding: 24px; border-radius: 16px; background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.07); }
-    .kpi-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 6px; }
-    .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; }
+    /* ══ SIDEBAR NAV ══ */
+    .nav-label {
+      font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(148,163,184,.35); padding: 14px 14px 6px;
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 14px; cursor: pointer; transition: all .2s;
+      border: none; background: none; color: rgba(148,163,184,.7);
+      font-size: 12px; font-family: 'Inter', sans-serif; width: 100%; text-align: left;
+      border-left: 2px solid transparent;
+    }
+    .nav-btn:hover { color: white; background: rgba(255,255,255,.03); }
+    .nav-btn.active { color: var(--teal); border-left-color: var(--teal); background: rgba(88,187,194,.06); }
+    .nav-icon { font-size: 13px; width: 16px; text-align: center; flex-shrink: 0; }
+
+    /* Quick Launch Dock */
+    .dock-section { margin-top: auto; border-top: 1px solid rgba(255,255,255,.05); padding: 14px 12px; }
+    .dock-label { font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(148,163,184,.35); margin-bottom: 10px; }
+    .dock-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .dock-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 7px 4px; border-radius: 9px; cursor: pointer; transition: all .2s;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+      text-decoration: none; color: var(--slate);
+    }
+    .dock-btn:hover { background: rgba(88,187,194,.1); border-color: rgba(88,187,194,.25); color: var(--teal); }
+    .dock-btn .di { font-size: 14px; line-height: 1; }
+    .dock-btn .dl { font-size: 8px; font-weight: 600; letter-spacing: .02em; line-height: 1; }
+    .cos-launch {
+      margin: 10px 12px 0; padding: 9px; border-radius: 10px;
+      background: linear-gradient(135deg,rgba(88,187,194,.12),rgba(172,109,191,.12));
+      border: 1px solid rgba(88,187,194,.25); color: white; cursor: pointer;
+      font-size: 11px; font-family: 'DM Mono', monospace; width: calc(100% - 24px);
+      transition: all .25s; text-align: center;
+    }
+    .cos-launch:hover { background: linear-gradient(135deg,rgba(88,187,194,.22),rgba(172,109,191,.22)); }
+    .last-refresh { text-align: center; font-size: 9px; color: rgba(148,163,184,.3); font-family: 'DM Mono', monospace; padding: 8px 0 4px; }
+
+    /* ══ SHARED COMPONENTS ══ */
+    .mg { background: linear-gradient(135deg,#58BBC2,#AC6DBF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .card { background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.07); border-radius: 18px; }
+    .page-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .page-sub { font-size: 11px; color: var(--slate); margin-bottom: 22px; }
+    .divider { height: 1px; background: linear-gradient(90deg,transparent,rgba(88,187,194,.2),rgba(172,109,191,.2),transparent); margin: 22px 0; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: .08em; }
+    .badge-t { background: rgba(88,187,194,.12); color: var(--teal); border: 1px solid rgba(88,187,194,.25); }
+    .badge-g { background: rgba(212,175,55,.1); color: var(--gold); border: 1px solid rgba(212,175,55,.25); }
+    .badge-l { background: rgba(172,109,191,.12); color: var(--lilac); border: 1px solid rgba(172,109,191,.25); }
+    .badge-r { background: rgba(239,68,68,.12); color: var(--urgent); border: 1px solid rgba(239,68,68,.25); }
+    .pdot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: glow 2s infinite; display: inline-block; }
+
+    /* ══ TODAY TAB ══ */
+    .today-greeting { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+    .today-sub { font-size: 12px; color: var(--slate); margin-bottom: 20px; }
+
+    /* Capture Box */
+    .capture-box {
+      background: rgba(88,187,194,.04); border: 1px solid rgba(88,187,194,.15);
+      border-radius: 14px; padding: 12px 14px; margin-bottom: 20px; transition: all .2s;
+    }
+    .capture-box:focus-within { border-color: rgba(88,187,194,.4); background: rgba(88,187,194,.07); }
+    .capture-row { display: flex; align-items: flex-end; gap: 10px; }
+    #capture-input {
+      flex: 1; background: none; border: none; color: white; font-family: 'Inter', sans-serif;
+      font-size: 13px; resize: none; outline: none; line-height: 1.5; min-height: 22px; max-height: 80px;
+      placeholder-color: var(--muted);
+    }
+    #capture-input::placeholder { color: rgba(148,163,184,.45); }
+    .capture-submit {
+      background: rgba(88,187,194,.15); border: 1px solid rgba(88,187,194,.3);
+      color: var(--teal); padding: 5px 14px; border-radius: 8px; cursor: pointer;
+      font-size: 12px; font-weight: 600; transition: all .2s; flex-shrink: 0;
+    }
+    .capture-submit:hover { background: rgba(88,187,194,.25); }
+    .capture-log { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+    .capture-item {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;
+      font-size: 11px; color: rgba(255,255,255,.6); padding: 5px 0;
+      border-top: 1px solid rgba(255,255,255,.04);
+    }
+    .capture-ts { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); flex-shrink: 0; }
+    .capture-del { background: none; border: none; color: rgba(148,163,184,.3); cursor: pointer; font-size: 12px; padding: 0 2px; }
+    .capture-del:hover { color: var(--urgent); }
+
+    /* Brief Grid */
+    .brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .brief-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+    /* Brief Section Card */
+    .brief-card { border-radius: 14px; padding: 16px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); }
+    .brief-card.urgent { border-color: rgba(239,68,68,.2); background: rgba(239,68,68,.04); }
+    .brief-card.important { border-color: rgba(245,158,11,.2); background: rgba(245,158,11,.03); }
+    .brief-card.handled { border-color: rgba(34,197,94,.2); background: rgba(34,197,94,.03); }
+    .brief-card.focus { border-color: rgba(88,187,194,.2); background: rgba(88,187,194,.04); }
+
+    .bc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .bc-title { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
+    .bc-title.urgent { color: var(--urgent); }
+    .bc-title.important { color: var(--important); }
+    .bc-title.handled { color: var(--done); }
+    .bc-title.teal { color: var(--teal); }
+    .bc-title.gold { color: var(--gold); }
+    .bc-title.lilac { color: var(--lilac); }
+
+    .bc-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+    .bc-items { display: flex; flex-direction: column; gap: 6px; min-height: 28px; }
+    .bc-item {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.4;
+    }
+    .bc-item-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .bc-item-dot.urgent { background: var(--urgent); }
+    .bc-item-dot.important { background: var(--important); }
+    .bc-item-dot.handled { background: var(--done); }
+    .bc-item-dot.teal { background: var(--teal); }
+    .bc-del { background: none; border: none; color: rgba(148,163,184,.25); cursor: pointer; font-size: 12px; margin-left: auto; padding: 0 2px; flex-shrink: 0; }
+    .bc-del:hover { color: var(--urgent); }
+    .bc-empty { font-size: 11px; color: rgba(148,163,184,.3); font-style: italic; }
+
+    .bc-add { display: flex; gap: 7px; margin-top: 10px; }
+    .bc-input {
+      flex: 1; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px; color: white; font-family: 'Inter', sans-serif; font-size: 12px;
+      padding: 6px 10px; outline: none; transition: border .2s;
+    }
+    .bc-input:focus { border-color: rgba(88,187,194,.35); }
+    .bc-input::placeholder { color: rgba(148,163,184,.3); }
+    .bc-add-btn {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      color: var(--slate); padding: 6px 12px; border-radius: 8px; cursor: pointer;
+      font-size: 12px; font-weight: 600; transition: all .2s; flex-shrink: 0;
+    }
+    .bc-add-btn:hover { background: rgba(88,187,194,.1); border-color: rgba(88,187,194,.25); color: var(--teal); }
+
+    /* ══ REVENUE TAB ══ */
+    .kpi-card { padding: 20px 22px; border-radius: 16px; background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.07); }
+    .kpi-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--gold); margin-bottom: 6px; }
+    .kpi-val { font-size: 28px; font-weight: 700; letter-spacing: -.02em; }
+    .kpi-val[contenteditable="true"] { outline: none; border-bottom: 1px dashed rgba(88,187,194,.3); cursor: text; }
     .kpi-sub { font-size: 11px; color: var(--slate); margin-top: 4px; }
-    .kpi-value[contenteditable="true"] { outline: none; cursor: text; border-bottom: 1px dashed rgba(88,187,194,0.4); }
+    .prog-track { height: 5px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; margin-top: 12px; }
+    .prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,var(--teal),var(--lilac)); transition: width .8s ease; }
 
-    /* ── PROGRESS BAR ── */
-    .progress-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-top: 12px; }
-    .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,var(--teal),var(--lilac)); transition: width 0.8s ease; }
+    /* Diagnostic Pipeline */
+    .diag-card {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      padding: 14px 18px; border-radius: 12px; background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.06); transition: all .2s;
+    }
+    .diag-card:hover { border-color: rgba(88,187,194,.2); }
+    .diag-name { font-weight: 700; font-size: 13px; color: var(--teal); }
+    .diag-desc { font-size: 11px; color: var(--slate); margin-top: 2px; }
+    .diag-status { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .ds-live { background: rgba(88,187,194,.12); color: var(--teal); border: 1px solid rgba(88,187,194,.25); }
+    .ds-dev { background: rgba(212,175,55,.1); color: var(--gold); border: 1px solid rgba(212,175,55,.25); }
 
-    /* ── TASK CHECKBOXES ── */
-    .task-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    /* ══ TASKS TAB ══ */
+    .task-row { display: flex; align-items: flex-start; gap: 11px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
     .task-row:last-child { border-bottom: none; }
-    .task-cb { appearance: none; width: 18px; height: 18px; border: 1.5px solid rgba(88,187,194,0.5);
-      border-radius: 4px; cursor: pointer; flex-shrink: 0; margin-top: 2px; transition: all 0.2s; }
+    .task-cb { appearance: none; width: 17px; height: 17px; border: 1.5px solid rgba(88,187,194,.4); border-radius: 4px; cursor: pointer; flex-shrink: 0; margin-top: 1px; transition: all .2s; }
     .task-cb:checked { background: var(--teal); border-color: var(--teal); }
-    .task-cb:checked + span { color: var(--slate); text-decoration: line-through; }
-    .task-label { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; }
-    .week-header { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin: 20px 0 8px; }
+    .task-cb:checked + .task-lbl { color: var(--slate); text-decoration: line-through; }
+    .task-lbl { font-size: 12px; color: rgba(255,255,255,.85); line-height: 1.5; }
+    .wk-hdr { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .15em; color: var(--teal); margin: 18px 0 8px; }
 
-    /* ── AGENT CARDS ── */
+    /* Kanban */
+    .kanban-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .kanban-col { background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.06); border-radius: 14px; padding: 14px; }
+    .kanban-col-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
+    .kanban-col-title.now { color: var(--urgent); }
+    .kanban-col-title.week { color: var(--gold); }
+    .kanban-col-title.later { color: var(--slate); }
+    .kanban-item { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 9px; padding: 10px 12px; margin-bottom: 8px; font-size: 12px; cursor: pointer; transition: all .2s; }
+    .kanban-item:hover { border-color: rgba(88,187,194,.25); }
+    .kanban-track { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
+    .kt-biz { color: var(--teal); }
+    .kt-grad { color: var(--lilac); }
+    .kt-write { color: var(--gold); }
+    .ki-add { background: none; border: 1px dashed rgba(255,255,255,.1); border-radius: 9px; padding: 8px; width: 100%; color: var(--muted); font-size: 12px; cursor: pointer; transition: all .2s; }
+    .ki-add:hover { border-color: rgba(88,187,194,.3); color: var(--teal); }
+
+    /* ══ AGENTS TAB ══ */
     .agent-card {
-      background: rgba(10,20,40,0.5); border: 1px solid rgba(88,187,194,0.12);
-      border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+      background: rgba(10,20,40,.5); border: 1px solid rgba(88,187,194,.1);
+      border-radius: 14px; padding: 18px; cursor: pointer; transition: all .3s; position: relative; overflow: hidden;
     }
-    .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg,var(--teal),var(--lilac)); opacity: 0; transition: opacity 0.3s; }
-    .agent-card:hover { border-color: rgba(88,187,194,0.35); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.4); }
-    .agent-card:hover::before { opacity: 1; }
-    .agent-card.optional { border-color: rgba(172,109,191,0.12); }
-    .agent-card.optional::before { background: linear-gradient(90deg,var(--lilac),var(--gold)); }
-    .agent-card.optional:hover { border-color: rgba(172,109,191,0.35); }
-    .agent-name { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
-    .agent-desc { font-size: 12px; color: var(--slate); line-height: 1.5; }
-    .agent-cmd { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(88,187,194,0.7); margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .agent-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--teal),var(--lilac)); opacity:0; transition:opacity .3s; }
+    .agent-card:hover { border-color: rgba(88,187,194,.3); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.4); }
+    .agent-card:hover::before { opacity:1; }
+    .agent-card.opt { border-color: rgba(172,109,191,.1); }
+    .agent-card.opt::before { background: linear-gradient(90deg,var(--lilac),var(--gold)); }
+    .agent-card.opt:hover { border-color: rgba(172,109,191,.3); }
+    .a-name { font-weight: 700; font-size: 13px; margin-bottom: 5px; }
+    .a-desc { font-size: 11px; color: var(--slate); line-height: 1.5; }
+    .a-cmd { font-family:'DM Mono',monospace; font-size:10px; color:rgba(88,187,194,.65); margin-top:10px; padding-top:9px; border-top:1px solid rgba(255,255,255,.05); }
 
-    /* ── CMD BUTTONS ── */
     .cmd-btn {
-      display: flex; justify-content: space-between; align-items: center;
-      width: 100%; padding: 11px 14px; border-radius: 10px;
-      background: rgba(88,187,194,0.05); border: 1px solid rgba(88,187,194,0.15);
-      color: rgba(255,255,255,0.8); font-family: 'DM Mono', monospace; font-size: 11px;
-      cursor: pointer; transition: all 0.2s; text-align: left;
+      display:flex; justify-content:space-between; align-items:center;
+      width:100%; padding:10px 13px; border-radius:9px;
+      background:rgba(88,187,194,.04); border:1px solid rgba(88,187,194,.13);
+      color:rgba(255,255,255,.8); font-family:'DM Mono',monospace; font-size:11px;
+      cursor:pointer; transition:all .2s; text-align:left;
     }
-    .cmd-btn:hover { background: rgba(88,187,194,0.12); border-color: var(--teal); color: white; transform: translateX(3px); }
-    .cmd-arrow { opacity: 0; transition: opacity 0.2s; color: var(--teal); }
-    .cmd-btn:hover .cmd-arrow { opacity: 1; }
+    .cmd-btn:hover { background:rgba(88,187,194,.1); border-color:var(--teal); color:white; transform:translateX(3px); }
+    .cmd-a { opacity:0; transition:opacity .2s; color:var(--teal); }
+    .cmd-btn:hover .cmd-a { opacity:1; }
 
-    /* ── FLOW CARDS ── */
-    .flow-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
-      border-left: 3px solid var(--teal); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
-    .flow-day { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 4px; }
-    .flow-text { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+    .flow-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.05); border-left:3px solid var(--teal); border-radius:9px; padding:12px 14px; margin-bottom:9px; }
+    .flow-day { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); margin-bottom:4px; }
+    .flow-txt { font-size:12px; color:rgba(255,255,255,.65); line-height:1.5; }
 
-    /* ── IP TRACKER ── */
-    .ip-card { padding: 20px 24px; border-radius: 16px; background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.07); }
-    .ip-name { font-weight: 700; color: var(--teal); font-size: 15px; }
-    .ip-desc { font-size: 12px; color: var(--slate); margin-top: 6px; }
-    .ip-status { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-top: 10px; }
-    .ip-live { background: rgba(88,187,194,0.15); color: var(--teal); border: 1px solid rgba(88,187,194,0.3); }
-    .ip-dev { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.25); }
-
-    /* ── ATLAS LINKS ── */
-    .atlas-card { display: block; padding: 20px; border-radius: 14px; background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.07); text-decoration: none; color: white; transition: all 0.3s; cursor: pointer; }
-    .atlas-card:hover { border-color: var(--teal); background: rgba(88,187,194,0.06); transform: translateY(-2px); }
-    .atlas-icon { font-size: 22px; margin-bottom: 8px; }
-    .atlas-title { font-size: 13px; font-weight: 600; }
-    .atlas-sub { font-size: 11px; color: var(--slate); margin-top: 2px; }
-
-    /* ── TIMELINE (UNMASK) ── */
-    .timeline-item { border-left: 3px solid var(--lilac); padding-left: 20px; margin-bottom: 28px; position: relative; }
-    .timeline-item::before { content: ''; width: 10px; height: 10px; border-radius: 50%;
-      background: var(--lilac); position: absolute; left: -6.5px; top: 4px; }
-    .timeline-item.teal-line { border-left-color: var(--teal); }
-    .timeline-item.teal-line::before { background: var(--teal); }
-    .timeline-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); margin-bottom: 6px; }
-    .timeline-label.lilac { color: var(--lilac); }
-    .timeline-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-    .timeline-body { font-size: 12px; color: var(--slate); line-height: 1.7; }
-
-    /* ── COMMS SCHEDULE ── */
-    .schedule-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
-      border-top: 3px solid var(--teal); border-radius: 14px; padding: 20px; }
-    .schedule-day { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--lilac); margin-bottom: 6px; }
-    .schedule-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.03em; }
-    .schedule-desc { font-size: 12px; color: var(--slate); }
-
-    /* ── GROWTH CARDS ── */
-    .growth-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px; padding: 22px; transition: all 0.3s; }
-    .growth-card:hover { border-color: rgba(88,187,194,0.2); background: rgba(255,255,255,0.035); }
-    .growth-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
-    .growth-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-    .growth-desc { font-size: 12px; color: var(--slate); line-height: 1.5; }
-    .growth-fee { font-size: 11px; color: rgba(148,163,184,0.6); margin-top: 10px; font-family: 'DM Mono', monospace; }
-
-    /* ── INFRA PROGRESS ── */
-    .infra-progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12px; }
-    .infra-progress-label { color: var(--slate); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; font-weight: 700; }
-    .infra-progress-val { font-family: 'DM Mono', monospace; font-size: 12px; }
-
-    /* ── AGENT PANEL ── */
+    /* ══ AGENT PANEL ══ */
     #agent-panel {
-      position: fixed; top: 52px; right: 0; bottom: 0;
-      width: 480px; background: var(--deep); border-left: 1px solid rgba(255,255,255,0.08);
-      display: flex; flex-direction: column; z-index: 40;
-      transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+      position:fixed; top:var(--header-h); right:0; bottom:0; width:var(--panel-w);
+      background:var(--deep); border-left:1px solid rgba(255,255,255,.08);
+      display:flex; flex-direction:column; z-index:40;
+      transform:translateX(100%); transition:transform .35s cubic-bezier(.16,1,.3,1);
     }
-    #agent-panel.open { transform: translateX(0); }
-    #agent-panel-header {
-      padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.07);
-      display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+    #agent-panel.open { transform:translateX(0); }
+    #ap-header { padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.07); display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .ap-name { font-size:13px; font-weight:700; }
+    .ap-status { font-size:10px; color:var(--slate); }
+    #ap-close { margin-left:auto; background:none; border:none; color:var(--slate); font-size:17px; cursor:pointer; padding:3px 8px; border-radius:6px; transition:all .2s; }
+    #ap-close:hover { background:rgba(255,255,255,.06); color:white; }
+    #ap-clear { background:none; border:none; color:rgba(148,163,184,.3); font-size:10px; cursor:pointer; padding:3px 6px; border-radius:5px; transition:all .2s; }
+    #ap-clear:hover { color:var(--urgent); }
+    #agent-msgs { flex:1; overflow-y:auto; padding:14px 18px; display:flex; flex-direction:column; gap:10px; }
+    .msg { max-width:100%; }
+    .msg-user { align-self:flex-end; }
+    .msg-bubble { padding:10px 13px; border-radius:13px; font-size:12px; line-height:1.6; }
+    .msg-user .msg-bubble { background:rgba(88,187,194,.13); border:1px solid rgba(88,187,194,.2); color:white; }
+    .msg-agent .msg-bubble { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.9); white-space:pre-wrap; }
+    .msg-agent .msg-bubble.streaming::after { content:'▋'; animation:cur .7s infinite; color:var(--teal); }
+    @keyframes cur { 0%,100%{opacity:1} 50%{opacity:0} }
+    .msg-time { font-size:9px; color:rgba(148,163,184,.35); margin-top:3px; font-family:'DM Mono',monospace; }
+    .msg-user .msg-time { text-align:right; }
+    #ap-input-area { padding:14px 18px; border-top:1px solid rgba(255,255,255,.07); flex-shrink:0; }
+    .ap-row { display:flex; gap:8px; }
+    #ap-input {
+      flex:1; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+      border-radius:11px; color:white; font-family:'Inter',sans-serif; font-size:12px;
+      padding:10px 13px; resize:none; outline:none; line-height:1.4; min-height:42px; max-height:100px;
     }
-    .ap-icon { font-size: 20px; }
-    .ap-name { font-size: 14px; font-weight: 700; }
-    .ap-status { font-size: 10px; color: var(--slate); }
-    #close-panel-btn { margin-left: auto; background: none; border: none; color: var(--slate);
-      font-size: 18px; cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: all 0.2s; }
-    #close-panel-btn:hover { background: rgba(255,255,255,0.06); color: white; }
-    #agent-messages { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
-    .msg { max-width: 100%; }
-    .msg-user { align-self: flex-end; }
-    .msg-bubble { padding: 11px 14px; border-radius: 14px; font-size: 13px; line-height: 1.6; }
-    .msg-user .msg-bubble { background: rgba(88,187,194,0.15); border: 1px solid rgba(88,187,194,0.2); color: white; }
-    .msg-agent .msg-bubble { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); white-space: pre-wrap; }
-    .msg-agent .msg-bubble.streaming::after { content: '▋'; animation: cursor-blink 0.7s infinite; color: var(--teal); }
-    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .msg-time { font-size: 10px; color: rgba(148,163,184,0.4); margin-top: 4px; font-family: 'DM Mono', monospace; }
-    .msg-agent .msg-time { text-align: left; }
-    .msg-user .msg-time { text-align: right; }
-    #agent-input-area {
-      padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
+    #ap-input:focus { border-color:rgba(88,187,194,.4); }
+    #ap-send {
+      background:linear-gradient(135deg,var(--teal),var(--lilac)); border:none;
+      border-radius:11px; color:var(--navy); font-weight:700; padding:0 16px;
+      cursor:pointer; font-size:12px; transition:opacity .2s; flex-shrink:0;
     }
-    .input-row { display: flex; gap: 10px; }
-    #agent-input {
-      flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; color: white; font-family: 'Inter', sans-serif; font-size: 13px;
-      padding: 11px 14px; resize: none; outline: none; line-height: 1.4; min-height: 44px; max-height: 120px;
+    #ap-send:hover { opacity:.85; }
+    #ap-send:disabled { opacity:.35; cursor:not-allowed; }
+    .ap-footer { display:flex; justify-content:space-between; align-items:center; margin-top:5px; }
+    .copy-prompt { font-size:10px; color:rgba(148,163,184,.4); cursor:pointer; text-decoration:underline; background:none; border:none; font-family:inherit; }
+    .copy-prompt:hover { color:var(--slate); }
+    .ap-model { font-size:10px; color:rgba(148,163,184,.25); font-family:'DM Mono',monospace; }
+    .ap-empty { text-align:center; padding:36px 18px; color:var(--slate); }
+    .ap-empty-icon { font-size:32px; margin-bottom:10px; }
+    .ap-empty p { font-size:12px; line-height:1.7; }
+
+    /* ══ SETTINGS ══ */
+    #set-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:70; display:none; align-items:center; justify-content:center; }
+    #set-overlay.open { display:flex; }
+    #set-modal { background:var(--deep); border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:26px; width:440px; max-width:95vw; }
+    .set-title { font-size:16px; font-weight:700; margin-bottom:18px; }
+    .set-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--slate); display:block; margin-bottom:6px; }
+    .set-input { width:100%; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:9px; color:white; font-family:'DM Mono',monospace; font-size:12px; padding:9px 13px; outline:none; margin-bottom:14px; }
+    .set-input:focus { border-color:rgba(88,187,194,.4); }
+    .set-note { font-size:10px; color:rgba(148,163,184,.45); margin-bottom:18px; line-height:1.6; }
+    .set-row { display:flex; gap:9px; justify-content:flex-end; }
+    .btn-save { background:linear-gradient(135deg,var(--teal),var(--lilac)); border:none; border-radius:9px; color:var(--navy); font-weight:700; padding:9px 18px; cursor:pointer; font-size:12px; }
+    .btn-cancel { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:9px; color:var(--slate); padding:9px 18px; cursor:pointer; font-size:12px; }
+
+    /* ══ REFERENCE TAB ══ */
+    .growth-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:18px; transition:all .3s; }
+    .growth-card:hover { border-color:rgba(88,187,194,.2); }
+    .g-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:9px; }
+    .g-title { font-size:13px; font-weight:700; margin-bottom:6px; }
+    .g-desc { font-size:11px; color:var(--slate); line-height:1.5; }
+    .g-fee { font-size:10px; color:rgba(148,163,184,.5); margin-top:9px; font-family:'DM Mono',monospace; }
+    .timeline-item { border-left:3px solid var(--lilac); padding-left:18px; margin-bottom:22px; position:relative; }
+    .timeline-item::before { content:''; width:9px; height:9px; border-radius:50%; background:var(--lilac); position:absolute; left:-6px; top:3px; }
+    .timeline-item.tl { border-left-color:var(--teal); }
+    .timeline-item.tl::before { background:var(--teal); }
+    .tl-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.15em; color:var(--teal); margin-bottom:5px; }
+    .tl-lbl.lc { color:var(--lilac); }
+    .tl-title { font-size:14px; font-weight:700; margin-bottom:6px; }
+    .tl-body { font-size:12px; color:var(--slate); line-height:1.7; }
+    .uri-card { background:rgba(172,109,191,.05); border:1px solid rgba(172,109,191,.14); border-radius:13px; padding:18px; }
+    .uri-tier { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--lilac); margin-bottom:5px; }
+    .uri-title { font-size:13px; font-weight:700; margin-bottom:5px; }
+    .uri-detail { font-size:11px; color:var(--slate); }
+    .tech-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); font-size:12px; }
+    .tech-row:last-child { border-bottom:none; }
+    .tech-cost { font-family:'DM Mono',monospace; font-size:11px; color:var(--teal); }
+    .tech-role { font-size:11px; color:var(--slate); }
+
+    /* ══ IP STATUS ══ */
+    .ip-card { padding:16px 18px; border-radius:13px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.07); }
+    .ip-name { font-weight:700; color:var(--teal); font-size:14px; }
+
+    /* ══ RESPONSIVE / MOBILE ══ */
+    #mobile-nav {
+      display:none; position:fixed; bottom:0; left:0; right:0;
+      height:var(--mobile-nav-h); background:rgba(5,10,24,.98);
+      border-top:1px solid rgba(255,255,255,.07);
+      z-index:60; align-items:center; justify-content:space-around;
+      padding-bottom:env(safe-area-inset-bottom);
     }
-    #agent-input:focus { border-color: rgba(88,187,194,0.4); }
-    #agent-send-btn {
-      background: linear-gradient(135deg, var(--teal), var(--lilac)); border: none;
-      border-radius: 12px; color: var(--navy); font-weight: 700; padding: 0 18px;
-      cursor: pointer; font-size: 13px; transition: opacity 0.2s; flex-shrink: 0;
+    .mnav-btn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:8px 12px; border:none; background:none; color:rgba(148,163,184,.6); transition:all .2s; border-radius:10px; }
+    .mnav-btn.active { color:var(--teal); }
+    .mnav-btn .mi { font-size:18px; line-height:1; }
+    .mnav-btn .ml { font-size:9px; font-weight:600; letter-spacing:.02em; }
+
+    @media (max-width: 768px) {
+      :root { --panel-w: 100vw; }
+      #sidebar { display:none; }
+      #mobile-nav { display:flex; }
+      #os-body { padding-bottom: var(--mobile-nav-h); }
+      #main-content { width:100%; }
+      .tab-content { padding:16px; }
+      .brief-grid { grid-template-columns:1fr; }
+      .brief-grid.triple { grid-template-columns:1fr; }
+      .kanban-grid { grid-template-columns:1fr; }
+      #agent-panel { top:var(--header-h); width:100vw; }
+      #os-header .hbtn:not(#settings-btn) { display:none; }
+      #live-date { display:none; }
+      .today-greeting { font-size:18px; }
     }
-    #agent-send-btn:hover { opacity: 0.85; }
-    #agent-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .copy-prompt-btn { font-size: 11px; color: rgba(148,163,184,0.5); cursor: pointer;
-      text-decoration: underline; background: none; border: none; padding: 0; font-family: inherit; margin-top: 6px; }
-    .copy-prompt-btn:hover { color: var(--slate); }
-    .agent-empty-state { text-align: center; padding: 40px 20px; color: var(--slate); }
-    .agent-empty-state .empty-icon { font-size: 36px; margin-bottom: 12px; }
-    .agent-empty-state p { font-size: 13px; line-height: 1.6; }
-
-    /* ── SETTINGS MODAL ── */
-    #settings-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 60; display: none; align-items: center; justify-content: center; }
-    #settings-overlay.open { display: flex; }
-    #settings-modal { background: var(--deep); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px; padding: 28px; width: 460px; max-width: 95vw; }
-    .settings-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
-    .settings-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate); display: block; margin-bottom: 8px; }
-    .settings-input {
-      width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; color: white; font-family: 'DM Mono', monospace; font-size: 12px;
-      padding: 10px 14px; outline: none; margin-bottom: 16px;
+    @media (max-width: 480px) {
+      .dock-grid { grid-template-columns: repeat(4,1fr); }
     }
-    .settings-input:focus { border-color: rgba(88,187,194,0.4); }
-    .settings-note { font-size: 11px; color: rgba(148,163,184,0.5); margin-bottom: 20px; line-height: 1.5; }
-    .settings-row { display: flex; gap: 10px; justify-content: flex-end; }
-    .btn-save { background: linear-gradient(135deg,var(--teal),var(--lilac)); border: none;
-      border-radius: 10px; color: var(--navy); font-weight: 700; padding: 10px 20px; cursor: pointer; font-size: 13px; }
-    .btn-cancel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px; color: var(--slate); padding: 10px 20px; cursor: pointer; font-size: 13px; }
 
-    /* ── RULE BANNER ── */
-    .rule-banner { background: linear-gradient(135deg,rgba(212,175,55,0.06),rgba(88,187,194,0.06));
-      border: 1px solid rgba(212,175,55,0.2); border-radius: 14px; padding: 18px 20px; margin-top: 16px; }
-
-    /* ── PULSE DOT ── */
-    .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal);
-      animation: pulse 2s infinite; display: inline-block; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.75)} }
-
-    /* ── LAST UPDATED ── */
-    .last-updated { font-size: 10px; color: rgba(148,163,184,0.35); font-family: 'DM Mono', monospace; margin-top: 4px; }
-
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
-
-    /* ── URI PAGE ── */
-    .uri-card { background: rgba(172,109,191,0.05); border: 1px solid rgba(172,109,191,0.15);
-      border-radius: 16px; padding: 20px 24px; }
-    .uri-tier { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--lilac); margin-bottom: 6px; }
-    .uri-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-    .uri-detail { font-size: 12px; color: var(--slate); }
+    /* ══ SCROLLBAR ══ */
+    ::-webkit-scrollbar { width:5px; height:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:rgba(255,255,255,.07); border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,.14); }
   </style>
 </head>
 <body>
 
-<!-- ══════════════ OS HEADER ══════════════ -->
+<!-- ══════════════════ OS HEADER ══════════════════ -->
 <header id="os-header">
   <span class="os-logo">MOGUL OS</span>
-  <div class="os-divider"></div>
-  <span id="live-clock">--:--:--</span>
-  <span id="live-date">Loading...</span>
-  <div class="os-spacer"></div>
-  <div class="status-indicator">
-    <div class="status-dot" id="api-dot" title="Agent Status"></div>
-    <span id="api-label">Agent Ready</span>
+  <div class="hdiv"></div>
+  <span id="live-clock">--:--</span>
+  <span id="live-date"></span>
+  <div class="hspace"></div>
+  <div class="status-pill">
+    <div class="sdot standby" id="api-dot"></div>
+    <span id="api-label">No Key</span>
   </div>
-  <button class="header-btn" onclick="openSettings()">⚙ Settings</button>
-  <a href="https://nikkicates.github.io" target="_blank" class="header-btn">↗ Home</a>
+  <button class="hbtn" id="settings-btn" onclick="openSettings()">⚙ Settings</button>
+  <a href="https://nikkicates.github.io" target="_blank" class="hbtn">↗ Home</a>
 </header>
 
-<!-- ══════════════ BODY ══════════════ -->
+<!-- ══════════════════ BODY ══════════════════ -->
 <div id="os-body">
 
-  <!-- ── SIDEBAR ── -->
+  <!-- ─── SIDEBAR ─── -->
   <nav id="sidebar">
-    <div class="nav-section-label">Command</div>
-    <button class="nav-btn active" data-tab="dashboard"><span class="nav-icon">⚡</span> Dashboard</button>
-    <button class="nav-btn" data-tab="agents"><span class="nav-icon">🤖</span> Agents <div class="nav-badge" id="badge-agents"></div></button>
+    <div class="nav-label">Command</div>
+    <button class="nav-btn active" data-tab="today"><span class="nav-icon">🌅</span> Today</button>
+    <button class="nav-btn" data-tab="tasks"><span class="nav-icon">✅</span> Tasks</button>
+    <button class="nav-btn" data-tab="agents"><span class="nav-icon">🤖</span> Agents</button>
 
-    <div class="nav-section-label" style="margin-top:8px;">Business</div>
-    <button class="nav-btn" data-tab="communications"><span class="nav-icon">📬</span> Communications</button>
-    <button class="nav-btn" data-tab="growth"><span class="nav-icon">📈</span> Growth</button>
-    <button class="nav-btn" data-tab="fulfillment"><span class="nav-icon">🚀</span> UNMASK</button>
-    <button class="nav-btn" data-tab="infra"><span class="nav-icon">🏛️</span> Infra & Finance</button>
-    <button class="nav-btn" data-tab="uri"><span class="nav-icon">🌿</span> URI Leadership</button>
+    <div class="nav-label">Business</div>
+    <button class="nav-btn" data-tab="revenue"><span class="nav-icon">💰</span> Revenue</button>
+    <button class="nav-btn" data-tab="reference"><span class="nav-icon">📚</span> Reference</button>
 
-    <div class="sidebar-footer">
-      <button class="agent-launch-btn" onclick="openAgentPanel('cos')">
-        ⚡ Run Daily COS Brief
-      </button>
-      <div class="last-updated" id="last-refresh" style="text-align:center;margin-top:10px;"></div>
+    <button class="cos-launch" onclick="openAgent('cos')">⚡ Daily COS Brief</button>
+
+    <!-- Quick Launch Dock -->
+    <div class="dock-section">
+      <div class="dock-label">Quick Launch</div>
+      <div class="dock-grid">
+        <a class="dock-btn" href="https://slack.com" target="_blank" title="Slack"><div class="di">💬</div><div class="dl">Slack</div></a>
+        <a class="dock-btn" href="https://mail.google.com" target="_blank" title="Gmail"><div class="di">📧</div><div class="dl">Gmail</div></a>
+        <a class="dock-btn" href="https://calendar.google.com" target="_blank" title="Calendar"><div class="di">📅</div><div class="dl">Cal</div></a>
+        <a class="dock-btn" href="https://app.gohighlevel.com" target="_blank" title="GoHighLevel"><div class="di">⚡</div><div class="dl">GHL</div></a>
+        <a class="dock-btn" href="https://airtable.com" target="_blank" title="Airtable"><div class="di">🗃️</div><div class="dl">Airtable</div></a>
+        <a class="dock-btn" href="https://app.n8n.cloud" target="_blank" title="n8n"><div class="di">🔁</div><div class="dl">n8n</div></a>
+        <a class="dock-btn" href="https://notebooklm.google.com" target="_blank" title="NotebookLM"><div class="di">🧠</div><div class="dl">NbkLM</div></a>
+        <a class="dock-btn" href="https://bubble.io" target="_blank" title="Bubble.io"><div class="di">🫧</div><div class="dl">Bubble</div></a>
+        <a class="dock-btn" href="https://canva.com" target="_blank" title="Canva"><div class="di">🎨</div><div class="dl">Canva</div></a>
+        <a class="dock-btn" href="https://hunter.io" target="_blank" title="Hunter.io"><div class="di">🎯</div><div class="dl">Hunter</div></a>
+        <a class="dock-btn" href="https://admin.typeform.com" target="_blank" title="Typeform"><div class="di">📝</div><div class="dl">Typeform</div></a>
+        <a class="dock-btn" href="https://github.com/nikkicates" target="_blank" title="GitHub"><div class="di">🐙</div><div class="dl">GitHub</div></a>
+      </div>
     </div>
+    <div class="last-refresh" id="last-refresh"></div>
   </nav>
 
-  <!-- ══════════════ MAIN CONTENT ══════════════ -->
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
   <main id="main-content">
 
-    <!-- ─── DASHBOARD TAB ─── -->
-    <div class="tab-content active" id="tab-dashboard">
+    <!-- ─── TODAY TAB ─── -->
+    <div class="tab-content active" id="tab-today">
 
-      <!-- Header -->
-      <div style="margin-bottom:28px;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-          <div>
-            <h1 class="section-title mogul-gradient">Command Dashboard</h1>
-            <p class="section-sub">Nikki Cates • Strategic Transformations • April 2026</p>
+      <div class="today-greeting" id="today-greeting">Good morning, Nikki.</div>
+      <div class="today-sub" id="today-sub">Your system ran overnight. Open the brief, make 2–3 decisions.</div>
+
+      <!-- Capture Box -->
+      <div class="capture-box">
+        <div class="capture-row">
+          <textarea id="capture-input" placeholder="Capture anything — thought, link, task, signal..." rows="1"></textarea>
+          <button class="capture-submit" onclick="submitCapture()">→ Log</button>
+        </div>
+        <div class="capture-log" id="capture-log"></div>
+      </div>
+
+      <!-- Brief: URGENT + FOCUS -->
+      <div class="brief-grid" style="margin-bottom:14px;">
+        <div class="brief-card urgent">
+          <div class="bc-header">
+            <div class="bc-title urgent">🔴 Urgent <span style="font-size:9px;opacity:.6;margin-left:4px;">(max 3)</span></div>
+            <span class="bc-count" id="cnt-urgent">0/3</span>
           </div>
-          <div style="background:linear-gradient(90deg,rgba(88,187,194,0.08),rgba(172,109,191,0.08));border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:12px 18px;max-width:380px;">
-            <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:4px;">Executive Reflection</p>
-            <p style="font-style:italic;font-family:'Playfair Display',serif;font-size:14px;line-height:1.5;">"I am the Architect. The systems serve me — I do not serve the systems."</p>
+          <div class="bc-items" id="items-urgent"></div>
+          <div class="bc-add"><input class="bc-input" id="in-urgent" placeholder="Add urgent item..."><button class="bc-add-btn" onclick="addItem('urgent')">+</button></div>
+        </div>
+        <div class="brief-card focus">
+          <div class="bc-header">
+            <div class="bc-title teal">⚡ Today's Focus</div>
+            <button class="bc-del" style="font-size:11px;color:rgba(148,163,184,.3);" onclick="clearSection('focus')" title="Clear all">clear</button>
           </div>
+          <div class="bc-items" id="items-focus"></div>
+          <div class="bc-add"><input class="bc-input" id="in-focus" placeholder="Top action..."><button class="bc-add-btn" onclick="addItem('focus')">+</button></div>
         </div>
       </div>
 
-      <!-- Revenue KPIs -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;" id="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Speaking</div>
-          <div class="kpi-value" id="kpi-speaking" contenteditable="true" title="Click to edit">$75,000</div>
-          <div class="kpi-sub">6 keynotes • Target closed</div>
-          <div class="progress-track"><div class="progress-fill" id="prog-speaking" style="width:0%"></div></div>
+      <!-- Brief: IMPORTANT -->
+      <div class="brief-card important" style="margin-bottom:14px;">
+        <div class="bc-header">
+          <div class="bc-title important">🟡 Important <span style="font-size:9px;opacity:.6;margin-left:4px;">(max 5 this week)</span></div>
+          <span class="bc-count" id="cnt-important">0/5</span>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Workshops</div>
-          <div class="kpi-value" id="kpi-workshops" contenteditable="true" title="Click to edit">$45,000</div>
-          <div class="kpi-sub">3 full-day sessions • Target closed</div>
-          <div class="progress-track"><div class="progress-fill" id="prog-workshops" style="width:0%"></div></div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Diagnostics</div>
-          <div class="kpi-value" id="kpi-diagnostics" contenteditable="true" title="Click to edit">$66,000+</div>
-          <div class="kpi-sub">3 LMI/RAA engagements</div>
-          <div class="progress-track"><div class="progress-fill" id="prog-diagnostics" style="width:0%"></div></div>
-        </div>
+        <div class="bc-items" id="items-important"></div>
+        <div class="bc-add"><input class="bc-input" id="in-important" placeholder="Add important item..."><button class="bc-add-btn" onclick="addItem('important')">+</button></div>
       </div>
 
-      <!-- 90-Day Goal Progress -->
-      <div class="card" style="padding:22px 24px;margin-bottom:28px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--slate);margin-bottom:2px;">90-Day Revenue Goal</div>
-            <div style="font-size:26px;font-weight:700;" id="total-progress">$186,000 <span style="font-size:14px;color:var(--slate);font-weight:400;">/ $183,500</span></div>
+      <!-- Brief: HANDLED + GRAD SCHOOL + REAL ESTATE + RESEARCH -->
+      <div class="brief-grid triple" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="brief-card handled">
+          <div class="bc-header">
+            <div class="bc-title handled">🟢 Handled</div>
+            <button class="bc-del" style="font-size:11px;color:rgba(148,163,184,.3);" onclick="clearSection('handled')" title="Clear">clear</button>
           </div>
-          <span class="badge-teal">Pre-Bootcamp Sprint</span>
+          <div class="bc-items" id="items-handled"></div>
+          <div class="bc-add"><input class="bc-input" id="in-handled" placeholder="Add handled item..."><button class="bc-add-btn" onclick="addItem('handled')">+</button></div>
         </div>
-        <div class="progress-track" style="height:10px;">
-          <div class="progress-fill" id="prog-total" style="width:0%"></div>
+        <div class="brief-card" style="border-color:rgba(172,109,191,.2);background:rgba(172,109,191,.03);">
+          <div class="bc-header">
+            <div class="bc-title lilac">📚 Grad School</div>
+          </div>
+          <div class="bc-items" id="items-grad"></div>
+          <div class="bc-add"><input class="bc-input" id="in-grad" placeholder="Deadline or reading..."><button class="bc-add-btn" onclick="addItem('grad')">+</button></div>
         </div>
-        <div style="display:flex;justify-content:space-between;margin-top:8px;">
-          <span style="font-size:11px;color:var(--slate);">Pici &amp; Pici Bootcamp Ready — April 27 Deadline</span>
-          <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--teal);" id="pct-label">--% closed</span>
+        <div class="brief-card" style="border-color:rgba(212,175,55,.15);background:rgba(212,175,55,.02);">
+          <div class="bc-header">
+            <div class="bc-title gold">🏠 Real Estate</div>
+          </div>
+          <div class="bc-items" id="items-realestate"></div>
+          <div class="bc-add"><input class="bc-input" id="in-realestate" placeholder="Lead or signal..."><button class="bc-add-btn" onclick="addItem('realestate')">+</button></div>
         </div>
       </div>
 
-      <!-- Task Tracker + IP side-by-side -->
-      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-bottom:28px;">
+      <!-- Research Signal (full width) -->
+      <div class="brief-card" style="margin-top:14px;border-color:rgba(88,187,194,.15);background:rgba(88,187,194,.03);">
+        <div class="bc-header">
+          <div class="bc-title teal">🔬 Research Signal</div>
+          <button class="cmd-btn" style="width:auto;padding:5px 12px;font-size:10px;" onclick="trigCmd('miner','Run Source Miner — surface 3 ST signals and 2 URI signals for this week')">Run Source Miner →</button>
+        </div>
+        <div class="bc-items" id="items-research"></div>
+        <div class="bc-add"><input class="bc-input" id="in-research" placeholder="Add research signal..."><button class="bc-add-btn" onclick="addItem('research')">+</button></div>
+      </div>
 
+    </div><!-- /today -->
+
+    <!-- ─── TASKS TAB ─── -->
+    <div class="tab-content" id="tab-tasks">
+      <div class="page-title mg">Strategic Tasks</div>
+      <p class="page-sub">April 27 Deadline · Pici &amp; Pici Bootcamp Ready</p>
+
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:20px;margin-bottom:28px;">
         <!-- Task Tracker -->
-        <div class="card" style="padding:22px 24px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <h2 style="font-size:16px;font-weight:700;">Strategic Task Tracker</h2>
-            <span class="badge-gold" id="task-progress-badge">0/12</span>
+        <div class="card" style="padding:20px 22px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:700;">Sprint Tracker</div>
+            <span class="badge badge-g" id="task-badge">0/12</span>
           </div>
-
-          <div class="week-header">Week 1 • Apr 6–12 · Website Consolidation</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t0"><span class="task-label">Migrate Volume 1 from Google Site to unified page</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t1"><span class="task-label">Set up redirects for all old domains</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t2"><span class="task-label">Update all internal links across pages</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t3"><span class="task-label">New unified header/nav on hub</span></div>
-
-          <div class="week-header">Week 2 • Apr 13–19 · Diagnostics &amp; Data Moat</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t4"><span class="task-label">Build RAA Index (methodology + Typeform + Airtable)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t5"><span class="task-label">Build AI Acceleration Burnout Index</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t6"><span class="task-label">Update fulfillment.html with both new diagnostics</span></div>
-
-          <div class="week-header">Week 3 • Apr 20–26 · App + Growth + Polish</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t7"><span class="task-label">Bubble.io MVP (SSS, LMI, RAA, offline PDFs)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t8"><span class="task-label">Keynote decks + workshop outlines ready</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t9"><span class="task-label">Collective + Relay live and connected</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t10"><span class="task-label">Book 3–5 Executive Briefings</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t11"><span class="task-label">Final test + polish all pages</span></div>
+          <div class="wk-hdr">Week 1 · Apr 6–12 · Website Consolidation</div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t0"><span class="task-lbl">Migrate Volume 1 from Google Site to unified page</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t1"><span class="task-lbl">Set up redirects for all old domains</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t2"><span class="task-lbl">Update all internal links across pages</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t3"><span class="task-lbl">New unified header/nav on hub</span></div>
+          <div class="wk-hdr">Week 2 · Apr 13–19 · Diagnostics &amp; Data Moat</div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t4"><span class="task-lbl">Build RAAI (methodology + Typeform + Airtable)</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t5"><span class="task-lbl">Build ABAI (AI Burnout Acceleration Index)</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t6"><span class="task-lbl">Update fulfillment page with both new diagnostics</span></div>
+          <div class="wk-hdr">Week 3 · Apr 20–26 · App + Growth + Polish</div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t7"><span class="task-lbl">Bubble.io MVP (SSS, LMI, RAAI, ABAI + offline PDFs)</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t8"><span class="task-lbl">Keynote decks + workshop outlines ready</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t9"><span class="task-lbl">Collective + Relay live and connected</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t10"><span class="task-lbl">Book 3–5 Executive Briefings</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t11"><span class="task-lbl">Final test + polish all pages</span></div>
         </div>
 
-        <!-- IP Tracker -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
-          <div class="ip-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div class="ip-name">LMI</div>
-              <span class="ip-status ip-live">LIVE</span>
-            </div>
-            <div class="ip-desc">Leadership Masking Index<br>Typeform + Airtable integration active</div>
-          </div>
-          <div class="ip-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div class="ip-name">RAA</div>
-              <span class="ip-status ip-dev">In Dev</span>
-            </div>
-            <div class="ip-desc">Responsibility-Authority Asymmetry Index<br>Methodology drafted</div>
-          </div>
-          <div class="ip-card">
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div class="ip-name">AI Burnout</div>
-              <span class="ip-status ip-dev">In Dev</span>
-            </div>
-            <div class="ip-desc">AI Acceleration Burnout Index<br>Framework in progress</div>
-          </div>
-          <div class="ip-card" style="background:linear-gradient(135deg,rgba(212,175,55,0.05),rgba(88,187,194,0.05));border-color:rgba(212,175,55,0.2);">
-            <div class="ip-name" style="color:var(--gold);">SSS</div>
-            <div class="ip-desc" style="margin-top:6px;">Structural Strain Score<br>Free entry-point diagnostic</div>
-            <span class="ip-status" style="background:rgba(212,175,55,0.1);color:var(--gold);border:1px solid rgba(212,175,55,0.25);">Active</span>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Digital Atlas -->
-      <div style="margin-bottom:12px;">
-        <h2 style="font-size:15px;font-weight:700;margin-bottom:14px;">THE ATLAS · Digital Estate</h2>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;">
-          <div class="atlas-card" onclick="switchTab('communications')"><div class="atlas-icon">📬</div><div class="atlas-title">Communications</div><div class="atlas-sub">Newsletters &amp; Insights</div></div>
-          <div class="atlas-card" onclick="switchTab('fulfillment')"><div class="atlas-icon">🚀</div><div class="atlas-title">UNMASK Journey</div><div class="atlas-sub">Delivery Lifecycle</div></div>
-          <div class="atlas-card" onclick="switchTab('growth')"><div class="atlas-icon">📈</div><div class="atlas-title">Growth &amp; Authority</div><div class="atlas-sub">Speaking &amp; Formations</div></div>
-          <div class="atlas-card" onclick="switchTab('infra')"><div class="atlas-icon">🏛️</div><div class="atlas-title">Infra &amp; Finance</div><div class="atlas-sub">Collective + Relay</div></div>
-          <div class="atlas-card" onclick="switchTab('uri')"><div class="atlas-icon">🌿</div><div class="atlas-title">URI Leadership</div><div class="atlas-sub">Faith &amp; Justice Track</div></div>
+        <!-- MIS Build Sequence -->
+        <div class="card" style="padding:20px 22px;">
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px;">MIS Build Sequence</div>
+          <div style="font-size:11px;color:var(--slate);margin-bottom:14px;">10-Week Master Intelligence System</div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis0"><span class="task-lbl"><strong>Ph.1:</strong> Audit GHL + inventory Gumloop flows</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis1"><span class="task-lbl"><strong>Ph.1:</strong> Confirm Google Workspace + NotebookLM active</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis2"><span class="task-lbl"><strong>Ph.1:</strong> Set up n8n Cloud account (14-day trial)</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis3"><span class="task-lbl"><strong>Ph.2:</strong> Migrate Gumloop flows → n8n one by one</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis4"><span class="task-lbl"><strong>Ph.2:</strong> Connect GHL webhooks → n8n</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis5"><span class="task-lbl"><strong>Ph.2:</strong> Airtable → n8n diagnostic webhook live</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis6"><span class="task-lbl"><strong>Ph.2:</strong> Cancel Gumloop after all flows confirmed</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis7"><span class="task-lbl"><strong>Ph.3:</strong> Build Research Agent (Claude + NotebookLM)</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis8"><span class="task-lbl"><strong>Ph.3:</strong> Build Content + Prospecting Agents</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis9"><span class="task-lbl"><strong>Ph.4:</strong> CoS morning brief → Slack DM by 6 AM</span></div>
+          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis10"><span class="task-lbl"><strong>Ph.5:</strong> Full domain coverage (real estate + grad + Bubble)</span></div>
         </div>
       </div>
 
-    </div><!-- /tab-dashboard -->
+      <!-- Project Board -->
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">Project Board</div>
+      <div class="kanban-grid">
+        <div class="kanban-col">
+          <div class="kanban-col-title now">🔴 Now</div>
+          <div id="kanban-now"></div>
+          <button class="ki-add" onclick="addKanban('now')">+ Add</button>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-title week">🟡 This Week</div>
+          <div id="kanban-week"></div>
+          <button class="ki-add" onclick="addKanban('week')">+ Add</button>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-title later">⬜ Later</div>
+          <div id="kanban-later"></div>
+          <button class="ki-add" onclick="addKanban('later')">+ Add</button>
+        </div>
+      </div>
+    </div><!-- /tasks -->
 
     <!-- ─── AGENTS TAB ─── -->
     <div class="tab-content" id="tab-agents">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
-        <div>
-          <h1 class="section-title mogul-gradient">Team Nikki C</h1>
-          <p class="section-sub">Agent Command Center · Click any agent to activate</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;" class="badge-teal">
-          <div class="pulse-dot"></div> Active
-        </div>
-      </div>
-      <p style="font-size:13px;color:var(--slate);margin-bottom:24px;max-width:640px;line-height:1.6;">
-        Keep the business clear, premium, and moving. Use the Daily Chief of Staff to run the day, Source Miner to surface what matters, and the Router to decide what the team acts on.
-      </p>
+      <div class="page-title mg">Team Nikki C</div>
+      <p class="page-sub">Agent Command Center · Click any agent to activate · <span class="pdot"></span> Live</p>
 
-      <div class="divider"></div>
-
-      <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:16px;">⚡ Core 5 Agents</h3>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;">
-        <div class="agent-card" onclick="openAgentPanel('cos')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🧭</span><span class="badge-teal">Core</span></div>
-          <div class="agent-name">Daily Chief of Staff</div>
-          <div class="agent-desc">Runs the day: priorities, inbox, calendar, pipeline, drafts, and what to ignore.</div>
-          <div class="agent-cmd">→ "Give me my Daily COS Brief"</div>
-        </div>
-        <div class="agent-card" onclick="openAgentPanel('miner')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🔍</span><span class="badge-teal">Core</span></div>
-          <div class="agent-name">Source Miner</div>
-          <div class="agent-desc">Research + trends desk. Finds weekly signals, data, news, and event themes.</div>
-          <div class="agent-cmd">→ "Run Source Miner"</div>
-        </div>
-        <div class="agent-card" onclick="openAgentPanel('router')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🗺️</span><span class="badge-teal">Core</span></div>
-          <div class="agent-name">Weekly Router</div>
-          <div class="agent-desc">Chooses 1 ST signal + 1 URI signal, then turns them into a weekly action plan.</div>
-          <div class="agent-cmd">→ "Route this week"</div>
-        </div>
-        <div class="agent-card" onclick="openAgentPanel('speaking')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🎤</span><span class="badge-teal">Core</span></div>
-          <div class="agent-name">Speaking / Workshops Agent</div>
-          <div class="agent-desc">Finds, scores, and drafts outreach for speaking, workshop, retreat, and conference opportunities.</div>
-          <div class="agent-cmd">→ "Find speaking leads"</div>
-        </div>
-        <div class="agent-card" onclick="openAgentPanel('unmask')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🔓</span><span class="badge-teal">Core</span></div>
-          <div class="agent-name">Executive Briefing / UNMASK</div>
-          <div class="agent-desc">Finds, scores, and drafts outreach for Executive Briefing → Diagnostics → Recalibration pipeline.</div>
-          <div class="agent-cmd">→ "Find Executive Briefing leads"</div>
-        </div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:13px;">⚡ Core 5</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;">
+        <div class="agent-card" onclick="openAgent('cos')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🧭</span><span class="badge badge-t">Core</span></div><div class="a-name">Daily Chief of Staff</div><div class="a-desc">Runs the day: priorities, inbox, pipeline, and what to ignore.</div><div class="a-cmd">→ "Give me my Daily COS Brief"</div></div>
+        <div class="agent-card" onclick="openAgent('miner')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🔍</span><span class="badge badge-t">Core</span></div><div class="a-name">Source Miner</div><div class="a-desc">Research + trends desk. ST/URI signals, AI-era data, event themes.</div><div class="a-cmd">→ "Run Source Miner"</div></div>
+        <div class="agent-card" onclick="openAgent('router')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🗺️</span><span class="badge badge-t">Core</span></div><div class="a-name">Weekly Router</div><div class="a-desc">Picks 1 ST signal + 1 URI signal → weekly action plan.</div><div class="a-cmd">→ "Route this week"</div></div>
+        <div class="agent-card" onclick="openAgent('speaking')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🎤</span><span class="badge badge-t">Core</span></div><div class="a-name">Speaking / Workshops</div><div class="a-desc">Finds, scores, and drafts outreach for speaking and conference leads.</div><div class="a-cmd">→ "Find speaking leads"</div></div>
+        <div class="agent-card" onclick="openAgent('unmask')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🔓</span><span class="badge badge-t">Core</span></div><div class="a-name">Executive Briefing / UNMASK</div><div class="a-desc">Finds, scores, and drafts outreach for the diagnostic pipeline.</div><div class="a-cmd">→ "Find Executive Briefing leads"</div></div>
       </div>
 
-      <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--lilac);margin-bottom:16px;">🌱 Optional — After Core 5 Are Running</h3>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:32px;">
-        <div class="agent-card optional" onclick="openAgentPanel('content')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">✍🏾</span><span class="badge-lilac">Later</span></div>
-          <div class="agent-name">Content + Thought Leadership</div>
-          <div class="agent-desc">Turns signals and source material into newsletter, LinkedIn, and executive briefing angles.</div>
-          <div class="agent-cmd" style="color:rgba(172,109,191,0.7);">→ "Turn this into content"</div>
-        </div>
-        <div class="agent-card optional" onclick="openAgentPanel('architect')">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;"><span style="font-size:22px;">🏗️</span><span class="badge-lilac">Later</span></div>
-          <div class="agent-name">Speaking / Offer Architect</div>
-          <div class="agent-desc">Builds talk titles, abstracts, workshop language, and event-facing offer copy.</div>
-          <div class="agent-cmd" style="color:rgba(172,109,191,0.7);">→ "Turn this into a keynote/workshop"</div>
-        </div>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--lilac);margin-bottom:13px;">🌱 Optional — After Core 5 Running</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:26px;">
+        <div class="agent-card opt" onclick="openAgent('content')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">✍🏾</span><span class="badge badge-l">Later</span></div><div class="a-name">Content + Thought Leadership</div><div class="a-desc">Turns signals into newsletter, LinkedIn, and briefing angles.</div><div class="a-cmd" style="color:rgba(172,109,191,.7);">→ "Turn this into content"</div></div>
+        <div class="agent-card opt" onclick="openAgent('architect')"><div style="display:flex;justify-content:space-between;margin-bottom:9px;"><span style="font-size:20px;">🏗️</span><span class="badge badge-l">Later</span></div><div class="a-name">Speaking / Offer Architect</div><div class="a-desc">Builds titles, abstracts, workshop outlines, and event copy.</div><div class="a-cmd" style="color:rgba(172,109,191,.7);">→ "Turn this into a keynote"</div></div>
       </div>
 
       <div class="divider"></div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
-        <!-- Command Menu -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
         <div>
-          <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:14px;">⌨️ Command Menu</h3>
-          <div style="display:flex;flex-direction:column;gap:7px;">
-            <button class="cmd-btn" onclick="triggerCommand('cos','Give me my Daily COS Brief')"><span>Give me my Daily COS Brief</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('miner','Run Source Miner')"><span>Run Source Miner</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('router','Route this week')"><span>Route this week</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('speaking','Find speaking leads')"><span>Find speaking leads</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('unmask','Find Executive Briefing leads')"><span>Find Executive Briefing leads</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('unmask','Draft outreach email')"><span>Draft outreach email</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('content','Turn this into content')"><span>Turn this into content</span><span class="cmd-arrow">→</span></button>
-            <button class="cmd-btn" onclick="triggerCommand('architect','Turn this into a keynote/workshop')"><span>Turn this into a keynote/workshop</span><span class="cmd-arrow">→</span></button>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:12px;">⌨️ Command Menu</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <button class="cmd-btn" onclick="trigCmd('cos','Give me my Daily COS Brief')"><span>Give me my Daily COS Brief</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('miner','Run Source Miner')"><span>Run Source Miner</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('router','Route this week')"><span>Route this week</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('speaking','Find speaking leads')"><span>Find speaking leads</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('unmask','Find Executive Briefing leads')"><span>Find Executive Briefing leads</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('unmask','Draft outreach email')"><span>Draft outreach email</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('content','Turn this into content')"><span>Turn this into content</span><span class="cmd-a">→</span></button>
+            <button class="cmd-btn" onclick="trigCmd('architect','Turn this into a keynote/workshop')"><span>Turn this into a keynote</span><span class="cmd-a">→</span></button>
           </div>
-          <p style="font-size:10px;color:rgba(148,163,184,0.4);margin-top:10px;">Click to open agent with pre-loaded command.</p>
         </div>
-
-        <!-- Weekly Flow -->
         <div>
-          <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:14px;">📅 Weekly Operating Flow</h3>
-          <div class="flow-card"><div class="flow-day">Monday</div><div class="flow-text">Run Source Miner → Route this week. Set the direction before anything else.</div></div>
-          <div class="flow-card"><div class="flow-day">Then</div><div class="flow-text">Use the Speaking Agent for front-door opportunities. Use the Executive Briefing Agent for deeper ST leads.</div></div>
-          <div class="flow-card"><div class="flow-day">Daily</div><div class="flow-text">Use the Daily COS to protect focus, track movement, and keep follow-through tight.</div></div>
-          <div class="rule-banner">
-            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:6px;">The Rule</p>
-            <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.6;">Act on <span style="color:var(--teal);font-weight:700;">1 Strategic Transformations signal</span> and <span style="color:var(--lilac);font-weight:700;">1 URI signal</span> each week. Do not chase every signal.</p>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:12px;">📅 Weekly Operating Flow</div>
+          <div class="flow-card"><div class="flow-day">Monday</div><div class="flow-txt">Source Miner → Route this week. Set the direction before anything else.</div></div>
+          <div class="flow-card"><div class="flow-day">Then</div><div class="flow-txt">Speaking Agent for front-door opportunities. Executive Briefing Agent for ST depth.</div></div>
+          <div class="flow-card"><div class="flow-day">Daily</div><div class="flow-txt">Daily COS to protect focus, track movement, and keep follow-through tight.</div></div>
+          <div style="background:linear-gradient(135deg,rgba(212,175,55,.06),rgba(88,187,194,.06));border:1px solid rgba(212,175,55,.2);border-radius:12px;padding:14px 16px;margin-top:0;">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:5px;">The Rule</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;">Act on <strong style="color:var(--teal);">1 ST signal</strong> and <strong style="color:var(--lilac);">1 URI signal</strong> per week. Do not chase every signal.</div>
           </div>
         </div>
       </div>
-    </div><!-- /tab-agents -->
+    </div><!-- /agents -->
 
-    <!-- ─── COMMUNICATIONS TAB ─── -->
-    <div class="tab-content" id="tab-communications">
-      <h1 class="section-title mogul-gradient" style="margin-bottom:6px;">The Communications Engine</h1>
-      <p class="section-sub" style="margin-bottom:28px;">M–F Authority Deployment Schedule</p>
+    <!-- ─── REVENUE TAB ─── -->
+    <div class="tab-content" id="tab-revenue">
+      <div class="page-title mg">Revenue Command</div>
+      <p class="page-sub">90-Day Goal: $183,500 · IP-First: Blueprint + Diagnostics</p>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;">
-        <div class="schedule-card" style="border-top-color:var(--lilac);">
-          <div class="schedule-day" style="color:var(--lilac);">Monday (AM)</div>
-          <div class="schedule-name">URI Newsletter</div>
-          <div class="schedule-desc">Justice, identity research, and theology focus for faith-based community.</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+        <div class="kpi-card"><div class="kpi-lbl">Speaking</div><div class="kpi-val" id="kpi-speaking" contenteditable="true">$75,000</div><div class="kpi-sub">6 keynotes · Target closed</div><div class="prog-track"><div class="prog-fill" id="prog-s" style="width:0%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">Workshops</div><div class="kpi-val" id="kpi-workshops" contenteditable="true">$45,000</div><div class="kpi-sub">3 full-day sessions · Target closed</div><div class="prog-track"><div class="prog-fill" id="prog-w" style="width:0%"></div></div></div>
+        <div class="kpi-card"><div class="kpi-lbl">Diagnostics</div><div class="kpi-val" id="kpi-diagnostics" contenteditable="true">$66,000+</div><div class="kpi-sub">3 LMI/RAAI engagements</div><div class="prog-track"><div class="prog-fill" id="prog-d" style="width:0%"></div></div></div>
+      </div>
+
+      <div class="card" style="padding:20px 22px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:2px;">90-Day Total</div><div style="font-size:26px;font-weight:700;">$186,000 <span style="font-size:13px;color:var(--slate);font-weight:400;">/ $183,500</span></div></div>
+          <span class="badge badge-t">101% of goal</span>
         </div>
-        <div class="schedule-card">
-          <div class="schedule-day">Tuesday (AM)</div>
-          <div class="schedule-name">The UNMASK Report</div>
-          <div class="schedule-desc">Industrial metrics, RAA findings, and diagnostic logic for executives.</div>
+        <div class="prog-track" style="height:8px;"><div class="prog-fill" id="prog-total" style="width:0%"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+        <div class="card" style="padding:18px 20px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:12px;">Cash Flow Priority</div>
+          <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;"><span style="color:var(--slate);">Operating Buffer</span><span style="font-family:'DM Mono',monospace;">$0 / $12,500</span></div><div class="prog-track"><div class="prog-fill" style="width:0%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;"><span style="color:var(--slate);">CEO Compensation</span><span style="font-family:'DM Mono',monospace;">$0 / $50,000</span></div><div class="prog-track"><div class="prog-fill" style="width:0%"></div></div></div>
         </div>
-        <div class="schedule-card" style="border-top-color:var(--gold);">
-          <div class="schedule-day" style="color:var(--gold);">Wed–Fri (AM)</div>
-          <div class="schedule-name">Unbothered Insights</div>
-          <div class="schedule-desc">Daily structural takes on LinkedIn focusing on authority gaps and strain transfer.</div>
+        <div class="card" style="padding:18px 20px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:12px;">Monthly Stack Cost</div>
+          <div class="tech-row"><span>Google Workspace</span><span class="tech-cost">$50/mo</span></div>
+          <div class="tech-row"><span>n8n Cloud</span><span class="tech-cost">~$26/mo</span></div>
+          <div class="tech-row"><span>Claude API</span><span class="tech-cost">~$10–30/mo</span></div>
+          <div class="tech-row"><span>Hunter.io</span><span class="tech-cost">~$49/mo</span></div>
+          <div class="tech-row"><span>Canva Pro</span><span class="tech-cost">~$17/mo</span></div>
+          <div class="tech-row" style="border-top:1px solid rgba(255,255,255,.08);margin-top:4px;padding-top:10px;font-weight:700;"><span>Total Est.</span><span class="tech-cost">~$174–220/mo</span></div>
         </div>
+      </div>
+
+      <!-- Diagnostic Pipeline -->
+      <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Diagnostic Pipeline</div>
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <div class="diag-card"><div><div class="diag-name">SSS — Structural Strain Score</div><div class="diag-desc">Free entry-point · Typeform → Airtable · drives all paid diagnostics</div></div><span class="diag-status ds-live">Active</span></div>
+        <div class="diag-card"><div><div class="diag-name">LMI — Leadership Masking Index</div><div class="diag-desc">Paid · $8,000–$15,000 · Typeform + Airtable · webhook to n8n</div></div><span class="diag-status ds-live">Live</span></div>
+        <div class="diag-card"><div><div class="diag-name">RAAI — Recalibration Alignment Assessment</div><div class="diag-desc">Paid · $8,000–$15,000 · Methodology drafted · Typeform in build</div></div><span class="diag-status ds-dev">In Dev</span></div>
+        <div class="diag-card"><div><div class="diag-name">ABAI — AI Burnout Acceleration Index</div><div class="diag-desc">Paid · $8,000–$15,000 · Framework in progress · AI-era leaders</div></div><span class="diag-status ds-dev">In Dev</span></div>
+      </div>
+    </div><!-- /revenue -->
+
+    <!-- ─── REFERENCE TAB ─── -->
+    <div class="tab-content" id="tab-reference">
+      <div class="page-title mg">Reference</div>
+      <p class="page-sub">Offerings · UNMASK Pipeline · URI · Tech Stack</p>
+
+      <!-- ST Keynotes -->
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:12px;padding-left:3px;border-left:3px solid var(--teal);">Strategic Transformations — Keynotes</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:22px;">
+        <div class="growth-card"><span class="g-badge" style="background:rgba(88,187,194,.1);color:var(--teal);border:1px solid rgba(88,187,194,.25);">Anchor Keynote</span><div class="g-title">Stop the Strain Transfer</div><div class="g-desc">Reframe burnout as structural engineering failure.</div><div class="g-fee">$12,500–$25,000 · 30–60 min</div></div>
+        <div class="growth-card"><span class="g-badge" style="background:rgba(172,109,191,.1);color:var(--lilac);border:1px solid rgba(172,109,191,.25);">Executive Summit</span><div class="g-title">Your Leadership Pipeline Is Leaking</div><div class="g-desc">Authority gap costing 213% in replacement costs.</div><div class="g-fee">$12,500–$25,000 · Summit</div></div>
+        <div class="growth-card"><span class="g-badge" style="background:rgba(212,175,55,.1);color:var(--gold);border:1px solid rgba(212,175,55,.25);">AI-Era Track</span><div class="g-title">When AI Breaks the Bridge</div><div class="g-desc">Decision-rights protocols for the automation era.</div><div class="g-fee">$12,500–$25,000 · 30–60 min</div></div>
+        <div class="growth-card"><span class="g-badge" style="background:rgba(148,163,184,.1);color:var(--slate);border:1px solid rgba(148,163,184,.2);">Operations</span><div class="g-title">False Urgency</div><div class="g-desc">How everything-critical destroys your organization.</div><div class="g-fee">$12,500–$25,000 · 30–60 min</div></div>
+        <div class="growth-card"><span class="g-badge" style="background:rgba(168,85,247,.1);color:#a855f7;border:1px solid rgba(168,85,247,.25);">Women's Leadership</span><div class="g-title">Sovereign Power</div><div class="g-desc">Leading without running on empty.</div><div class="g-fee">$12,500–$25,000 · 30–60 min</div></div>
       </div>
 
       <div class="divider"></div>
 
-      <h3 style="font-size:13px;font-weight:700;margin-bottom:16px;">Standard CTAs</h3>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px;">
-        <div class="card" style="padding:20px;border-left:3px solid var(--teal);">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--teal);margin-bottom:8px;">Speaking Authority</div>
-          <a href="https://nikkicates.github.io/structural-speaker-pages/" target="_blank" style="font-size:12px;font-weight:700;color:white;text-decoration:underline;">Book Nikki →</a>
-        </div>
-        <div class="card" style="padding:20px;border-left:3px solid var(--gold);">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:8px;">Diagnostic Entry</div>
-          <p style="font-size:12px;color:var(--slate);">LMI Assessment • $8,000–$15,000</p>
-        </div>
-        <div class="card" style="padding:20px;border-left:3px solid var(--lilac);">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--lilac);margin-bottom:8px;">Blueprint Series</div>
-          <a href="https://affiliates.gohighlevel.com/?fp_ref=nikki-cates-llc-dba-strategic-transformations60&funnel_share=69c45f227fdd40ce772651ec" target="_blank" style="font-size:12px;font-weight:700;color:white;text-decoration:underline;">Buy Blueprint Trilogy →</a>
-        </div>
-      </div>
-
-      <div class="card" style="padding:22px 24px;">
-        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em;">Quick Agent Actions</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('content','Draft this week\'s UNMASK Report newsletter')"><span>Draft UNMASK Report</span><span class="cmd-arrow">→</span></button>
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('content','Draft a LinkedIn post on authority gaps and structural strain')"><span>Draft LinkedIn Post</span><span class="cmd-arrow">→</span></button>
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('content','Draft this week\'s URI newsletter on identity and justice')"><span>Draft URI Newsletter</span><span class="cmd-arrow">→</span></button>
-        </div>
-      </div>
-    </div><!-- /tab-communications -->
-
-    <!-- ─── GROWTH TAB ─── -->
-    <div class="tab-content" id="tab-growth">
-      <h1 class="section-title mogul-gradient" style="margin-bottom:6px;">Growth &amp; Authority</h1>
-      <p class="section-sub" style="margin-bottom:20px;">Signature Keynotes, Formations &amp; Blueprint Trilogy · Live for Sales</p>
-
-      <div style="background:linear-gradient(135deg,rgba(88,187,194,0.08),rgba(172,109,191,0.08));border:1px solid rgba(88,187,194,0.2);border-radius:16px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <!-- UNMASK Journey -->
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--lilac);margin-bottom:14px;padding-left:3px;border-left:3px solid var(--lilac);">UNMASK Delivery Pipeline</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px;">
         <div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:4px;">UNMASK Blueprint Trilogy — Now Available</div>
-          <div style="font-size:12px;color:var(--slate);">Volumes 1–3 · Digital / Print / WebApp</div>
+          <div class="timeline-item tl"><div class="tl-lbl">Entry Point</div><div class="tl-title">Executive Briefing</div><div class="tl-body">30–60 min keynote surfaces structural strain. Drives all downstream work.</div></div>
+          <div class="timeline-item"><div class="tl-lbl lc">Free Entry</div><div class="tl-title">SSS or Volume 2 Purchase</div><div class="tl-body">Low-barrier entry after briefing. Feeds into paid diagnostic tier.</div></div>
+          <div class="timeline-item tl"><div class="tl-lbl">Tier 02 · Paid Diagnostic</div><div class="tl-title">Leadership Strain Audit</div><div class="tl-body">LMI + RAAI combined. 90-min debrief + report.<br><strong style="color:var(--gold);">$8,000–$15,000</strong></div></div>
         </div>
-        <a href="https://affiliates.gohighlevel.com/?fp_ref=nikki-cates-llc-dba-strategic-transformations60&funnel_share=69c45f227fdd40ce772651ec" target="_blank" style="background:var(--teal);color:var(--navy);font-weight:700;padding:10px 20px;border-radius:10px;font-size:12px;text-decoration:none;letter-spacing:0.05em;">Buy Digital / Print / WebApp →</a>
-      </div>
-
-      <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:14px;padding-left:4px;border-left:3px solid var(--teal);">Strategic Transformations — Signature Keynotes</h3>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;">
-        <div class="growth-card"><span class="growth-badge" style="background:rgba(88,187,194,0.1);color:var(--teal);border:1px solid rgba(88,187,194,0.25);">Anchor Keynote</span><div class="growth-title">Stop the Strain Transfer</div><div class="growth-desc">Reframe burnout as structural engineering failure. Move from wellness to architecture.</div><div class="growth-fee">Fee: $12,500–$25,000 · 30–60 min</div></div>
-        <div class="growth-card"><span class="growth-badge" style="background:rgba(172,109,191,0.1);color:var(--lilac);border:1px solid rgba(172,109,191,0.25);">Executive Summit</span><div class="growth-title">Your Leadership Pipeline Is Leaking</div><div class="growth-desc">Authority gap costing 213% in replacement. Built for executive audiences.</div><div class="growth-fee">Fee: $12,500–$25,000 · Keynote / Summit</div></div>
-        <div class="growth-card"><span class="growth-badge" style="background:rgba(212,175,55,0.1);color:var(--gold);border:1px solid rgba(212,175,55,0.25);">AI-Era Track</span><div class="growth-title">When AI Breaks the Bridge</div><div class="growth-desc">Decision-rights protocols for the automation era. Built for leadership teams navigating AI transition.</div><div class="growth-fee">Fee: $12,500–$25,000 · 30–60 min</div></div>
-        <div class="growth-card"><span class="growth-badge" style="background:rgba(148,163,184,0.1);color:var(--slate);border:1px solid rgba(148,163,184,0.25);">Operations Track</span><div class="growth-title">False Urgency</div><div class="growth-desc">How everything being critical is destroying your organization's capacity and culture.</div><div class="growth-fee">Fee: $12,500–$25,000 · 30–60 min</div></div>
-        <div class="growth-card"><span class="growth-badge" style="background:rgba(168,85,247,0.1);color:#a855f7;border:1px solid rgba(168,85,247,0.25);">Women's Leadership</span><div class="growth-title">Sovereign Power</div><div class="growth-desc">Leading without running on empty. Built for women executives in high-demand environments.</div><div class="growth-fee">Fee: $12,500–$25,000 · 30–60 min</div></div>
+        <div>
+          <div class="timeline-item"><div class="tl-lbl lc">Tier 03 · Premium</div><div class="tl-title">Structural Recalibration</div><div class="tl-body">30–90 day embedded engagement.<br><strong style="color:var(--gold);">$22,000–$45,000</strong></div></div>
+          <div class="timeline-item tl"><div class="tl-lbl">Tier 04 · Retainer</div><div class="tl-title">Stabilization Advisory</div><div class="tl-body">Monthly retainer, quarterly check-ins.<br><strong style="color:var(--gold);">$3,500–$7,500/mo</strong></div></div>
+        </div>
       </div>
 
       <div class="divider"></div>
 
-      <h3 style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--lilac);margin-bottom:14px;padding-left:4px;border-left:3px solid var(--lilac);">URI — Justice &amp; Formation Offerings</h3>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;">
-        <div class="uri-card"><div class="uri-tier">Tier 1 · Signature Keynote</div><div class="uri-title">Unmasking Identity &amp; Self-Stewardship in High-Demand Environments</div><div class="uri-detail">60–90 min · In-person or Virtual</div></div>
+      <!-- URI -->
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--lilac);margin-bottom:12px;padding-left:3px;border-left:3px solid var(--lilac);">URI — Justice &amp; Formation</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:22px;">
+        <div class="uri-card"><div class="uri-tier">Tier 1 · Signature Keynote</div><div class="uri-title">Unmasking Identity &amp; Self-Stewardship</div><div class="uri-detail">60–90 min · In-person or Virtual</div></div>
         <div class="uri-card"><div class="uri-tier">Tier 2 · Most Requested</div><div class="uri-title">Liberation &amp; Healing Intensive</div><div class="uri-detail">Half-Day · Full-Day · Multi-Day</div></div>
         <div class="uri-card"><div class="uri-tier">Tier 3 · Formation Series</div><div class="uri-title">Justice &amp; Formation Series</div><div class="uri-detail">3–6 Sessions · Custom Designed</div></div>
-        <div class="uri-card"><div class="uri-tier">Tier 4 · Advisory Partnership</div><div class="uri-title">Justice &amp; Formation Advisory Partnership</div><div class="uri-detail">3–6 Month Engagement</div></div>
-      </div>
-    </div><!-- /tab-growth -->
-
-    <!-- ─── FULFILLMENT TAB ─── -->
-    <div class="tab-content" id="tab-fulfillment">
-      <h1 class="section-title mogul-gradient" style="margin-bottom:6px;">The UNMASK Journey</h1>
-      <p class="section-sub" style="margin-bottom:28px;">Standard Delivery Lifecycle · 30–90 Day Recalibration · Blueprint Live</p>
-
-      <div class="timeline-item teal-line">
-        <div class="timeline-label">Entry Point</div>
-        <div class="timeline-title">Executive Briefing</div>
-        <div class="timeline-body">Speaking engagements, book sales, and facilitation lead here first.<br>30–60 min keynote or briefing that surfaces structural strain and creates demand for deeper work.<br><a href="https://docs.google.com/presentation/d/1nkKliZKybn1vifk7Pp_iilKIupP3_sT0/edit?usp=sharing" target="_blank" style="color:var(--teal);">View Executive Briefing Presentation →</a></div>
+        <div class="uri-card"><div class="uri-tier">Tier 4 · Advisory Partnership</div><div class="uri-title">Justice &amp; Formation Advisory</div><div class="uri-detail">3–6 Month Engagement</div></div>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-label lilac">Free Entry Options</div>
-        <div class="timeline-title">Structural Strain Score (SSS) or Volume 2 Purchase</div>
-        <div class="timeline-body">After the Executive Briefing, audience can take the free SSS or purchase Volume 2 as a low-barrier entry to the ecosystem.</div>
+      <div class="divider"></div>
+
+      <!-- Tech Stack -->
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);margin-bottom:12px;padding-left:3px;border-left:3px solid var(--teal);">Technology Stack</div>
+      <div class="card" style="padding:18px 22px;">
+        <div class="tech-row"><span style="font-weight:600;">GHL</span><span class="tech-role">CRM · ops · email/SMS · real estate · delivery</span><span class="tech-cost">Existing</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Google Workspace</span><span class="tech-role">Gemini · NotebookLM · Drive · Calendar · Meet</span><span class="tech-cost">$50/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">n8n Cloud</span><span class="tech-role">Agent coordination · scheduling · compilation</span><span class="tech-cost">~$26/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Claude API</span><span class="tech-role">Research Agent · CoS synthesis · reasoning</span><span class="tech-cost">~$10–30/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Airtable</span><span class="tech-role">Diagnostic storage · scoring · routing</span><span class="tech-cost">Free–$20/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Typeform</span><span class="tech-role">Diagnostic intake (SSS, LMI, RAAI, ABAI)</span><span class="tech-cost">~$25/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Bubble.io</span><span class="tech-role">UNMASK Recalibrate app · 1/3 built</span><span class="tech-cost">~$29–50/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Hunter.io</span><span class="tech-role">Gatekeeper contact verification before outreach</span><span class="tech-cost">~$49/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Canva Pro</span><span class="tech-role">Decks · social · brand · speaker materials</span><span class="tech-cost">~$17/mo</span></div>
+        <div class="tech-row"><span style="font-weight:600;">GitHub Pages</span><span class="tech-role">All 6 web properties · coded with Claude AI</span><span class="tech-cost">Free</span></div>
+        <div class="tech-row"><span style="font-weight:600;">Slack</span><span class="tech-role">Morning brief delivery surface</span><span class="tech-cost">Free</span></div>
       </div>
-
-      <div class="timeline-item teal-line">
-        <div class="timeline-label">Tier 02 · Diagnostic (Paid)</div>
-        <div class="timeline-title">Leadership Strain &amp; Accountability Audit</div>
-        <div class="timeline-body">Paid diagnostic combining LMI + RAA assessment. Includes 90-minute debrief, written report, and recommendations.<br><span style="color:var(--gold);font-weight:700;">Fee: $8,000–$15,000</span></div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-label lilac">Tier 03 · Recalibration (Premium)</div>
-        <div class="timeline-title">Structural Recalibration Engagement</div>
-        <div class="timeline-body">30–90 day embedded engagement. Includes diagnostics, team sessions, executive coaching, and structural redesign.<br><span style="color:var(--gold);font-weight:700;">Fee: $22,000–$45,000</span></div>
-      </div>
-
-      <div class="timeline-item teal-line">
-        <div class="timeline-label">Tier 04 · Stabilization (Retainer)</div>
-        <div class="timeline-title">Ongoing Advisory &amp; Stabilization</div>
-        <div class="timeline-body">Monthly retainer for organizations post-recalibration. Quarterly check-ins, on-call advisory, and implementation support.<br><span style="color:var(--gold);font-weight:700;">Fee: $3,500–$7,500/month</span></div>
-      </div>
-
-      <div class="card" style="padding:20px 24px;margin-top:8px;">
-        <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.1em;">Quick Agent Actions</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('unmask','Draft an Executive Briefing outreach email to a corporate HR leader')"><span>Draft Executive Briefing Outreach</span><span class="cmd-arrow">→</span></button>
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('unmask','Score this lead for the UNMASK diagnostic pipeline')"><span>Score a Lead</span><span class="cmd-arrow">→</span></button>
-        </div>
-      </div>
-    </div><!-- /tab-fulfillment -->
-
-    <!-- ─── INFRA TAB ─── -->
-    <div class="tab-content" id="tab-infra">
-      <h1 class="section-title mogul-gradient" style="margin-bottom:6px;">Infrastructure &amp; Finance</h1>
-      <p class="section-sub" style="margin-bottom:28px;">The Engine Room · Collective + Relay · $183,500 Revenue Roadmap</p>
-
-      <div class="card" style="padding:28px;margin-bottom:24px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;color:var(--teal);margin-bottom:20px;">90-Day Revenue Goals</div>
-        <div style="display:grid;grid-template-columns:1fr 2fr;gap:24px;align-items:start;">
-          <div>
-            <div style="font-size:11px;color:var(--slate);text-transform:uppercase;margin-bottom:6px;">Total Target</div>
-            <div style="font-size:36px;font-weight:700;">$183,500</div>
-            <div style="font-size:10px;color:var(--teal);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">IP-First: Blueprint + Diagnostics</div>
-          </div>
-          <div>
-            <div style="font-size:10px;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Cash Flow Priority</div>
-            <div class="infra-progress-row"><span class="infra-progress-label">Operating Buffer</span><span class="infra-progress-val" id="infra-buffer">$0 / $12,500</span></div>
-            <div class="progress-track" style="margin-bottom:14px;"><div class="progress-fill" style="width:0%"></div></div>
-            <div class="infra-progress-row"><span class="infra-progress-label">CEO Compensation</span><span class="infra-progress-val" id="infra-ceo">$0 / $50,000</span></div>
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-        <div class="card" style="padding:20px 24px;">
-          <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.1em;">Finance Platform</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Collective</div>
-          <div style="font-size:12px;color:var(--slate);margin-bottom:14px;">Business banking + expense management</div>
-          <div style="font-size:13px;font-weight:700;margin-bottom:4px;">Relay</div>
-          <div style="font-size:12px;color:var(--slate);">Secondary account for reserves + CEO comp</div>
-        </div>
-        <div class="card" style="padding:20px 24px;">
-          <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.1em;">Tech Stack</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Make.com</span><span style="color:var(--slate);">Automation</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Airtable</span><span style="color:var(--slate);">CRM + Data</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;"><span>GoHighLevel</span><span style="color:var(--slate);">Marketing + CRM</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Bubble.io</span><span style="color:var(--slate);">App Prototype (MVP)</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;"><span>Typeform</span><span style="color:var(--slate);">Diagnostics intake</span></div>
-          </div>
-        </div>
-      </div>
-    </div><!-- /tab-infra -->
-
-    <!-- ─── URI TAB ─── -->
-    <div class="tab-content" id="tab-uri">
-      <h1 class="section-title mogul-gradient" style="margin-bottom:6px;">URI Leadership</h1>
-      <p class="section-sub" style="margin-bottom:28px;">Urban Renewal Initiative · Faith, Justice &amp; Formation Track</p>
-
-      <div style="background:linear-gradient(135deg,rgba(172,109,191,0.08),rgba(88,187,194,0.08));border:1px solid rgba(172,109,191,0.2);border-radius:16px;padding:20px 24px;margin-bottom:24px;">
-        <p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.8);">URI serves churches, nonprofits, denominations, and justice-focused organizations with formation work rooted in identity, liberation, and sustainable leadership. URI signals drive 1 action per week alongside Strategic Transformations.</p>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px;">
-        <div class="uri-card"><div class="uri-tier">Tier 1 · Signature Keynote</div><div class="uri-title">Unmasking Identity &amp; Self-Stewardship</div><div class="uri-detail" style="margin-top:6px;">In high-demand ministry and justice environments. 60–90 min · In-person or Virtual.</div></div>
-        <div class="uri-card"><div class="uri-tier">Tier 2 · Most Requested</div><div class="uri-title">Liberation &amp; Healing Intensive</div><div class="uri-detail" style="margin-top:6px;">Deep-dive formation for leadership teams. Half-Day · Full-Day · Multi-Day.</div></div>
-        <div class="uri-card"><div class="uri-tier">Tier 3 · Formation Series</div><div class="uri-title">Justice &amp; Formation Series</div><div class="uri-detail" style="margin-top:6px;">Custom-designed 3–6 session arc for denominational or organizational cohorts.</div></div>
-        <div class="uri-card"><div class="uri-tier">Tier 4 · Advisory Partnership</div><div class="uri-title">Justice &amp; Formation Advisory Partnership</div><div class="uri-detail" style="margin-top:6px;">3–6 month embedded advisory for organizations in structural transition.</div></div>
-      </div>
-
-      <div class="card" style="padding:20px 24px;">
-        <div style="font-size:12px;font-weight:700;color:var(--lilac);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.1em;">Quick Agent Actions</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('miner','Find 3 URI signals this week — churches, denominations, or justice organizations that need formation work')"><span>Find URI Signals This Week</span><span class="cmd-arrow">→</span></button>
-          <button class="cmd-btn" style="width:auto;" onclick="triggerCommand('content','Draft a URI newsletter on identity and justice in leadership')"><span>Draft URI Newsletter</span><span class="cmd-arrow">→</span></button>
-        </div>
-      </div>
-    </div><!-- /tab-uri -->
+    </div><!-- /reference -->
 
   </main><!-- /main-content -->
-
 </div><!-- /os-body -->
 
-<!-- ══════════════ AGENT PANEL ══════════════ -->
+<!-- ══════════════════ AGENT PANEL ══════════════════ -->
 <div id="agent-panel">
-  <div id="agent-panel-header">
-    <span class="ap-icon" id="ap-icon">🤖</span>
-    <div>
-      <div class="ap-name" id="ap-name">Agent</div>
-      <div class="ap-status" id="ap-status">Ready</div>
-    </div>
-    <button id="close-panel-btn" onclick="closeAgentPanel()">✕</button>
+  <div id="ap-header">
+    <span id="ap-icon" style="font-size:18px;">🤖</span>
+    <div><div class="ap-name" id="ap-name">Agent</div><div class="ap-status" id="ap-status">Ready</div></div>
+    <button id="ap-clear" onclick="clearConvo()" title="Clear conversation">Clear</button>
+    <button id="ap-close" onclick="closePanel()">✕</button>
   </div>
-  <div id="agent-messages">
-    <div class="agent-empty-state" id="agent-empty">
-      <div class="empty-icon">⚡</div>
-      <p>Select an agent or use the command menu to get started.<br><br>Add your Claude API key in Settings to enable live responses.</p>
+  <div id="agent-msgs">
+    <div class="ap-empty" id="ap-empty">
+      <div class="ap-empty-icon">⚡</div>
+      <p>Select an agent or command to get started.<br><br>Add your Claude API key in <strong>Settings</strong> to enable live responses.</p>
     </div>
   </div>
-  <div id="agent-input-area">
-    <div class="input-row">
-      <textarea id="agent-input" placeholder="Type a message or command..." rows="1"></textarea>
-      <button id="agent-send-btn" onclick="sendAgentMessage()">Send</button>
+  <div id="ap-input-area">
+    <div class="ap-row">
+      <textarea id="ap-input" placeholder="Type or paste a message..." rows="1"></textarea>
+      <button id="ap-send" onclick="sendMsg()">Send</button>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
-      <button class="copy-prompt-btn" id="copy-full-prompt-btn" onclick="copyFullPrompt()">Copy prompt to clipboard</button>
-      <span style="font-size:10px;color:rgba(148,163,184,0.3);" id="agent-model-label"></span>
+    <div class="ap-footer">
+      <button class="copy-prompt" onclick="copyPrompt()">Copy full prompt to clipboard</button>
+      <span class="ap-model" id="ap-model"></span>
     </div>
   </div>
 </div>
 
-<!-- ══════════════ SETTINGS MODAL ══════════════ -->
-<div id="settings-overlay" onclick="closeSettingsOutside(event)">
-  <div id="settings-modal">
-    <div class="settings-title mogul-gradient">Mogul OS Settings</div>
-
-    <label class="settings-label">Claude API Key</label>
-    <input class="settings-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
-    <div class="settings-note">Your key is stored only in your browser's localStorage. It is never sent anywhere except directly to the Anthropic API. Get a key at console.anthropic.com.</div>
-
-    <label class="settings-label">Model</label>
-    <select class="settings-input" id="model-select" style="cursor:pointer;">
+<!-- ══════════════════ SETTINGS MODAL ══════════════════ -->
+<div id="set-overlay" onclick="closeSetOutside(event)">
+  <div id="set-modal">
+    <div class="set-title mg">Mogul OS Settings</div>
+    <label class="set-lbl">Claude API Key</label>
+    <input class="set-input" type="password" id="set-key" placeholder="sk-ant-api03-...">
+    <div class="set-note">Stored only in your browser's localStorage — sent exclusively to api.anthropic.com. Get your key at console.anthropic.com.</div>
+    <label class="set-lbl">Model</label>
+    <select class="set-input" id="set-model" style="cursor:pointer;">
       <option value="claude-opus-4-7">claude-opus-4-7 (Most capable)</option>
       <option value="claude-sonnet-4-6">claude-sonnet-4-6 (Balanced)</option>
       <option value="claude-haiku-4-5-20251001">claude-haiku-4-5-20251001 (Fast)</option>
     </select>
-
-    <div class="settings-row">
+    <div class="set-row">
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
-      <button class="btn-save" onclick="saveSettings()">Save Settings</button>
+      <button class="btn-save" onclick="saveSettings()">Save</button>
     </div>
   </div>
 </div>
 
-<script>
-// ══════════════════════════════════════════════════════════════
-// MOGUL OS RUNTIME
-// ══════════════════════════════════════════════════════════════
+<!-- ══════════════════ MOBILE NAV ══════════════════ -->
+<nav id="mobile-nav">
+  <button class="mnav-btn active" data-tab="today"><div class="mi">🌅</div><div class="ml">Today</div></button>
+  <button class="mnav-btn" data-tab="tasks"><div class="mi">✅</div><div class="ml">Tasks</div></button>
+  <button class="mnav-btn" data-tab="agents"><div class="mi">🤖</div><div class="ml">Agents</div></button>
+  <button class="mnav-btn" data-tab="revenue"><div class="mi">💰</div><div class="ml">Revenue</div></button>
+  <button class="mnav-btn" data-tab="reference"><div class="mi">📚</div><div class="ml">More</div></button>
+</nav>
 
-const STORAGE = {
-  apiKey: 'mogul-api-key',
-  model: 'mogul-model',
-  tasks: 'mogul-tasks',
-  kpis: 'mogul-kpis',
-  conversations: 'mogul-convos',
-  agentBadge: 'mogul-agent-badge',
+<script>
+// ══════════════════════════════════════════════════════════
+// MOGUL OS v2 — MASTER INTELLIGENCE SYSTEM INTERFACE
+// ══════════════════════════════════════════════════════════
+
+const SK = { // storage keys
+  brief:'mogul-brief', captures:'mogul-captures', tasks:'mogul-tasks',
+  kpis:'mogul-kpis', convos:'mogul-convos', kanban:'mogul-kanban',
+  key:'mogul-api-key', model:'mogul-model'
 };
 
-// ── AGENTS CONFIG ──
+function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function load(k,def){ try{ const r=localStorage.getItem(k); return r?JSON.parse(r):def; }catch(e){ return def; } }
+
+// ── AGENTS ──
 const AGENTS = {
-  cos: {
-    icon: '🧭', name: 'Daily Chief of Staff', defaultMsg: 'Give me my Daily COS Brief',
-    system: `You are the Daily Chief of Staff for Nikki Cates, founder of Strategic Transformations and URI Leadership Network. You are sharp, strategic, and direct — no fluff.
+  cos:{icon:'🧭',name:'Daily Chief of Staff',def:'Give me my Daily COS Brief',
+    sys:`You are the Daily Chief of Staff for Nikki Cates, CEO/Founder of Strategic Transformations and URI (Unbothered Resistance International). Sharp, strategic, direct — no fluff.
 
 Business context:
-- Strategic Transformations: Executive consulting, keynotes ($12,500–$25,000), full-day workshops ($15,000/day), diagnostics (LMI, RAA, AI Burnout Index — $8,000–$22,000)
+- Strategic Transformations: Executive consulting, keynotes ($12,500–$25,000), full-day workshops ($15,000/day), diagnostics (SSS free; LMI, RAAI, ABAI each $8,000–$15,000)
 - URI: Faith-based justice and formation for churches, nonprofits, denominations
-- 90-day revenue goal: $183,500 total
-- Current IP: LMI (Leadership Masking Index — LIVE on Typeform/Airtable), RAA and AI Burnout Index (in development)
-- Tools: Make.com, Airtable, GoHighLevel (GHL), Bubble.io
-- Sprint deadline: April 27, 2026 — Pici & Pici Bootcamp readiness
+- 90-day revenue goal: $183,500 — IP-first: Blueprint + Diagnostics
+- MIS build: 10-week Master Intelligence System (n8n + 4 agent pillars + CoS briefing)
+- Stack: GHL (CRM/ops), Google Workspace, n8n Cloud, Claude API, Hunter.io, Airtable, Typeform, Bubble.io, Canva, GitHub Pages, Slack
+- Grad school: active — track deadlines and reading queue
+- Real estate: active pipeline in GHL
+- Sprint deadline: April 27, 2026 — Pici & Pici Bootcamp ready
 
-When asked for a Daily COS Brief, provide:
-**TODAY'S PRIORITIES** — top 3 revenue-generating actions
-**PIPELINE CHECK** — questions to assess deal movement
-**PROTECT YOUR FOCUS** — what to defer or ignore today
-**QUICK WIN** — one action under 30 minutes
+The morning brief has 7 sections:
+**URGENT** (max 3 — decisions needed today)
+**IMPORTANT** (max 5 — move forward this week)
+**HANDLED** (what's been done — no action needed)
+**GRAD SCHOOL** (deadlines, reading queue, academic priority)
+**REAL ESTATE** (warm leads, follow-ups, market signals from GHL)
+**RESEARCH SIGNAL** (top 2–3 insights worth Founder attention)
+**TODAY'S RECOMMENDED FOCUS** (3 highest-leverage actions)
 
-Be direct. Executive-grade. Treat her like the CEO she is.`
-  },
-  miner: {
-    icon: '🔍', name: 'Source Miner', defaultMsg: 'Run Source Miner',
-    system: `You are the Source Miner for Nikki Cates. You are a research and signals desk for a strategic transformation consultant.
+The CoS Agent recommends. The Founder decides. This relationship must never be reversed.`},
 
-Your job: surface weekly intelligence that Nikki can act on. Two tracks:
-1. STRATEGIC TRANSFORMATIONS signals — corporate, executive, leadership, AI, burnout, org design, workforce trends
+  miner:{icon:'🔍',name:'Source Miner',def:'Run Source Miner',
+    sys:`You are the Source Miner for Nikki Cates. Surface weekly intelligence across two tracks:
+
+1. STRATEGIC TRANSFORMATIONS signals — corporate, executive, leadership, AI acceleration, burnout, org design, workforce trends
 2. URI signals — faith communities, denominations, justice organizations, formation work, church leadership burnout
 
-For each signal provide: the trend/signal, why it matters for Nikki's work, and a concrete action she can take (outreach target, content angle, or speaking hook).
-
-Format each signal clearly:
+Per signal:
 **[SIGNAL NAME]**
 Track: ST or URI
 Signal: [what's happening]
-Why it matters: [connection to Nikki's IP]
-Action: [specific step]
+Why it matters: [connection to Nikki's IP — SSS/LMI/RAAI/ABAI framework]
+Action: [specific step — outreach target, content angle, or speaking hook]
 
-Surface 3 ST signals and 2 URI signals per run. Be specific — real industries, real contexts, real hooks.`
-  },
-  router: {
-    icon: '🗺️', name: 'Weekly Router', defaultMsg: 'Route this week',
-    system: `You are the Weekly Router for Nikki Cates. Your job is to look at the week and make one clear decision: which 1 Strategic Transformations signal and which 1 URI signal to act on this week.
+Surface 3 ST signals and 2 URI signals. Be specific — real industries, real contexts.`},
 
-You help Nikki avoid chasing every signal. One ST. One URI. Then a concrete action plan for each.
+  router:{icon:'🗺️',name:'Weekly Router',def:'Route this week',
+    sys:`You are the Weekly Router for Nikki Cates. One job: choose 1 ST signal and 1 URI signal for this week. Then build a concrete action plan for each.
 
-When routing, provide:
-**THIS WEEK'S ST SIGNAL** — [chosen signal + why]
-**THIS WEEK'S URI SIGNAL** — [chosen signal + why]
+**THIS WEEK'S ST SIGNAL** — [chosen + why]
+**THIS WEEK'S URI SIGNAL** — [chosen + why]
 **ACTION PLAN**
-- ST track: 3 specific actions (outreach, content, speaking pipeline)
-- URI track: 3 specific actions (outreach, newsletter angle, formation hook)
+ST track: 3 specific actions
+URI track: 3 specific actions
 **WHAT TO DEFER** — everything else
 
-Be decisive. Don't hedge. Make the call.`
-  },
-  speaking: {
-    icon: '🎤', name: 'Speaking / Workshops Agent', defaultMsg: 'Find speaking leads',
-    system: `You are the Speaking & Workshops Agent for Nikki Cates. You find, score, and help close speaking, workshop, retreat, and conference opportunities.
+Be decisive. Don't hedge. The Rule: one ST signal, one URI signal per week.`},
 
-Nikki's speaking fees: $12,500–$25,000 for keynotes. $15,000/day for workshops.
-Signature talks:
-- Stop the Strain Transfer (leadership burnout as structural failure)
-- Your Leadership Pipeline Is Leaking (authority gap + 213% replacement cost)
-- When AI Breaks the Bridge (decision-rights in automation era)
-- False Urgency (everything-critical organizational dysfunction)
-- Sovereign Power (women's leadership without burnout)
+  speaking:{icon:'🎤',name:'Speaking / Workshops Agent',def:'Find speaking leads',
+    sys:`You are the Speaking & Workshops Agent for Nikki Cates.
 
-Target venues: HR conferences, leadership summits, executive retreats, women's leadership events, DEI-focused corporate events, higher ed leadership conferences, association events.
+Fees: keynotes $12,500–$25,000 / workshops $15,000/day
+Signature talks: Stop the Strain Transfer · Your Leadership Pipeline Is Leaking · When AI Breaks the Bridge · False Urgency · Sovereign Power
+Target venues: HR conferences, leadership summits, executive retreats, women's leadership events, DEI corporate events, higher ed leadership, association events
 
-When finding leads, provide:
-**OPPORTUNITY NAME + ORG**
-Type: [keynote / workshop / retreat / summit]
-Fee range fit: [yes/no + reasoning]
-Fit score: [1–10]
-Hook angle: [which talk fits + why]
-Next action: [draft outreach / find contact / submit proposal]
+Per opportunity:
+**OPPORTUNITY / ORG**
+Type: keynote / workshop / retreat / summit
+Fee fit: yes/no + reasoning
+Fit score: 1–10
+Hook angle: which talk + why
+Next action: outreach / contact / proposal
 
-Then draft outreach if asked.`
-  },
-  unmask: {
-    icon: '🔓', name: 'Executive Briefing / UNMASK Agent', defaultMsg: 'Find Executive Briefing leads',
-    system: `You are the Executive Briefing & UNMASK Agent for Nikki Cates. You find, score, and draft outreach for the UNMASK diagnostic pipeline.
+Draft outreach when asked. Executive-grade tone.`},
 
-The pipeline:
-1. Executive Briefing (entry: $0, or part of speaking fee) → surfaces structural strain
-2. Structural Strain Score (free diagnostic, pulls toward paid)
-3. Leadership Strain & Accountability Audit — LMI + RAA combined ($8,000–$15,000)
-4. Structural Recalibration Engagement ($22,000–$45,000 / 30–90 days)
-5. Stabilization Retainer ($3,500–$7,500/month)
+  unmask:{icon:'🔓',name:'Executive Briefing / UNMASK Agent',def:'Find Executive Briefing leads',
+    sys:`You are the Executive Briefing & UNMASK Agent for Nikki Cates.
 
-Target profiles: CHROs, COOs, CEOs of 100–5,000 person orgs; organizations post-merger, post-layoff, or in rapid growth; institutions with high leadership turnover; mission-driven orgs with burnout patterns.
+Pipeline: Executive Briefing (entry) → SSS (free) → LMI/RAAI Audit ($8–15k) → Structural Recalibration ($22–45k) → Stabilization Retainer ($3.5–7.5k/mo)
 
-When finding leads:
+Target: CHROs, COOs, CEOs at 100–5,000 person orgs. Post-merger, post-layoff, rapid growth, high leadership turnover, mission-driven orgs with burnout patterns.
+
+Per lead:
 **ORG / CONTACT**
 Industry + size:
-Entry signal: [what indicator suggests strain]
-Fit score: [1–10]
-Recommended entry point: [Executive Briefing / SSS / LMI direct]
-Draft outreach: [yes — include below if asked]
+Entry signal: [structural strain indicator]
+Fit score: 1–10
+Entry point: [Executive Briefing / SSS / LMI direct]
+Draft outreach: [include when asked — warm, direct, never pitchy]`},
 
-Outreach should be warm, direct, and executive-grade. Never pitchy.`
-  },
-  content: {
-    icon: '✍🏾', name: 'Content + Thought Leadership', defaultMsg: 'Turn this into content',
-    system: `You are the Content & Thought Leadership Agent for Nikki Cates. You turn signals, source material, and ideas into high-quality authority content.
+  content:{icon:'✍🏾',name:'Content + Thought Leadership',def:'Turn this into content',
+    sys:`You are the Content & Thought Leadership Agent for Nikki Cates.
 
-Content types:
-- UNMASK Report newsletter (executive audience, diagnostic tone, industrial data)
-- URI Newsletter (faith community, justice-centered, identity-focused)
-- LinkedIn posts (Unbothered Insights — structural takes, authority gaps, no-fluff)
-- Executive briefing angles
-- Workshop framing copy
+Channels: UNMASK Report newsletter (executive, diagnostic, industrial data) · URI Newsletter (faith, justice, identity) · LinkedIn Unbothered Insights (structural takes, authority gaps, no-fluff) · Executive briefing angles
 
-Nikki's voice: direct, confident, structural (not motivational), practitioner-grounded, faith-informed (for URI), zero-fluff. She doesn't inspire — she diagnoses and recalibrates.
+Voice: direct, confident, structural (not motivational), practitioner-grounded, faith-informed for URI, zero-fluff. She diagnoses and recalibrates — she does not inspire.
 
-Always match the format to the channel. LinkedIn = punchy + scroll-stopping. Newsletter = depth + data + one clear takeaway. Briefing angles = executive framing, business impact.`
-  },
-  architect: {
-    icon: '🏗️', name: 'Speaking / Offer Architect', defaultMsg: 'Turn this into a keynote/workshop',
-    system: `You are the Speaking & Offer Architect for Nikki Cates. You build talk titles, abstracts, workshop outlines, and event-facing offer copy.
+Match format to channel. LinkedIn = punchy + scroll-stopping. Newsletter = depth + data + one clear takeaway.`},
 
-Nikki's framework pillars: structural strain, leadership masking, authority gaps, responsibility-authority asymmetry, recalibration vs. wellness.
+  architect:{icon:'🏗️',name:'Speaking / Offer Architect',def:'Turn this into a keynote/workshop',
+    sys:`You are the Speaking & Offer Architect for Nikki Cates.
 
-When building a talk or workshop:
+Framework pillars: structural strain · leadership masking · authority gaps · responsibility-authority asymmetry · recalibration vs. wellness
+
+Per talk/workshop:
 1. TITLE OPTIONS (3 variants: direct, provocative, question-form)
 2. ABSTRACT (100-word version for event programs)
-3. AUDIENCE FIT (who this is for, why they need it now)
+3. AUDIENCE FIT (who + why now)
 4. KEY TAKEAWAYS (3–5 concrete outcomes)
-5. WORKSHOP OUTLINE (if applicable: session arc, timing, deliverables)
-6. EVENT-FACING COPY (booking page / speaker bio integration)
+5. WORKSHOP OUTLINE (session arc, timing, deliverables if applicable)
+6. EVENT-FACING COPY
 
-Keep the language structural, not motivational. Nikki doesn't inspire people — she recalibrates systems.`
-  }
+Language: structural, not motivational. Nikki recalibrates systems — she does not inspire people.`}
 };
 
 // ── STATE ──
 let currentAgent = null;
-let conversations = JSON.parse(localStorage.getItem(STORAGE.conversations) || '{}');
+let convos = load(SK.convos, {});
+let briefState = load(SK.brief, {urgent:[],important:[],handled:[],focus:[],grad:[],realestate:[],research:[]});
+let captureLog = load(SK.captures, []);
 let isStreaming = false;
-let currentSystemPrompt = '';
 
 // ── CLOCK ──
-function updateClock() {
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  const date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-  document.getElementById('live-clock').textContent = time;
-  document.getElementById('live-date').textContent = date;
+function updateClock(){
+  const n = new Date();
+  const t = n.toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit'});
+  const d = n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  document.getElementById('live-clock').textContent = t;
+  document.getElementById('live-date').textContent = d;
+  updateGreeting(n);
 }
-updateClock();
-setInterval(updateClock, 1000);
-
-// ── LAST REFRESH ──
-function updateLastRefresh() {
-  const el = document.getElementById('last-refresh');
-  if (el) el.textContent = 'Refreshed ' + new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
+function updateGreeting(n){
+  const h = n.getHours();
+  const g = h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  const greet = document.getElementById('today-greeting');
+  if(greet && !greet._set){ greet.textContent = (h<12?'Good morning, Nikki.':h<17?'Good afternoon, Nikki.':'Good evening, Nikki.'); greet._set=true; }
 }
-updateLastRefresh();
-setInterval(updateLastRefresh, 5 * 60 * 1000);
+updateClock(); setInterval(updateClock,1000);
 
-// ── TAB NAVIGATION ──
-function switchTab(tabName) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  const tab = document.getElementById('tab-' + tabName);
-  if (tab) tab.classList.add('active');
-  const btn = document.querySelector(`.nav-btn[data-tab="${tabName}"]`);
-  if (btn) btn.classList.add('active');
+function updateRefresh(){
+  const el=document.getElementById('last-refresh');
+  if(el) el.textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 }
+updateRefresh(); setInterval(updateRefresh,5*60*1000);
 
-document.querySelectorAll('.nav-btn[data-tab]').forEach(btn => {
-  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+// ── TABS ──
+function switchTab(name){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn[data-tab],.mnav-btn[data-tab]').forEach(el=>el.classList.remove('active'));
+  const tab=document.getElementById('tab-'+name);
+  if(tab) tab.classList.add('active');
+  document.querySelectorAll(`[data-tab="${name}"]`).forEach(el=>el.classList.add('active'));
+}
+document.querySelectorAll('[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
 });
 
+// ── BRIEF SECTIONS ──
+const SECTION_META = {
+  urgent:{dot:'urgent',max:3,countEl:'cnt-urgent'},
+  important:{dot:'important',max:5,countEl:'cnt-important'},
+  handled:{dot:'handled'},
+  focus:{dot:'teal'},
+  grad:{dot:'teal'},
+  realestate:{dot:'gold',dotClass:''},
+  research:{dot:'teal'}
+};
+
+function renderBrief(){
+  Object.keys(SECTION_META).forEach(s=>{
+    const el=document.getElementById('items-'+s);
+    if(!el) return;
+    const items=briefState[s]||[];
+    const meta=SECTION_META[s];
+    if(meta.countEl){ const ce=document.getElementById(meta.countEl); if(ce) ce.textContent=items.length+'/'+(meta.max||'∞'); }
+    if(!items.length){ el.innerHTML='<div class="bc-empty">Nothing yet — add above or run an agent.</div>'; return; }
+    el.innerHTML='';
+    items.forEach((item,i)=>{
+      const row=document.createElement('div'); row.className='bc-item';
+      row.innerHTML=`<div class="bc-item-dot ${meta.dot}"></div><span style="flex:1;font-size:12px;">${esc(item)}</span><button class="bc-del" onclick="removeItem('${s}',${i})" title="Remove">×</button>`;
+      el.appendChild(row);
+    });
+  });
+  save(SK.brief,briefState);
+}
+
+function addItem(section){
+  const inp=document.getElementById('in-'+section);
+  if(!inp) return;
+  const val=inp.value.trim();
+  if(!val) return;
+  const meta=SECTION_META[section];
+  if(!briefState[section]) briefState[section]=[];
+  if(meta.max && briefState[section].length>=meta.max) return;
+  briefState[section].push(val);
+  inp.value='';
+  renderBrief();
+}
+
+function removeItem(section,i){
+  briefState[section].splice(i,1);
+  renderBrief();
+}
+
+function clearSection(section){
+  briefState[section]=[];
+  renderBrief();
+}
+
+// Enter key on brief inputs
+document.querySelectorAll('.bc-input').forEach(inp=>{
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){ e.preventDefault(); const s=inp.id.replace('in-',''); addItem(s); }
+  });
+});
+
+renderBrief();
+
+// Auto-populate brief from agent COS response
+function parseCOSResponse(text){
+  const sections = {
+    urgent:/##URGENT##([\s\S]*?)##\/URGENT##/i,
+    important:/##IMPORTANT##([\s\S]*?)##\/IMPORTANT##/i,
+    handled:/##HANDLED##([\s\S]*?)##\/HANDLED##/i,
+    focus:/##FOCUS##([\s\S]*?)##\/FOCUS##/i,
+    grad:/##GRAD[^#]*##([\s\S]*?)##\/GRAD[^#]*##/i,
+    realestate:/##REAL[^#]*##([\s\S]*?)##\/REAL[^#]*##/i,
+    research:/##RESEARCH[^#]*##([\s\S]*?)##\/RESEARCH[^#]*##/i,
+  };
+  let found=false;
+  Object.entries(sections).forEach(([k,rx])=>{
+    const m=text.match(rx);
+    if(m){
+      found=true;
+      const items=m[1].trim().split('\n').map(l=>l.replace(/^[-•*\d.]+\s*/,'').trim()).filter(l=>l.length>2);
+      briefState[k]=[...new Set([...(briefState[k]||[]),...items])].slice(0,10);
+    }
+  });
+  if(found){ renderBrief(); switchTab('today'); }
+}
+
+// ── CAPTURE ──
+function submitCapture(){
+  const inp=document.getElementById('capture-input');
+  const val=inp.value.trim();
+  if(!val) return;
+  captureLog.unshift({text:val,ts:Date.now()});
+  if(captureLog.length>20) captureLog.pop();
+  save(SK.captures,captureLog);
+  inp.value=''; inp.style.height='auto';
+  renderCaptures();
+}
+
+function renderCaptures(){
+  const container=document.getElementById('capture-log');
+  if(!container) return;
+  const recent=captureLog.slice(0,5);
+  if(!recent.length){ container.innerHTML=''; return; }
+  container.innerHTML=recent.map((c,i)=>`
+    <div class="capture-item">
+      <span>${esc(c.text)}</span>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <span class="capture-ts">${new Date(c.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</span>
+        <button class="capture-del" onclick="deleteCapture(${i})" title="Delete">×</button>
+      </div>
+    </div>`).join('');
+}
+
+function deleteCapture(i){
+  captureLog.splice(i,1);
+  save(SK.captures,captureLog);
+  renderCaptures();
+}
+
+document.getElementById('capture-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); submitCapture(); }
+});
+document.getElementById('capture-input').addEventListener('input',function(){
+  this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,80)+'px';
+});
+
+renderCaptures();
+
 // ── TASKS ──
-function loadTasks() {
-  const saved = JSON.parse(localStorage.getItem(STORAGE.tasks) || '{}');
-  document.querySelectorAll('.task-cb').forEach(cb => {
-    if (saved[cb.dataset.key]) cb.checked = true;
+function loadTasks(){
+  const saved=load(SK.tasks,{});
+  document.querySelectorAll('.task-cb').forEach(cb=>{
+    if(saved[cb.dataset.key]) cb.checked=true;
   });
   updateTaskBadge();
 }
 
-function updateTaskBadge() {
-  const all = document.querySelectorAll('.task-cb');
-  const done = document.querySelectorAll('.task-cb:checked');
-  const badge = document.getElementById('task-progress-badge');
-  if (badge) badge.textContent = done.length + '/' + all.length;
+function updateTaskBadge(){
+  const all=document.querySelectorAll('.task-cb').length;
+  const done=document.querySelectorAll('.task-cb:checked').length;
+  const b=document.getElementById('task-badge');
+  if(b) b.textContent=done+'/'+all;
 }
 
-document.querySelectorAll('.task-cb').forEach(cb => {
-  cb.addEventListener('change', () => {
-    const saved = JSON.parse(localStorage.getItem(STORAGE.tasks) || '{}');
-    saved[cb.dataset.key] = cb.checked;
-    localStorage.setItem(STORAGE.tasks, JSON.stringify(saved));
+document.querySelectorAll('.task-cb').forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const saved=load(SK.tasks,{});
+    saved[cb.dataset.key]=cb.checked;
+    save(SK.tasks,saved);
     updateTaskBadge();
   });
 });
 loadTasks();
 
-// ── PROGRESS BARS (animate in) ──
-function animateProgress() {
-  setTimeout(() => {
-    document.getElementById('prog-speaking').style.width = '82%';
-    document.getElementById('prog-workshops').style.width = '72%';
-    document.getElementById('prog-diagnostics').style.width = '65%';
-    document.getElementById('prog-total').style.width = '101%';
-    const pct = Math.round((186000/183500)*100);
-    const pctEl = document.getElementById('pct-label');
-    if (pctEl) pctEl.textContent = pct + '% closed';
-  }, 300);
+// ── KANBAN ──
+let kanban=load(SK.kanban,{now:[],week:[],later:[
+  {text:'UNMASK Recalibrate App (Bubble.io)',track:'biz'},
+  {text:'MIS Phase 3 — Research Agent build',track:'biz'},
+  {text:'Dissertation chapter 2 outline',track:'grad'},
+  {text:'Speaking / Offer Architect agent setup',track:'write'},
+]});
+
+function renderKanban(){
+  ['now','week','later'].forEach(col=>{
+    const el=document.getElementById('kanban-'+col);
+    if(!el) return;
+    const items=kanban[col]||[];
+    el.innerHTML='';
+    items.forEach((item,i)=>{
+      const d=document.createElement('div'); d.className='kanban-item';
+      const trackClass={'biz':'kt-biz','grad':'kt-grad','write':'kt-write'}[item.track||'biz']||'kt-biz';
+      const trackLabel={'biz':'Business','grad':'Grad School','write':'Writing'}[item.track||'biz']||'Business';
+      d.innerHTML=`<div class="kanban-track ${trackClass}">${trackLabel}</div>${esc(item.text)}<button style="float:right;background:none;border:none;color:rgba(148,163,184,.25);cursor:pointer;font-size:11px;" onclick="removeKanban('${col}',${i})">×</button>`;
+      el.appendChild(d);
+    });
+  });
+  save(SK.kanban,kanban);
 }
-animateProgress();
+
+function addKanban(col){
+  const text=prompt('Add to '+col+' (track: biz/grad/write): ');
+  if(!text) return;
+  if(!kanban[col]) kanban[col]=[];
+  kanban[col].push({text:text.trim(),track:'biz'});
+  renderKanban();
+}
+
+function removeKanban(col,i){
+  kanban[col].splice(i,1);
+  renderKanban();
+}
+
+renderKanban();
 
 // ── KPI EDITS ──
-['kpi-speaking','kpi-workshops','kpi-diagnostics'].forEach(id => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('blur', () => {
-    const saved = JSON.parse(localStorage.getItem(STORAGE.kpis) || '{}');
-    saved[id] = el.textContent;
-    localStorage.setItem(STORAGE.kpis, JSON.stringify(saved));
-  });
-  el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
-});
-
-function loadKPIs() {
-  const saved = JSON.parse(localStorage.getItem(STORAGE.kpis) || '{}');
-  Object.entries(saved).forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  });
+function loadKPIs(){
+  const saved=load(SK.kpis,{});
+  Object.entries(saved).forEach(([id,val])=>{ const el=document.getElementById(id); if(el) el.textContent=val; });
 }
+['kpi-speaking','kpi-workshops','kpi-diagnostics'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('blur',()=>{ const s=load(SK.kpis,{}); s[id]=el.textContent; save(SK.kpis,s); });
+  el.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();el.blur();} });
+});
 loadKPIs();
 
+// Progress bars
+setTimeout(()=>{
+  document.getElementById('prog-s').style.width='82%';
+  document.getElementById('prog-w').style.width='72%';
+  document.getElementById('prog-d').style.width='65%';
+  document.getElementById('prog-total').style.width='101%';
+},400);
+
 // ── API STATUS ──
-function updateApiStatus() {
-  const key = localStorage.getItem(STORAGE.apiKey);
-  const dot = document.getElementById('api-dot');
-  const label = document.getElementById('api-label');
-  const modelLabel = document.getElementById('agent-model-label');
-  const model = localStorage.getItem(STORAGE.model) || 'claude-opus-4-7';
-  if (key) {
-    dot.className = 'status-dot';
-    label.textContent = 'Agent Live';
-    if (modelLabel) modelLabel.textContent = model;
-  } else {
-    dot.className = 'status-dot standby';
-    label.textContent = 'Add API Key';
-    if (modelLabel) modelLabel.textContent = 'No key set';
-  }
+function updateApiStatus(){
+  const key=localStorage.getItem(SK.key);
+  const model=localStorage.getItem(SK.model)||'claude-opus-4-7';
+  const dot=document.getElementById('api-dot');
+  const lbl=document.getElementById('api-label');
+  const ml=document.getElementById('ap-model');
+  if(key){ dot.className='sdot'; lbl.textContent='Agent Live'; if(ml) ml.textContent=model; }
+  else{ dot.className='sdot standby'; lbl.textContent='Add API Key'; if(ml) ml.textContent='No key'; }
 }
 updateApiStatus();
 
 // ── SETTINGS ──
-function openSettings() {
-  const overlay = document.getElementById('settings-overlay');
-  overlay.classList.add('open');
-  const key = localStorage.getItem(STORAGE.apiKey) || '';
-  document.getElementById('api-key-input').value = key;
-  const model = localStorage.getItem(STORAGE.model) || 'claude-opus-4-7';
-  document.getElementById('model-select').value = model;
+function openSettings(){
+  document.getElementById('set-overlay').classList.add('open');
+  document.getElementById('set-key').value=localStorage.getItem(SK.key)||'';
+  document.getElementById('set-model').value=localStorage.getItem(SK.model)||'claude-opus-4-7';
 }
-
-function closeSettings() {
-  document.getElementById('settings-overlay').classList.remove('open');
-}
-
-function closeSettingsOutside(e) {
-  if (e.target === document.getElementById('settings-overlay')) closeSettings();
-}
-
-function saveSettings() {
-  const key = document.getElementById('api-key-input').value.trim();
-  const model = document.getElementById('model-select').value;
-  if (key) localStorage.setItem(STORAGE.apiKey, key);
-  else localStorage.removeItem(STORAGE.apiKey);
-  localStorage.setItem(STORAGE.model, model);
-  closeSettings();
-  updateApiStatus();
+function closeSettings(){ document.getElementById('set-overlay').classList.remove('open'); }
+function closeSetOutside(e){ if(e.target===document.getElementById('set-overlay')) closeSettings(); }
+function saveSettings(){
+  const k=document.getElementById('set-key').value.trim();
+  const m=document.getElementById('set-model').value;
+  if(k) localStorage.setItem(SK.key,k); else localStorage.removeItem(SK.key);
+  localStorage.setItem(SK.model,m);
+  closeSettings(); updateApiStatus();
 }
 
 // ── AGENT PANEL ──
-function openAgentPanel(agentId, prefillMsg) {
-  const agent = AGENTS[agentId];
-  if (!agent) return;
-  currentAgent = agentId;
-  currentSystemPrompt = agent.system;
-
-  document.getElementById('ap-icon').textContent = agent.icon;
-  document.getElementById('ap-name').textContent = agent.name;
-  document.getElementById('ap-status').textContent = 'Ready';
+function openAgent(id,prefill){
+  const a=AGENTS[id]; if(!a) return;
+  currentAgent=id;
+  document.getElementById('ap-icon').textContent=a.icon;
+  document.getElementById('ap-name').textContent=a.name;
+  document.getElementById('ap-status').textContent='Ready';
   document.getElementById('agent-panel').classList.add('open');
-
-  // Restore or init conversation
-  if (!conversations[agentId]) conversations[agentId] = [];
-  renderMessages(agentId);
-
-  // Pre-fill input
-  const input = document.getElementById('agent-input');
-  input.value = prefillMsg || agent.defaultMsg;
-  input.style.height = 'auto';
-  input.focus();
-
-  // Clear agent badge
-  const badge = document.getElementById('badge-agents');
-  if (badge) badge.classList.remove('show');
+  if(!convos[id]) convos[id]=[];
+  renderMsgs(id);
+  const inp=document.getElementById('ap-input');
+  inp.value=prefill||a.def; inp.style.height='auto';
+  setTimeout(()=>inp.focus(),200);
 }
 
-function closeAgentPanel() {
-  document.getElementById('agent-panel').classList.remove('open');
-  currentAgent = null;
-}
+function closePanel(){ document.getElementById('agent-panel').classList.remove('open'); currentAgent=null; }
+function trigCmd(id,cmd){ switchTab('agents'); openAgent(id,cmd); }
+function clearConvo(){ if(!currentAgent) return; convos[currentAgent]=[]; save(SK.convos,convos); renderMsgs(currentAgent); }
 
-function triggerCommand(agentId, command) {
-  switchTab('agents');
-  openAgentPanel(agentId, command);
-}
-
-function renderMessages(agentId) {
-  const container = document.getElementById('agent-messages');
-  const msgs = conversations[agentId] || [];
-  const empty = document.getElementById('agent-empty');
-
-  if (msgs.length === 0) {
-    if (empty) empty.style.display = 'block';
-    // Remove all msg elements
-    container.querySelectorAll('.msg').forEach(el => el.remove());
-    return;
-  }
-  if (empty) empty.style.display = 'none';
-  container.querySelectorAll('.msg').forEach(el => el.remove());
-
-  msgs.forEach(msg => {
-    const div = document.createElement('div');
-    div.className = 'msg msg-' + msg.role;
-    const time = new Date(msg.ts).toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
-    div.innerHTML = `<div class="msg-bubble">${escapeHtml(msg.content)}</div><div class="msg-time">${time}</div>`;
-    container.appendChild(div);
+function renderMsgs(id){
+  const c=document.getElementById('agent-msgs');
+  const empty=document.getElementById('ap-empty');
+  const msgs=convos[id]||[];
+  c.querySelectorAll('.msg').forEach(el=>el.remove());
+  if(!msgs.length){ if(empty) empty.style.display='block'; return; }
+  if(empty) empty.style.display='none';
+  msgs.forEach(m=>{
+    const div=document.createElement('div'); div.className='msg msg-'+m.role;
+    const t=new Date(m.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    div.innerHTML=`<div class="msg-bubble">${esc(m.content)}</div><div class="msg-time">${t}</div>`;
+    c.appendChild(div);
   });
-  container.scrollTop = container.scrollHeight;
+  c.scrollTop=c.scrollHeight;
 }
 
-function escapeHtml(text) {
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-}
-
-async function sendAgentMessage() {
-  if (isStreaming || !currentAgent) return;
-  const input = document.getElementById('agent-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-
-  const agent = AGENTS[currentAgent];
-  const empty = document.getElementById('agent-empty');
-  if (empty) empty.style.display = 'none';
-
-  // Add user message
-  const userMsg = { role: 'user', content: msg, ts: Date.now() };
-  if (!conversations[currentAgent]) conversations[currentAgent] = [];
-  conversations[currentAgent].push(userMsg);
-  saveConversations();
-
-  const container = document.getElementById('agent-messages');
-  const userDiv = document.createElement('div');
-  userDiv.className = 'msg msg-user';
-  const time = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit'});
-  userDiv.innerHTML = `<div class="msg-bubble">${escapeHtml(msg)}</div><div class="msg-time">${time}</div>`;
-  container.appendChild(userDiv);
-  container.scrollTop = container.scrollHeight;
-
-  // Agent response
-  const agentDiv = document.createElement('div');
-  agentDiv.className = 'msg msg-agent';
-  const agentBubble = document.createElement('div');
-  agentBubble.className = 'msg-bubble streaming';
-  agentDiv.appendChild(agentBubble);
-  container.appendChild(agentDiv);
-  container.scrollTop = container.scrollHeight;
-
-  const apiKey = localStorage.getItem(STORAGE.apiKey);
-  if (!apiKey) {
-    agentBubble.className = 'msg-bubble';
-    agentBubble.innerHTML = `<span style="color:var(--gold);">⚠ No API key set.</span> Open <strong>Settings</strong> and add your Claude API key to enable live agent responses.<br><br>Or click <em>"Copy prompt to clipboard"</em> below to paste into Claude.ai.`;
-    const timeDiv = document.createElement('div');
-    timeDiv.className = 'msg-time';
-    timeDiv.textContent = time;
-    agentDiv.appendChild(timeDiv);
-    container.scrollTop = container.scrollHeight;
-    return;
-  }
-
-  isStreaming = true;
-  document.getElementById('agent-send-btn').disabled = true;
-  document.getElementById('ap-status').textContent = 'Thinking...';
-
-  const model = localStorage.getItem(STORAGE.model) || 'claude-opus-4-7';
-  const messagesForApi = conversations[currentAgent]
-    .filter(m => m.role === 'user' || m.role === 'assistant')
-    .map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
-
-  let fullResponse = '';
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model,
-        max_tokens: 2048,
-        system: agent.system,
-        messages: messagesForApi,
-        stream: true
-      })
+async function sendMsg(){
+  if(isStreaming||!currentAgent) return;
+  const inp=document.getElementById('ap-input');
+  const msg=inp.value.trim(); if(!msg) return;
+  inp.value=''; inp.style.height='auto';
+  const a=AGENTS[currentAgent];
+  const empty=document.getElementById('ap-empty');
+  if(empty) empty.style.display='none';
+  const userObj={role:'user',content:msg,ts:Date.now()};
+  if(!convos[currentAgent]) convos[currentAgent]=[];
+  convos[currentAgent].push(userObj);
+  save(SK.convos,convos);
+  const c=document.getElementById('agent-msgs');
+  const uDiv=document.createElement('div'); uDiv.className='msg msg-user';
+  uDiv.innerHTML=`<div class="msg-bubble">${esc(msg)}</div><div class="msg-time">${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  c.appendChild(uDiv); c.scrollTop=c.scrollHeight;
+  const aDiv=document.createElement('div'); aDiv.className='msg msg-agent';
+  const bubble=document.createElement('div'); bubble.className='msg-bubble streaming';
+  aDiv.appendChild(bubble); c.appendChild(aDiv); c.scrollTop=c.scrollHeight;
+  const apiKey=localStorage.getItem(SK.key);
+  if(!apiKey){ bubble.className='msg-bubble'; bubble.innerHTML=`<span style="color:var(--gold);">⚠ No API key.</span> Open <strong>Settings</strong> and add your Claude API key.<br><br>Or click <em>"Copy full prompt to clipboard"</em> to paste into Claude.ai.`; return; }
+  isStreaming=true; document.getElementById('ap-send').disabled=true; document.getElementById('ap-status').textContent='Thinking...';
+  const model=localStorage.getItem(SK.model)||'claude-opus-4-7';
+  const msgs4api=convos[currentAgent].filter(m=>m.role==='user'||m.role==='assistant').map(m=>({role:m.role==='assistant'?'assistant':'user',content:m.content}));
+  let full='';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'x-api-key':apiKey,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model,max_tokens:2048,system:a.sys,messages:msgs4api,stream:true})
     });
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error?.message || `API error ${response.status}`);
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split('\n');
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') break;
-        try {
-          const json = JSON.parse(data);
-          if (json.type === 'content_block_delta' && json.delta?.type === 'text_delta') {
-            fullResponse += json.delta.text;
-            agentBubble.innerHTML = escapeHtml(fullResponse);
-            container.scrollTop = container.scrollHeight;
-          }
-        } catch {}
+    if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error?.message||`API error ${res.status}`); }
+    const reader=res.body.getReader(); const dec=new TextDecoder();
+    while(true){
+      const{done,value}=await reader.read(); if(done) break;
+      const chunk=dec.decode(value,{stream:true});
+      for(const line of chunk.split('\n')){
+        if(!line.startsWith('data: ')) continue;
+        const d=line.slice(6).trim(); if(d==='[DONE]') break;
+        try{ const j=JSON.parse(d); if(j.type==='content_block_delta'&&j.delta?.type==='text_delta'){ full+=j.delta.text; bubble.innerHTML=esc(full); c.scrollTop=c.scrollHeight; } }catch{}
       }
     }
-
-    agentBubble.className = 'msg-bubble';
-    agentBubble.innerHTML = escapeHtml(fullResponse);
-
-    const assistantMsg = { role: 'assistant', content: fullResponse, ts: Date.now() };
-    conversations[currentAgent].push(assistantMsg);
-    saveConversations();
-
-  } catch (err) {
-    agentBubble.className = 'msg-bubble';
-    agentBubble.innerHTML = `<span style="color:#f87171;">Error: ${escapeHtml(err.message)}</span><br><br>Check your API key in Settings, or use "Copy prompt to clipboard" to run in Claude.ai.`;
-  } finally {
-    isStreaming = false;
-    document.getElementById('agent-send-btn').disabled = false;
-    document.getElementById('ap-status').textContent = 'Ready';
-    const timeDiv = document.createElement('div');
-    timeDiv.className = 'msg-time';
-    timeDiv.textContent = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    agentDiv.appendChild(timeDiv);
-    container.scrollTop = container.scrollHeight;
+    bubble.className='msg-bubble'; bubble.innerHTML=esc(full);
+    // Try to auto-populate brief if COS
+    if(currentAgent==='cos') parseCOSResponse(full);
+    convos[currentAgent].push({role:'assistant',content:full,ts:Date.now()});
+    save(SK.convos,convos);
+  }catch(err){
+    bubble.className='msg-bubble'; bubble.innerHTML=`<span style="color:#f87171;">Error: ${esc(err.message)}</span><br><br>Check your API key in Settings.`;
+  }finally{
+    isStreaming=false; document.getElementById('ap-send').disabled=false; document.getElementById('ap-status').textContent='Ready';
+    const t=document.createElement('div'); t.className='msg-time'; t.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); aDiv.appendChild(t);
+    c.scrollTop=c.scrollHeight;
   }
 }
 
-function saveConversations() {
-  localStorage.setItem(STORAGE.conversations, JSON.stringify(conversations));
-}
-
-function copyFullPrompt() {
-  if (!currentAgent) return;
-  const agent = AGENTS[currentAgent];
-  const input = document.getElementById('agent-input');
-  const userMsg = input.value.trim() || agent.defaultMsg;
-  const full = `SYSTEM:\n${agent.system}\n\nUSER:\n${userMsg}`;
-  navigator.clipboard.writeText(full).then(() => {
-    const btn = document.getElementById('copy-full-prompt-btn');
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => { btn.textContent = orig; }, 2000);
+function copyPrompt(){
+  if(!currentAgent) return;
+  const a=AGENTS[currentAgent];
+  const inp=document.getElementById('ap-input');
+  const full=`SYSTEM:\n${a.sys}\n\nUSER:\n${inp.value.trim()||a.def}`;
+  navigator.clipboard.writeText(full).then(()=>{
+    const b=document.getElementById('ap-input-area').querySelector('.copy-prompt');
+    const orig=b.textContent; b.textContent='✓ Copied!'; setTimeout(()=>b.textContent=orig,2000);
   });
 }
 
-// ── AUTO-RESIZE TEXTAREA ──
-document.getElementById('agent-input').addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-});
+// ── AUTO-RESIZE AGENT INPUT ──
+document.getElementById('ap-input').addEventListener('input',function(){ this.style.height='auto'; this.style.height=Math.min(this.scrollHeight,100)+'px'; });
+document.getElementById('ap-input').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} });
 
-document.getElementById('agent-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendAgentMessage();
-  }
-});
+// ── ESCAPE HTML ──
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'); }
+
+// ── PWA SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
 </script>
 </body>
 </html>
