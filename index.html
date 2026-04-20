@@ -7,6 +7,7 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="NC_stacked.png">
   <meta name="theme-color" content="#58BBC2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,8 +27,9 @@
       --panel-w: 460px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
-    body { font-family: 'Inter', sans-serif; background: var(--navy); color: white; }
+    html { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: white;
+      height: 100%; height: -webkit-fill-available; overflow: hidden; }
 
     /* ══ LAYOUT ══ */
     #os-header {
@@ -38,8 +40,10 @@
       z-index: 60;
     }
     #os-body {
-      display: flex; height: 100%;
-      padding-top: var(--header-h);
+      display: flex;
+      height: calc(100% - var(--header-h));
+      height: calc(-webkit-fill-available - var(--header-h));
+      margin-top: var(--header-h);
       padding-bottom: 0;
     }
     #sidebar {
@@ -53,6 +57,10 @@
     #main-content {
       flex: 1; overflow-y: auto; overflow-x: hidden;
       padding-bottom: 24px;
+      -webkit-overflow-scrolling: touch;
+    }
+    #sidebar {
+      -webkit-overflow-scrolling: touch;
     }
     .tab-content { display: none; padding: 24px 28px; max-width: 1060px; }
     .tab-content.active { display: block; }
@@ -386,11 +394,12 @@
 
     /* ══ RESPONSIVE / MOBILE ══ */
     #mobile-nav {
-      display:none; position:fixed; bottom:0; left:0; right:0;
-      height:var(--mobile-nav-h); background:rgba(5,10,24,.98);
-      border-top:1px solid rgba(255,255,255,.07);
-      z-index:60; align-items:center; justify-content:space-around;
-      padding-bottom:env(safe-area-inset-bottom);
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(5,10,24,.98); border-top: 1px solid rgba(255,255,255,.07);
+      z-index: 60; align-items: center; justify-content: space-around;
+      /* height accounts for iPhone home indicator */
+      height: calc(var(--mobile-nav-h) + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     .mnav-btn { display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; padding:8px 12px; border:none; background:none; color:rgba(148,163,184,.6); transition:all .2s; border-radius:10px; }
     .mnav-btn.active { color:var(--teal); }
@@ -398,22 +407,85 @@
     .mnav-btn .ml { font-size:9px; font-weight:600; letter-spacing:.02em; }
 
     @media (max-width: 768px) {
+      /* Panel & nav */
       :root { --panel-w: 100vw; }
-      #sidebar { display:none; }
-      #mobile-nav { display:flex; }
-      #os-body { padding-bottom: var(--mobile-nav-h); }
-      #main-content { width:100%; }
-      .tab-content { padding:16px; }
-      .brief-grid { grid-template-columns:1fr; }
-      .brief-grid.triple { grid-template-columns:1fr; }
-      .kanban-grid { grid-template-columns:1fr; }
-      #agent-panel { top:var(--header-h); width:100vw; }
-      #os-header .hbtn:not(#settings-btn) { display:none; }
-      #live-date { display:none; }
-      .today-greeting { font-size:18px; }
+      #sidebar { display: none; }
+      #mobile-nav { display: flex; }
+
+      /* Header: account for iPhone notch */
+      #os-header {
+        padding-top: env(safe-area-inset-top, 0px);
+        height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      }
+      #os-body {
+        margin-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+        height: calc(100% - var(--header-h) - env(safe-area-inset-top, 0px));
+        padding-bottom: calc(var(--mobile-nav-h) + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* Main content full-width with bottom clearance */
+      #main-content {
+        width: 100%;
+        padding-bottom: 20px;
+      }
+      .tab-content { padding: 14px 14px 24px; }
+
+      /* Agent panel full-screen on mobile */
+      #agent-panel {
+        top: 0;
+        width: 100vw;
+        padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      }
+
+      /* ── Override ALL inline grid styles ── */
+      /* This catches every grid set via style="" attributes */
+      .tab-content [style*="grid-template-columns"],
+      .tab-content [style*="grid-template"] {
+        grid-template-columns: 1fr !important;
+      }
+      /* CSS-class grids */
+      .brief-grid,
+      .brief-grid.triple,
+      .kanban-grid { grid-template-columns: 1fr !important; }
+
+      /* 2-up agent/growth grids: allow 2-col on wide phones, 1-col on narrow */
+      .tab-content [style*="repeat(2"] { grid-template-columns: 1fr 1fr !important; }
+      .tab-content [style*="repeat(3"] { grid-template-columns: 1fr !important; }
+
+      /* Header chrome */
+      #os-header .hbtn:not(#settings-btn) { display: none; }
+      #live-date { display: none; }
+
+      /* Typography */
+      .today-greeting { font-size: 17px; }
+      .page-title { font-size: 18px; }
+
+      /* Cards */
+      .kpi-val { font-size: 22px; }
+      .agent-card { padding: 14px; }
+      .growth-card { padding: 14px; }
+
+      /* Brief section caps */
+      .brief-card { padding: 13px; }
+      .bc-add { flex-wrap: wrap; }
+
+      /* Capture box */
+      .capture-row { flex-wrap: wrap; gap: 8px; }
+      .capture-submit { width: 100%; text-align: center; }
+
+      /* Settings modal */
+      #set-modal { padding: 20px; }
+
+      /* Sidebar dock (hidden on mobile but keep rule clean) */
+      .dock-section { display: none; }
+      .cos-launch { display: none; }
+      .last-refresh { display: none; }
     }
-    @media (max-width: 480px) {
-      .dock-grid { grid-template-columns: repeat(4,1fr); }
+
+    /* Very narrow phones (iPhone SE etc) */
+    @media (max-width: 390px) {
+      .tab-content [style*="repeat(2"] { grid-template-columns: 1fr !important; }
+      .tab-content { padding: 12px 10px 20px; }
     }
 
     /* ══ SCROLLBAR ══ */
