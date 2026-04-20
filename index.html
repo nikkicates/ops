@@ -388,6 +388,60 @@
     .tech-cost { font-family:'DM Mono',monospace; font-size:11px; color:var(--teal); }
     .tech-role { font-size:11px; color:var(--slate); }
 
+    /* ══ DYNAMIC TASK UI ══ */
+    .task-row { display:flex; align-items:flex-start; gap:11px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); position:relative; }
+    .task-row:last-child { border-bottom:none; }
+    .task-cb { appearance:none; width:17px; height:17px; border:1.5px solid rgba(88,187,194,.4); border-radius:4px; cursor:pointer; flex-shrink:0; margin-top:1px; transition:all .2s; }
+    .task-cb:checked { background:var(--teal); border-color:var(--teal); }
+    .task-cb:checked ~ .task-lbl { color:var(--slate); text-decoration:line-through; }
+    .task-lbl { font-size:12px; color:rgba(255,255,255,.85); line-height:1.5; flex:1; }
+    .task-del { background:none; border:none; color:rgba(148,163,184,.2); cursor:pointer; font-size:14px; padding:0 4px; flex-shrink:0; transition:color .2s; opacity:0; }
+    .task-row:hover .task-del { opacity:1; }
+    .task-del:hover { color:var(--urgent); }
+    .wk-hdr { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.15em; color:var(--teal); margin:16px 0 6px; display:flex; align-items:center; justify-content:space-between; }
+    .wk-hdr .wh-clear { font-size:9px; font-weight:400; color:rgba(148,163,184,.3); background:none; border:none; cursor:pointer; letter-spacing:0; text-transform:none; padding:0; }
+    .wh-clear:hover { color:var(--urgent); }
+    .task-add-row { display:flex; gap:7px; margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,.05); flex-wrap:wrap; }
+    .task-section-sel { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:8px; color:var(--slate); font-size:11px; padding:7px 8px; outline:none; cursor:pointer; flex-shrink:0; }
+    .task-add-input { flex:1; min-width:160px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:8px; color:white; font-family:'Inter',sans-serif; font-size:12px; padding:7px 11px; outline:none; transition:border .2s; }
+    .task-add-input:focus { border-color:rgba(88,187,194,.4); }
+    .task-add-input::placeholder { color:rgba(148,163,184,.3); }
+    .task-add-btn { background:rgba(88,187,194,.12); border:1px solid rgba(88,187,194,.25); border-radius:8px; color:var(--teal); padding:7px 14px; cursor:pointer; font-size:13px; font-weight:700; transition:all .2s; flex-shrink:0; }
+    .task-add-btn:hover { background:rgba(88,187,194,.22); }
+    .task-count { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); }
+
+    /* Kanban improved */
+    .kanban-item { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:9px; padding:10px 12px; margin-bottom:7px; font-size:12px; transition:all .2s; display:flex; align-items:flex-start; gap:8px; }
+    .kanban-item:hover { border-color:rgba(88,187,194,.2); }
+    .kanban-item-text { flex:1; line-height:1.4; }
+    .kanban-item-del { background:none; border:none; color:rgba(148,163,184,.2); cursor:pointer; font-size:13px; padding:0 2px; flex-shrink:0; transition:color .2s; opacity:0; }
+    .kanban-item:hover .kanban-item-del { opacity:1; }
+    .kanban-item-del:hover { color:var(--urgent); }
+    .kanban-add-row { display:none; flex-direction:column; gap:6px; margin-top:8px; }
+    .kanban-add-row.open { display:flex; }
+    .kanban-add-input { background:rgba(255,255,255,.06); border:1px solid rgba(88,187,194,.25); border-radius:8px; color:white; font-size:12px; padding:8px 11px; outline:none; font-family:'Inter',sans-serif; width:100%; }
+    .kanban-add-input::placeholder { color:rgba(148,163,184,.3); }
+    .kanban-track-sel { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.09); border-radius:8px; color:var(--slate); font-size:11px; padding:6px 8px; outline:none; cursor:pointer; width:100%; }
+    .kanban-btns { display:flex; gap:6px; }
+    .kanban-confirm { flex:1; background:rgba(88,187,194,.12); border:1px solid rgba(88,187,194,.3); border-radius:7px; color:var(--teal); padding:7px; cursor:pointer; font-size:12px; font-weight:700; }
+    .kanban-confirm:hover { background:rgba(88,187,194,.22); }
+    .kanban-cancel { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:7px; color:var(--slate); padding:7px 10px; cursor:pointer; font-size:12px; }
+    .ki-add { background:none; border:1px dashed rgba(255,255,255,.1); border-radius:9px; padding:8px; width:100%; color:var(--muted); font-size:12px; cursor:pointer; transition:all .2s; margin-top:6px; }
+    .ki-add:hover { border-color:rgba(88,187,194,.3); color:var(--teal); }
+
+    /* ══ SITE LINKS ══ */
+    .site-link {
+      display: inline-flex; align-items: center;
+      font-size: 10px; font-weight: 700; letter-spacing: .05em;
+      padding: 5px 12px; border-radius: 20px; text-decoration: none;
+      color: var(--sc, var(--teal));
+      background: rgba(255,255,255,.04);
+      border: 1px solid currentColor;
+      opacity: .75;
+      transition: all .2s; white-space: nowrap;
+    }
+    .site-link:hover { opacity: 1; background: rgba(255,255,255,.09); }
+
     /* ══ IP STATUS ══ */
     .ip-card { padding:16px 18px; border-radius:13px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.07); }
     .ip-name { font-weight:700; color:var(--teal); font-size:14px; }
@@ -558,6 +612,16 @@
       <div class="today-greeting" id="today-greeting">Good morning, Nikki.</div>
       <div class="today-sub" id="today-sub">Your system ran overnight. Open the brief, make 2–3 decisions.</div>
 
+      <!-- Web Properties -->
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px;">
+        <a href="https://nikkicates.github.io/" target="_blank" class="site-link" style="--sc:var(--teal);">↗ Main Site</a>
+        <a href="https://nikkicates.github.io/structuralburnout/" target="_blank" class="site-link" style="--sc:var(--urgent);">↗ Structural Burnout</a>
+        <a href="https://nikkicates.github.io/uri-leadership/" target="_blank" class="site-link" style="--sc:var(--lilac);">↗ URI Leadership</a>
+        <a href="https://nikkicates.github.io/structural-speaker-pages/" target="_blank" class="site-link" style="--sc:var(--gold);">↗ Speaker Pages</a>
+        <a href="https://nikkicates.github.io/unmask-manual/" target="_blank" class="site-link" style="--sc:var(--teal);">↗ UNMASK Manual</a>
+        <a href="https://unmask.nikkicates.com" target="_blank" class="site-link" style="--sc:var(--lilac);">↗ unmask.nikkicates.com</a>
+      </div>
+
       <!-- Capture Box -->
       <div class="capture-box">
         <div class="capture-row">
@@ -640,65 +704,91 @@
       <div class="page-title mg">Strategic Tasks</div>
       <p class="page-sub">April 27 Deadline · Pici &amp; Pici Bootcamp Ready</p>
 
+      <!-- PROJECT BOARD — TOP -->
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">Project Board</div>
+      <div class="kanban-grid" style="margin-bottom:28px;">
+        <div class="kanban-col">
+          <div class="kanban-col-title now">🔴 Now</div>
+          <div id="kanban-now"></div>
+          <div class="kanban-add-row" id="kadd-now">
+            <input class="kanban-add-input" id="kadd-input-now" placeholder="Add to Now...">
+            <select class="kanban-track-sel" id="kadd-track-now">
+              <option value="biz">Business</option>
+              <option value="grad">Grad School</option>
+              <option value="write">Writing</option>
+            </select>
+            <div class="kanban-btns">
+              <button class="kanban-confirm" onclick="submitKanban('now')">Add</button>
+              <button class="kanban-cancel" onclick="toggleKanbanAdd('now')">Cancel</button>
+            </div>
+          </div>
+          <button class="ki-add" id="kadd-btn-now" onclick="toggleKanbanAdd('now')">+ Add</button>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-title week">🟡 This Week</div>
+          <div id="kanban-week"></div>
+          <div class="kanban-add-row" id="kadd-week">
+            <input class="kanban-add-input" id="kadd-input-week" placeholder="Add to This Week...">
+            <select class="kanban-track-sel" id="kadd-track-week">
+              <option value="biz">Business</option>
+              <option value="grad">Grad School</option>
+              <option value="write">Writing</option>
+            </select>
+            <div class="kanban-btns">
+              <button class="kanban-confirm" onclick="submitKanban('week')">Add</button>
+              <button class="kanban-cancel" onclick="toggleKanbanAdd('week')">Cancel</button>
+            </div>
+          </div>
+          <button class="ki-add" id="kadd-btn-week" onclick="toggleKanbanAdd('week')">+ Add</button>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-col-title later">⬜ Later</div>
+          <div id="kanban-later"></div>
+          <div class="kanban-add-row" id="kadd-later">
+            <input class="kanban-add-input" id="kadd-input-later" placeholder="Add to Later...">
+            <select class="kanban-track-sel" id="kadd-track-later">
+              <option value="biz">Business</option>
+              <option value="grad">Grad School</option>
+              <option value="write">Writing</option>
+            </select>
+            <div class="kanban-btns">
+              <button class="kanban-confirm" onclick="submitKanban('later')">Add</button>
+              <button class="kanban-cancel" onclick="toggleKanbanAdd('later')">Cancel</button>
+            </div>
+          </div>
+          <button class="ki-add" id="kadd-btn-later" onclick="toggleKanbanAdd('later')">+ Add</button>
+        </div>
+      </div>
+
+      <!-- SPRINT + MIS CHECKLISTS -->
       <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:20px;margin-bottom:28px;">
-        <!-- Task Tracker -->
+        <!-- Sprint Tracker -->
         <div class="card" style="padding:20px 22px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
             <div style="font-size:14px;font-weight:700;">Sprint Tracker</div>
-            <span class="badge badge-g" id="task-badge">0/12</span>
+            <span class="badge badge-g" id="task-badge">0/0</span>
           </div>
-          <div class="wk-hdr">Week 1 · Apr 6–12 · Website Consolidation</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t0"><span class="task-lbl">Migrate Volume 1 from Google Site to unified page</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t1"><span class="task-lbl">Set up redirects for all old domains</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t2"><span class="task-lbl">Update all internal links across pages</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t3"><span class="task-lbl">New unified header/nav on hub</span></div>
-          <div class="wk-hdr">Week 2 · Apr 13–19 · Diagnostics &amp; Data Moat</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t4"><span class="task-lbl">Build RAAI (methodology + Typeform + Airtable)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t5"><span class="task-lbl">Build ABAI (AI Burnout Acceleration Index)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t6"><span class="task-lbl">Update fulfillment page with both new diagnostics</span></div>
-          <div class="wk-hdr">Week 3 · Apr 20–26 · App + Growth + Polish</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t7"><span class="task-lbl">Bubble.io MVP (SSS, LMI, RAAI, ABAI + offline PDFs)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t8"><span class="task-lbl">Keynote decks + workshop outlines ready</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t9"><span class="task-lbl">Collective + Relay live and connected</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t10"><span class="task-lbl">Book 3–5 Executive Briefings</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="t11"><span class="task-lbl">Final test + polish all pages</span></div>
+          <div id="task-list-sprint"></div>
+          <div class="task-add-row">
+            <select class="task-section-sel" id="task-section-sel-sprint">
+              <option value="w1">Week 1</option>
+              <option value="w2">Week 2</option>
+              <option value="w3">Week 3</option>
+            </select>
+            <input class="task-add-input" id="task-add-input-sprint" placeholder="Add new task...">
+            <button class="task-add-btn" onclick="addTask('sprint')">+</button>
+          </div>
         </div>
 
         <!-- MIS Build Sequence -->
         <div class="card" style="padding:20px 22px;">
           <div style="font-size:14px;font-weight:700;margin-bottom:4px;">MIS Build Sequence</div>
           <div style="font-size:11px;color:var(--slate);margin-bottom:14px;">10-Week Master Intelligence System</div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis0"><span class="task-lbl"><strong>Ph.1:</strong> Audit GHL + inventory Gumloop flows</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis1"><span class="task-lbl"><strong>Ph.1:</strong> Confirm Google Workspace + NotebookLM active</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis2"><span class="task-lbl"><strong>Ph.1:</strong> Set up n8n Cloud account (14-day trial)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis3"><span class="task-lbl"><strong>Ph.2:</strong> Migrate Gumloop flows → n8n one by one</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis4"><span class="task-lbl"><strong>Ph.2:</strong> Connect GHL webhooks → n8n</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis5"><span class="task-lbl"><strong>Ph.2:</strong> Airtable → n8n diagnostic webhook live</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis6"><span class="task-lbl"><strong>Ph.2:</strong> Cancel Gumloop after all flows confirmed</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis7"><span class="task-lbl"><strong>Ph.3:</strong> Build Research Agent (Claude + NotebookLM)</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis8"><span class="task-lbl"><strong>Ph.3:</strong> Build Content + Prospecting Agents</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis9"><span class="task-lbl"><strong>Ph.4:</strong> CoS morning brief → Slack DM by 6 AM</span></div>
-          <div class="task-row"><input type="checkbox" class="task-cb" data-key="mis10"><span class="task-lbl"><strong>Ph.5:</strong> Full domain coverage (real estate + grad + Bubble)</span></div>
-        </div>
-      </div>
-
-      <!-- Project Board -->
-      <div style="font-size:14px;font-weight:700;margin-bottom:14px;">Project Board</div>
-      <div class="kanban-grid">
-        <div class="kanban-col">
-          <div class="kanban-col-title now">🔴 Now</div>
-          <div id="kanban-now"></div>
-          <button class="ki-add" onclick="addKanban('now')">+ Add</button>
-        </div>
-        <div class="kanban-col">
-          <div class="kanban-col-title week">🟡 This Week</div>
-          <div id="kanban-week"></div>
-          <button class="ki-add" onclick="addKanban('week')">+ Add</button>
-        </div>
-        <div class="kanban-col">
-          <div class="kanban-col-title later">⬜ Later</div>
-          <div id="kanban-later"></div>
-          <button class="ki-add" onclick="addKanban('later')">+ Add</button>
+          <div id="task-list-mis"></div>
+          <div class="task-add-row">
+            <input class="task-add-input" id="task-add-input-mis" placeholder="Add MIS task..." style="flex:1;">
+            <button class="task-add-btn" onclick="addTask('mis')">+</button>
+          </div>
         </div>
       </div>
     </div><!-- /tasks -->
@@ -1209,30 +1299,127 @@ document.getElementById('capture-input').addEventListener('input',function(){
 renderCaptures();
 
 // ── TASKS ──
-function loadTasks(){
-  const saved=load(SK.tasks,{});
-  document.querySelectorAll('.task-cb').forEach(cb=>{
-    if(saved[cb.dataset.key]) cb.checked=true;
+const SPRINT_SECTIONS = {
+  w1:'Week 1 · Apr 6–12 · Website Consolidation',
+  w2:'Week 2 · Apr 13–19 · Diagnostics &amp; Data Moat',
+  w3:'Week 3 · Apr 20–26 · App + Growth + Polish'
+};
+const DEFAULT_TASKS = {
+  sprint:[
+    {id:'t0',section:'w1',text:'Migrate Volume 1 from Google Site to unified page',done:false},
+    {id:'t1',section:'w1',text:'Set up redirects for all old domains',done:false},
+    {id:'t2',section:'w1',text:'Update all internal links across pages',done:false},
+    {id:'t3',section:'w1',text:'New unified header/nav on hub',done:false},
+    {id:'t4',section:'w2',text:'Build RAAI (methodology + Typeform + Airtable)',done:false},
+    {id:'t5',section:'w2',text:'Build ABAI (AI Burnout Acceleration Index)',done:false},
+    {id:'t6',section:'w2',text:'Update fulfillment page with both new diagnostics',done:false},
+    {id:'t7',section:'w3',text:'Bubble.io MVP (SSS, LMI, RAAI, ABAI + offline PDFs)',done:false},
+    {id:'t8',section:'w3',text:'Keynote decks + workshop outlines ready',done:false},
+    {id:'t9',section:'w3',text:'Collective + Relay live and connected',done:false},
+    {id:'t10',section:'w3',text:'Book 3–5 Executive Briefings',done:false},
+    {id:'t11',section:'w3',text:'Final test + polish all pages',done:false},
+  ],
+  mis:[
+    {id:'mis0',text:'Ph.1: Audit GHL + inventory Gumloop flows',done:false},
+    {id:'mis1',text:'Ph.1: Confirm Google Workspace + NotebookLM active',done:false},
+    {id:'mis2',text:'Ph.1: Set up n8n Cloud account (14-day trial)',done:false},
+    {id:'mis3',text:'Ph.2: Migrate Gumloop flows → n8n one by one',done:false},
+    {id:'mis4',text:'Ph.2: Connect GHL webhooks → n8n',done:false},
+    {id:'mis5',text:'Ph.2: Airtable → n8n diagnostic webhook live',done:false},
+    {id:'mis6',text:'Ph.2: Cancel Gumloop after all flows confirmed',done:false},
+    {id:'mis7',text:'Ph.3: Build Research Agent (Claude + NotebookLM)',done:false},
+    {id:'mis8',text:'Ph.3: Build Content + Prospecting Agents',done:false},
+    {id:'mis9',text:'Ph.4: CoS morning brief → Slack DM by 6 AM',done:false},
+    {id:'mis10',text:'Ph.5: Full domain coverage (real estate + grad + Bubble)',done:false},
+  ]
+};
+
+function migrateTaskState(){
+  const raw=load(SK.tasks,null);
+  if(!raw) return JSON.parse(JSON.stringify(DEFAULT_TASKS));
+  if(raw.sprint && raw.mis) return raw;
+  // Migrate old flat {t0:true,...} format
+  const m=JSON.parse(JSON.stringify(DEFAULT_TASKS));
+  m.sprint.forEach(t=>{ if(raw[t.id]===true) t.done=true; });
+  m.mis.forEach(t=>{ if(raw[t.id]===true) t.done=true; });
+  return m;
+}
+
+let taskState=migrateTaskState();
+function saveTasks(){ save(SK.tasks,taskState); }
+
+function makeTaskRow(list,t){
+  const row=document.createElement('div'); row.className='task-row';
+  const cb=document.createElement('input'); cb.type='checkbox'; cb.className='task-cb'; cb.checked=t.done;
+  cb.addEventListener('change',()=>{ t.done=cb.checked; saveTasks(); updateTaskBadge(); });
+  const lbl=document.createElement('span'); lbl.className='task-lbl'; lbl.textContent=t.text;
+  const del=document.createElement('button'); del.className='task-del'; del.textContent='×'; del.title='Remove';
+  del.addEventListener('click',()=>{
+    if(list==='sprint') taskState.sprint=taskState.sprint.filter(x=>x.id!==t.id);
+    else taskState.mis=taskState.mis.filter(x=>x.id!==t.id);
+    saveTasks(); renderTasks();
   });
+  row.appendChild(cb); row.appendChild(lbl); row.appendChild(del);
+  return row;
+}
+
+function renderTasks(){
+  const sprintEl=document.getElementById('task-list-sprint');
+  if(sprintEl){
+    sprintEl.innerHTML='';
+    Object.keys(SPRINT_SECTIONS).forEach(sec=>{
+      const items=taskState.sprint.filter(t=>t.section===sec);
+      if(!items.length) return;
+      const done=items.filter(t=>t.done).length;
+      const hdr=document.createElement('div'); hdr.className='wk-hdr';
+      hdr.innerHTML=`<span>${SPRINT_SECTIONS[sec]}</span><span class="task-count">${done}/${items.length} <button class="wh-clear" onclick="clearDoneTasks('sprint','${sec}')">clear done</button></span>`;
+      sprintEl.appendChild(hdr);
+      items.forEach(t=>sprintEl.appendChild(makeTaskRow('sprint',t)));
+    });
+  }
+  const misEl=document.getElementById('task-list-mis');
+  if(misEl){
+    misEl.innerHTML='';
+    const done=taskState.mis.filter(t=>t.done).length;
+    const hdr=document.createElement('div'); hdr.className='wk-hdr';
+    hdr.innerHTML=`<span>Phases 1–5</span><span class="task-count">${done}/${taskState.mis.length} <button class="wh-clear" onclick="clearDoneTasks('mis')">clear done</button></span>`;
+    misEl.appendChild(hdr);
+    taskState.mis.forEach(t=>misEl.appendChild(makeTaskRow('mis',t)));
+  }
   updateTaskBadge();
 }
 
 function updateTaskBadge(){
-  const all=document.querySelectorAll('.task-cb').length;
-  const done=document.querySelectorAll('.task-cb:checked').length;
-  const b=document.getElementById('task-badge');
-  if(b) b.textContent=done+'/'+all;
+  const all=taskState.sprint.length+taskState.mis.length;
+  const done=taskState.sprint.filter(t=>t.done).length+taskState.mis.filter(t=>t.done).length;
+  const b=document.getElementById('task-badge'); if(b) b.textContent=done+'/'+all;
 }
 
-document.querySelectorAll('.task-cb').forEach(cb=>{
-  cb.addEventListener('change',()=>{
-    const saved=load(SK.tasks,{});
-    saved[cb.dataset.key]=cb.checked;
-    save(SK.tasks,saved);
-    updateTaskBadge();
-  });
-});
-loadTasks();
+function addTask(list){
+  const inp=document.getElementById('task-add-input-'+list); if(!inp) return;
+  const text=inp.value.trim(); if(!text) return;
+  const id=Date.now().toString(36);
+  if(list==='sprint'){
+    const sec=document.getElementById('task-section-sel-sprint').value;
+    taskState.sprint.push({id,section:sec,text,done:false});
+  } else {
+    taskState.mis.push({id,text,done:false});
+  }
+  inp.value=''; saveTasks(); renderTasks();
+}
+
+function clearDoneTasks(list,section){
+  if(list==='sprint'){
+    if(section) taskState.sprint=taskState.sprint.filter(t=>!(t.done&&t.section===section));
+    else taskState.sprint=taskState.sprint.filter(t=>!t.done);
+  } else { taskState.mis=taskState.mis.filter(t=>!t.done); }
+  saveTasks(); renderTasks();
+}
+
+document.getElementById('task-add-input-sprint').addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();addTask('sprint');} });
+document.getElementById('task-add-input-mis').addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();addTask('mis');} });
+
+renderTasks();
 
 // ── KANBAN ──
 let kanban=load(SK.kanban,{now:[],week:[],later:[
@@ -1252,25 +1439,41 @@ function renderKanban(){
       const d=document.createElement('div'); d.className='kanban-item';
       const trackClass={'biz':'kt-biz','grad':'kt-grad','write':'kt-write'}[item.track||'biz']||'kt-biz';
       const trackLabel={'biz':'Business','grad':'Grad School','write':'Writing'}[item.track||'biz']||'Business';
-      d.innerHTML=`<div class="kanban-track ${trackClass}">${trackLabel}</div>${esc(item.text)}<button style="float:right;background:none;border:none;color:rgba(148,163,184,.25);cursor:pointer;font-size:11px;" onclick="removeKanban('${col}',${i})">×</button>`;
+      d.innerHTML=`<div style="flex:1"><div class="kanban-track ${trackClass}">${trackLabel}</div><div class="kanban-item-text">${esc(item.text)}</div></div><button class="kanban-item-del" onclick="removeKanban('${col}',${i})">×</button>`;
       el.appendChild(d);
     });
   });
   save(SK.kanban,kanban);
 }
 
-function addKanban(col){
-  const text=prompt('Add to '+col+' (track: biz/grad/write): ');
-  if(!text) return;
+function toggleKanbanAdd(col){
+  const form=document.getElementById('kadd-'+col);
+  const btn=document.getElementById('kadd-btn-'+col);
+  if(!form||!btn) return;
+  const isOpen=form.classList.toggle('open');
+  btn.style.display=isOpen?'none':'block';
+  if(isOpen) document.getElementById('kadd-input-'+col).focus();
+}
+
+function submitKanban(col){
+  const inp=document.getElementById('kadd-input-'+col);
+  const trackEl=document.getElementById('kadd-track-'+col);
+  if(!inp) return;
+  const text=inp.value.trim(); if(!text) return;
   if(!kanban[col]) kanban[col]=[];
-  kanban[col].push({text:text.trim(),track:'biz'});
-  renderKanban();
+  kanban[col].push({text,track:trackEl?trackEl.value:'biz'});
+  inp.value=''; toggleKanbanAdd(col); renderKanban();
 }
 
 function removeKanban(col,i){
   kanban[col].splice(i,1);
   renderKanban();
 }
+
+['now','week','later'].forEach(col=>{
+  const inp=document.getElementById('kadd-input-'+col);
+  if(inp) inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();submitKanban(col);} });
+});
 
 renderKanban();
 
