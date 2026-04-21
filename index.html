@@ -543,6 +543,11 @@
       .tab-content { padding: 12px 10px 20px; }
     }
 
+    /* ══ SYNC BUTTON STATES ══ */
+    .hbtn-syncing { opacity:.6; cursor:default; pointer-events:none; }
+    .hbtn-ok  { color:var(--done)    !important; border-color:rgba(34,197,94,.35)  !important; }
+    .hbtn-err { color:var(--urgent)  !important; border-color:rgba(239,68,68,.35)  !important; }
+
     /* ══ SCROLLBAR ══ */
     ::-webkit-scrollbar { width:5px; height:5px; }
     ::-webkit-scrollbar-track { background:transparent; }
@@ -563,6 +568,7 @@
     <div class="sdot standby" id="api-dot"></div>
     <span id="api-label">No Key</span>
   </div>
+  <button class="hbtn" id="sync-btn" onclick="syncNow()" title="Sync data across all devices">☁ Sync</button>
   <button class="hbtn" id="settings-btn" onclick="openSettings()">⚙ Settings</button>
   <a href="https://nikkicates.github.io" target="_blank" class="hbtn">↗ Home</a>
 </header>
@@ -982,15 +988,27 @@
 <div id="set-overlay" onclick="closeSetOutside(event)">
   <div id="set-modal">
     <div class="set-title mg">Mogul OS Settings</div>
+
     <label class="set-lbl">Claude API Key</label>
     <input class="set-input" type="password" id="set-key" placeholder="sk-ant-api03-...">
     <div class="set-note">Stored only in your browser's localStorage — sent exclusively to api.anthropic.com. Get your key at console.anthropic.com.</div>
+
     <label class="set-lbl">Model</label>
     <select class="set-input" id="set-model" style="cursor:pointer;">
       <option value="claude-opus-4-7">claude-opus-4-7 (Most capable)</option>
       <option value="claude-sonnet-4-6">claude-sonnet-4-6 (Balanced)</option>
       <option value="claude-haiku-4-5-20251001">claude-haiku-4-5-20251001 (Fast)</option>
     </select>
+
+    <div style="height:1px;background:rgba(255,255,255,.07);margin:16px 0;"></div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:12px;">☁ Cross-Device Sync</div>
+
+    <label class="set-lbl">GitHub Personal Access Token</label>
+    <input class="set-input" type="password" id="set-gh-token" placeholder="ghp_...">
+    <div class="set-note">Needs <strong>gist</strong> scope only. Create at <strong>github.com/settings/tokens</strong> → Generate new token → check ✓ gist → copy here. Your data syncs to a private GitHub Gist — never public, never shared. Enter the same token on every device.</div>
+
+    <div id="set-gist-info" style="display:none;font-size:10px;color:var(--teal);margin-bottom:14px;font-family:'DM Mono',monospace;"></div>
+
     <div class="set-row">
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
       <button class="btn-save" onclick="saveSettings()">Save</button>
@@ -1015,7 +1033,8 @@
 const SK = { // storage keys
   brief:'mogul-brief', captures:'mogul-captures', tasks:'mogul-tasks',
   kpis:'mogul-kpis', convos:'mogul-convos', kanban:'mogul-kanban',
-  key:'mogul-api-key', model:'mogul-model'
+  key:'mogul-api-key', model:'mogul-model',
+  ghToken:'mogul-gh-token', gistId:'mogul-gist-id', lastSync:'mogul-last-sync'
 };
 
 function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -1516,14 +1535,21 @@ function openSettings(){
   document.getElementById('set-overlay').classList.add('open');
   document.getElementById('set-key').value=localStorage.getItem(SK.key)||'';
   document.getElementById('set-model').value=localStorage.getItem(SK.model)||'claude-opus-4-7';
+  document.getElementById('set-gh-token').value=localStorage.getItem(SK.ghToken)||'';
+  const gistId=localStorage.getItem(SK.gistId);
+  const info=document.getElementById('set-gist-info');
+  if(gistId){ info.style.display='block'; info.textContent='Gist ID: '+gistId+' · gist.github.com/'+gistId; }
+  else { info.style.display='none'; }
 }
 function closeSettings(){ document.getElementById('set-overlay').classList.remove('open'); }
 function closeSetOutside(e){ if(e.target===document.getElementById('set-overlay')) closeSettings(); }
 function saveSettings(){
   const k=document.getElementById('set-key').value.trim();
   const m=document.getElementById('set-model').value;
+  const gh=document.getElementById('set-gh-token').value.trim();
   if(k) localStorage.setItem(SK.key,k); else localStorage.removeItem(SK.key);
   localStorage.setItem(SK.model,m);
+  if(gh) localStorage.setItem(SK.ghToken,gh); else { localStorage.removeItem(SK.ghToken); localStorage.removeItem(SK.gistId); }
   closeSettings(); updateApiStatus();
 }
 
@@ -1635,6 +1661,97 @@ document.getElementById('ap-input').addEventListener('keydown',e=>{ if(e.key==='
 
 // ── ESCAPE HTML ──
 function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'); }
+
+// ── SYNC (GitHub Gist) ──
+const SYNC_FILE = 'mogul-os-state.json';
+
+function getSyncState(){
+  return { v:2, ts:Date.now(), brief:briefState, captures:captureLog, tasks:taskState, kanban:kanban, kpis:load(SK.kpis,{}) };
+}
+
+function applyRemoteState(r){
+  if(r.brief)    { briefState=r.brief;       save(SK.brief,briefState);   renderBrief(); }
+  if(r.captures) { captureLog=r.captures;    save(SK.captures,captureLog); renderCaptures(); }
+  if(r.tasks)    { taskState=r.tasks;        saveTasks();                  renderTasks(); }
+  if(r.kanban)   { kanban=r.kanban;          save(SK.kanban,kanban);       renderKanban(); }
+  if(r.kpis)     { save(SK.kpis,r.kpis);    loadKPIs(); }
+}
+
+function setSyncBtn(state, detail){
+  const btn=document.getElementById('sync-btn'); if(!btn) return;
+  const map={ idle:['☁ Sync','hbtn'], syncing:['⟳ Syncing…','hbtn hbtn-syncing'], ok:['✓ Synced','hbtn hbtn-ok'], error:['⚠ Error','hbtn hbtn-err'] };
+  const [text,cls]=map[state]||map.idle;
+  btn.textContent=text; btn.className=cls; btn.title=detail||'Sync data across devices';
+  if(state==='ok'||state==='error') setTimeout(()=>setSyncBtn('idle'),state==='ok'?4000:7000);
+}
+
+async function ghFetch(token,path,opts={}){
+  return fetch('https://api.github.com'+path,{
+    ...opts,
+    headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json',...(opts.headers||{})}
+  });
+}
+
+async function getOrCreateGist(token){
+  let id=localStorage.getItem(SK.gistId);
+  if(id) return id;
+  // Search existing gists for our file
+  const res=await ghFetch(token,'/gists?per_page=100');
+  if(!res.ok) throw new Error('GitHub token invalid or missing gist scope');
+  const list=await res.json();
+  const found=list.find(g=>g.files&&g.files[SYNC_FILE]);
+  if(found){ localStorage.setItem(SK.gistId,found.id); return found.id; }
+  // First time — create a new private gist
+  const cr=await ghFetch(token,'/gists',{method:'POST',body:JSON.stringify({
+    description:'Mogul OS — Auto Sync',public:false,
+    files:{[SYNC_FILE]:{content:JSON.stringify(getSyncState(),null,2)}}
+  })});
+  if(!cr.ok) throw new Error('Could not create sync gist');
+  const g=await cr.json();
+  localStorage.setItem(SK.gistId,g.id);
+  return g.id;
+}
+
+let _syncing=false;
+async function syncNow(){
+  const token=localStorage.getItem(SK.ghToken);
+  if(!token){ openSettings(); setTimeout(()=>document.getElementById('set-gh-token').focus(),200); return; }
+  if(_syncing) return;
+  _syncing=true; setSyncBtn('syncing');
+  try{
+    const gistId=await getOrCreateGist(token);
+    // Pull remote state
+    const getRes=await ghFetch(token,'/gists/'+gistId);
+    if(getRes.ok){
+      const gist=await getRes.json();
+      const content=gist.files[SYNC_FILE]?.content;
+      if(content){
+        const remote=JSON.parse(content);
+        const localTs=parseInt(localStorage.getItem(SK.lastSync)||'0');
+        if(remote.ts&&remote.ts>localTs) applyRemoteState(remote);
+      }
+    }
+    // Push current state
+    const state=getSyncState();
+    await ghFetch(token,'/gists/'+gistId,{method:'PATCH',body:JSON.stringify({
+      files:{[SYNC_FILE]:{content:JSON.stringify(state,null,2)}}
+    })});
+    localStorage.setItem(SK.lastSync,String(state.ts));
+    setSyncBtn('ok','Last synced: '+new Date(state.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+    // Refresh gist info in Settings if open
+    const info=document.getElementById('set-gist-info');
+    if(info){ info.style.display='block'; info.textContent='Gist ID: '+gistId+' · gist.github.com/'+gistId; }
+  }catch(err){
+    setSyncBtn('error',err.message);
+  }finally{ _syncing=false; }
+}
+
+// Show last sync time on load
+(()=>{
+  const ts=localStorage.getItem(SK.lastSync);
+  const btn=document.getElementById('sync-btn');
+  if(ts&&btn) btn.title='Last synced: '+new Date(parseInt(ts)).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+})();
 
 // ── PWA SERVICE WORKER ──
 if('serviceWorker' in navigator){
