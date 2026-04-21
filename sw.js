@@ -1,5 +1,5 @@
-// Mogul OS Service Worker — v5
-const CACHE = 'mogul-os-v5';
+// Mogul OS Service Worker — v6
+const CACHE = 'mogul-os-v6';
 const CORE = [
   './',
   './index.html',

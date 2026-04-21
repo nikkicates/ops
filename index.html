@@ -543,6 +543,18 @@
       .tab-content { padding: 12px 10px 20px; }
     }
 
+    /* ══ SYNC TOAST ══ */
+    #sync-toast {
+      position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+      background:var(--deep); border:1px solid rgba(239,68,68,.4);
+      color:#fca5a5; font-size:12px; padding:10px 18px; border-radius:12px;
+      z-index:80; white-space:nowrap; max-width:90vw; white-space:normal; text-align:center;
+      box-shadow:0 8px 24px rgba(0,0,0,.5);
+      opacity:0; transition:opacity .25s; pointer-events:none;
+    }
+    #sync-toast.show { opacity:1; }
+    #sync-toast.ok { border-color:rgba(34,197,94,.4); color:#86efac; }
+
     /* ══ SYNC BUTTON STATES ══ */
     .hbtn-syncing { opacity:.6; cursor:default; pointer-events:none; }
     .hbtn-ok  { color:var(--done)    !important; border-color:rgba(34,197,94,.35)  !important; }
@@ -1015,6 +1027,8 @@
     </div>
   </div>
 </div>
+
+<div id="sync-toast"></div>
 
 <!-- ══════════════════ MOBILE NAV ══════════════════ -->
 <nav id="mobile-nav">
@@ -1662,6 +1676,16 @@ document.getElementById('ap-input').addEventListener('keydown',e=>{ if(e.key==='
 // ── ESCAPE HTML ──
 function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'); }
 
+// ── SYNC TOAST ──
+let _toastTimer=null;
+function showSyncToast(msg, isError=false){
+  const t=document.getElementById('sync-toast'); if(!t) return;
+  t.textContent=msg;
+  t.className=isError?'show':'show ok';
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>{ t.className=''; },isError?9000:3500);
+}
+
 // ── SYNC (GitHub Gist) ──
 const SYNC_FILE = 'mogul-os-state.json';
 
@@ -1737,12 +1761,16 @@ async function syncNow(){
       files:{[SYNC_FILE]:{content:JSON.stringify(state,null,2)}}
     })});
     localStorage.setItem(SK.lastSync,String(state.ts));
-    setSyncBtn('ok','Last synced: '+new Date(state.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+    const syncTime=new Date(state.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    setSyncBtn('ok','Last synced: '+syncTime);
+    showSyncToast('✓ Synced at '+syncTime);
     // Refresh gist info in Settings if open
     const info=document.getElementById('set-gist-info');
     if(info){ info.style.display='block'; info.textContent='Gist ID: '+gistId+' · gist.github.com/'+gistId; }
   }catch(err){
     setSyncBtn('error',err.message);
+    // Show error visibly for 10 seconds in a small toast
+    showSyncToast('⚠ Sync failed: '+err.message, true);
   }finally{ _syncing=false; }
 }
 
