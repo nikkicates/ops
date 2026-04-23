@@ -587,10 +587,6 @@
     <button class="nav-btn" data-tab="revenue"><span class="nav-icon">💰</span> Revenue</button>
     <button class="nav-btn" data-tab="reference"><span class="nav-icon">📚</span> Reference</button>
 
-    <div class="nav-label">Projects</div>
-    <button class="nav-btn" data-tab="writing"><span class="nav-icon">✍🏾</span> Writing</button>
-    <button class="nav-btn" data-tab="research"><span class="nav-icon">🔬</span> Research</button>
-
     <button class="cos-launch" onclick="openAgent('cos')">⚡ Daily COS Brief</button>
 
     <!-- Quick Launch Dock -->
@@ -959,12 +955,6 @@
       </div>
     </div><!-- /reference -->
 
-    <!-- ─── WRITING TAB ─── -->
-    <div class="tab-content" id="tab-writing"></div>
-
-    <!-- ─── RESEARCH TAB ─── -->
-    <div class="tab-content" id="tab-research"></div>
-
   </main><!-- /main-content -->
 </div><!-- /os-body -->
 
@@ -1019,10 +1009,6 @@
 
     <div id="set-gist-info" style="display:none;font-size:10px;color:var(--teal);margin-bottom:14px;font-family:'DM Mono',monospace;"></div>
 
-    <label class="set-lbl">Manual Gist ID (Optional)</label>
-    <input class="set-input" type="text" id="set-gist-id" placeholder="Paste existing gist ID to link all devices">
-    <div class="set-note">If you already have a sync gist, paste its ID here to link all your devices to the same gist. Leave blank to auto-create on first sync.</div>
-
     <div class="set-row">
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
       <button class="btn-save" onclick="saveSettings()">Save</button>
@@ -1035,8 +1021,8 @@
   <button class="mnav-btn active" data-tab="today"><div class="mi">🌅</div><div class="ml">Today</div></button>
   <button class="mnav-btn" data-tab="tasks"><div class="mi">✅</div><div class="ml">Tasks</div></button>
   <button class="mnav-btn" data-tab="agents"><div class="mi">🤖</div><div class="ml">Agents</div></button>
-  <button class="mnav-btn" data-tab="writing"><div class="mi">✍🏾</div><div class="ml">Writing</div></button>
-  <button class="mnav-btn" data-tab="research"><div class="mi">🔬</div><div class="ml">Research</div></button>
+  <button class="mnav-btn" data-tab="revenue"><div class="mi">💰</div><div class="ml">Revenue</div></button>
+  <button class="mnav-btn" data-tab="reference"><div class="mi">📚</div><div class="ml">More</div></button>
 </nav>
 
 <script>
@@ -1048,8 +1034,7 @@ const SK = { // storage keys
   brief:'mogul-brief', captures:'mogul-captures', tasks:'mogul-tasks',
   kpis:'mogul-kpis', convos:'mogul-convos', kanban:'mogul-kanban',
   key:'mogul-api-key', model:'mogul-model',
-  ghToken:'mogul-gh-token', gistId:'mogul-gist-id', lastSync:'mogul-last-sync',
-  writing:'mogul-writing', research:'mogul-research'
+  ghToken:'mogul-gh-token', gistId:'mogul-gist-id', lastSync:'mogul-last-sync'
 };
 
 function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
@@ -1552,7 +1537,6 @@ function openSettings(){
   document.getElementById('set-model').value=localStorage.getItem(SK.model)||'claude-opus-4-7';
   document.getElementById('set-gh-token').value=localStorage.getItem(SK.ghToken)||'';
   const gistId=localStorage.getItem(SK.gistId);
-  document.getElementById('set-gist-id').value=gistId||'';
   const info=document.getElementById('set-gist-info');
   if(gistId){ info.style.display='block'; info.textContent='Gist ID: '+gistId+' · gist.github.com/'+gistId; }
   else { info.style.display='none'; }
@@ -1563,11 +1547,9 @@ function saveSettings(){
   const k=document.getElementById('set-key').value.trim();
   const m=document.getElementById('set-model').value;
   const gh=document.getElementById('set-gh-token').value.trim();
-  const gid=document.getElementById('set-gist-id').value.trim();
   if(k) localStorage.setItem(SK.key,k); else localStorage.removeItem(SK.key);
   localStorage.setItem(SK.model,m);
   if(gh) localStorage.setItem(SK.ghToken,gh); else { localStorage.removeItem(SK.ghToken); localStorage.removeItem(SK.gistId); }
-  if(gid) { localStorage.setItem(SK.gistId,gid); console.log('[SETTINGS] Manually set gist ID:',gid); }
   closeSettings(); updateApiStatus();
 }
 
@@ -1684,7 +1666,7 @@ function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 const SYNC_FILE = 'mogul-os-state.json';
 
 function getSyncState(){
-  return { v:2, ts:Date.now(), brief:briefState, captures:captureLog, tasks:taskState, kanban:kanban, kpis:load(SK.kpis,{}), writing:load(SK.writing,{}), research:load(SK.research,{}) };
+  return { v:2, ts:Date.now(), brief:briefState, captures:captureLog, tasks:taskState, kanban:kanban, kpis:load(SK.kpis,{}) };
 }
 
 function applyRemoteState(r){
@@ -1693,8 +1675,6 @@ function applyRemoteState(r){
   if(r.tasks)    { taskState=r.tasks;        saveTasks();                  renderTasks(); }
   if(r.kanban)   { kanban=r.kanban;          save(SK.kanban,kanban);       renderKanban(); }
   if(r.kpis)     { save(SK.kpis,r.kpis);    loadKPIs(); }
-  if(r.writing)  { save(SK.writing,r.writing); renderWriting(); }
-  if(r.research) { save(SK.research,r.research); renderResearch(); }
 }
 
 function setSyncBtn(state, detail){
@@ -1714,30 +1694,20 @@ async function ghFetch(token,path,opts={}){
 
 async function getOrCreateGist(token){
   let id=localStorage.getItem(SK.gistId);
-  if(id){ console.log('[SYNC] Using existing gist ID:',id); return id; }
-  console.log('[SYNC] No gist ID found, searching for existing gist...');
-  try{
-    const res=await ghFetch(token,'/gists?per_page=100');
-    if(!res.ok) throw new Error('GitHub token invalid or missing gist scope ('+res.status+')');
-    const list=await res.json();
-    const found=list.find(g=>g.files&&g.files[SYNC_FILE]);
-    if(found){ 
-      console.log('[SYNC] Found existing gist:',found.id);
-      localStorage.setItem(SK.gistId,found.id); 
-      return found.id; 
-    }
-  }catch(e){
-    console.warn('[SYNC] Could not search existing gists:',e.message);
-  }
-  console.log('[SYNC] Creating new gist...');
+  if(id) return id;
+  // Search existing gists for our file
+  const res=await ghFetch(token,'/gists?per_page=100');
+  if(!res.ok) throw new Error('GitHub token invalid or missing gist scope');
+  const list=await res.json();
+  const found=list.find(g=>g.files&&g.files[SYNC_FILE]);
+  if(found){ localStorage.setItem(SK.gistId,found.id); return found.id; }
+  // First time — create a new private gist
   const cr=await ghFetch(token,'/gists',{method:'POST',body:JSON.stringify({
     description:'Mogul OS — Auto Sync',public:false,
     files:{[SYNC_FILE]:{content:JSON.stringify(getSyncState(),null,2)}}
   })});
-  if(!cr.ok){ const err=await cr.json().catch(()=>({})); throw new Error('Could not create sync gist: '+cr.status+' '+(err.message||'')); }
+  if(!cr.ok) throw new Error('Could not create sync gist');
   const g=await cr.json();
-  if(!g.id) throw new Error('Gist created but no ID returned');
-  console.log('[SYNC] Created new gist:',g.id);
   localStorage.setItem(SK.gistId,g.id);
   return g.id;
 }
@@ -1745,13 +1715,12 @@ async function getOrCreateGist(token){
 let _syncing=false;
 async function syncNow(){
   const token=localStorage.getItem(SK.ghToken);
-  if(!token){ console.log('[SYNC] No GitHub token'); openSettings(); setTimeout(()=>document.getElementById('set-gh-token').focus(),200); return; }
+  if(!token){ openSettings(); setTimeout(()=>document.getElementById('set-gh-token').focus(),200); return; }
   if(_syncing) return;
   _syncing=true; setSyncBtn('syncing');
-  console.log('[SYNC] Sync initiated');
   try{
     const gistId=await getOrCreateGist(token);
-    console.log('[SYNC] Gist ID:',gistId);
+    // Pull remote state
     const getRes=await ghFetch(token,'/gists/'+gistId);
     if(getRes.ok){
       const gist=await getRes.json();
@@ -1759,21 +1728,20 @@ async function syncNow(){
       if(content){
         const remote=JSON.parse(content);
         const localTs=parseInt(localStorage.getItem(SK.lastSync)||'0');
-        console.log('[SYNC] Remote ts:',remote.ts,'Local ts:',localTs);
-        if(remote.ts&&remote.ts>localTs){ console.log('[SYNC] Pulling remote'); applyRemoteState(remote); }
+        if(remote.ts&&remote.ts>localTs) applyRemoteState(remote);
       }
     }
+    // Push current state
     const state=getSyncState();
-    console.log('[SYNC] Pushing state');
-    const pushRes=await ghFetch(token,'/gists/'+gistId,{method:'PATCH',body:JSON.stringify({files:{[SYNC_FILE]:{content:JSON.stringify(state,null,2)}}})});
-    if(!pushRes.ok) throw new Error('Push failed: '+pushRes.status);
+    await ghFetch(token,'/gists/'+gistId,{method:'PATCH',body:JSON.stringify({
+      files:{[SYNC_FILE]:{content:JSON.stringify(state,null,2)}}
+    })});
     localStorage.setItem(SK.lastSync,String(state.ts));
-    console.log('[SYNC] Complete');
     setSyncBtn('ok','Last synced: '+new Date(state.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+    // Refresh gist info in Settings if open
     const info=document.getElementById('set-gist-info');
     if(info){ info.style.display='block'; info.textContent='Gist ID: '+gistId+' · gist.github.com/'+gistId; }
   }catch(err){
-    console.error('[SYNC] Error:',err.message);
     setSyncBtn('error',err.message);
   }finally{ _syncing=false; }
 }
@@ -1784,75 +1752,6 @@ async function syncNow(){
   const btn=document.getElementById('sync-btn');
   if(ts&&btn) btn.title='Last synced: '+new Date(parseInt(ts)).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
 })();
-
-// ══════════════════════════════════════════════════════════
-// WRITING COMMAND CENTER — THE WRONG DIAGNOSIS
-// ══════════════════════════════════════════════════════════
-
-const WRITING_PHASES = [
-  {id:'p0', name:'Foundation', start:'Apr 28', end:'May 9', target:0},
-  {id:'p1', name:'Introduction: The Invoice We Have Been Ignoring', start:'May 12', end:'May 30', target:6000},
-  {id:'p2', name:'Chapter 1: How We Got Here', start:'Jun 2', end:'Jun 20', target:8500},
-  {id:'p3', name:'Chapter 2: Burnout Is Not the Problem', start:'Jun 23', end:'Jul 11', target:8000},
-  {id:'buffer1', name:'Buffer Week 1', start:'Jul 14', end:'Jul 18', target:0},
-  {id:'p4', name:'Chapter 3: The Stabilization Economy', start:'Jul 21', end:'Aug 8', target:8500},
-  {id:'p5', name:'Chapter 4: Who Carries What', start:'Aug 11', end:'Aug 29', target:9000},
-  {id:'buffer2', name:'Buffer Week 2', start:'Sep 1', end:'Sep 5', target:0},
-  {id:'p6', name:'Chapter 5: Seeing From the Burden', start:'Sep 8', end:'Sep 26', target:8000},
-  {id:'p7', name:'Chapter 6: Acceleration Without Architecture', start:'Sep 29', end:'Oct 10', target:8000},
-  {id:'p8', name:'Chapter 7: Why the Wrong Interventions Keep Winning', start:'Oct 13', end:'Oct 24', target:8000},
-  {id:'p9', name:'Chapter 8: Designing for Human Sustainability', start:'Oct 27', end:'Nov 7', target:9000},
-  {id:'p10', name:'Conclusion: You Were Never the Problem. You Were the Proof.', start:'Nov 10', end:'Nov 14', target:5500},
-  {id:'final', name:'Final Review', start:'Nov 17', end:'Nov 19', target:0}
-];
-
-let writingState = load(SK.writing, {totalWords:0, targetWords:78500, sessions:[], phaseProgress:{}});
-
-function renderWriting(){
-  const tab = document.getElementById('tab-writing');
-  if(!tab) return;
-  const today = new Date();
-  const deadline = new Date('2026-11-19');
-  const daysLeft = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-  const progressPct = Math.round((writingState.totalWords / writingState.targetWords) * 100);
-  let html = `<div class="page-title mg">The Wrong Diagnosis — Writing Command Center</div><p class="page-sub">Manuscript Progress · 78,500 words · Deadline: November 19, 2026</p><div class="card" style="padding:20px 22px;margin-bottom:20px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:2px;">Manuscript Progress</div><div style="font-size:26px;font-weight:700;">${writingState.totalWords.toLocaleString()} <span style="font-size:13px;color:var(--slate);font-weight:400;">/ ${writingState.targetWords.toLocaleString()}</span></div></div><div style="text-align:right;"><div style="font-size:28px;font-weight:700;color:var(--teal);">${progressPct}%</div><div style="font-size:11px;color:var(--slate);">${daysLeft} days remaining</div></div></div><div class="prog-track" style="height:8px;"><div class="prog-fill" style="width:${Math.min(progressPct, 100)}%"></div></div></div><div class="card" style="padding:20px 22px;margin-bottom:20px;"><div style="font-size:14px;font-weight:700;margin-bottom:14px;">Log Writing Session</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:10px;margin-bottom:12px;"><input type="date" id="write-date" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:white;padding:8px 10px;font-size:12px;" value="${today.toISOString().split('T')[0]}"><select id="write-type" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:white;padding:8px 10px;font-size:12px;"><option value="generative">Generative</option><option value="integration">Integration</option></select><input type="number" id="write-words" placeholder="Words produced" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:white;padding:8px 10px;font-size:12px;"><select id="write-phase" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:white;padding:8px 10px;font-size:12px;"><option value="">Select phase...</option>${WRITING_PHASES.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select><button onclick="logWritingSession()" style="background:linear-gradient(135deg,var(--teal),var(--lilac));border:none;border-radius:8px;color:var(--navy);font-weight:700;padding:8px 16px;cursor:pointer;font-size:12px;flex-shrink:0;">+ Log</button></div></div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Phase Tracker</div><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">`;
-  WRITING_PHASES.forEach(phase => {
-    const phaseWords = writingState.phaseProgress[phase.id] || 0;
-    const phasePct = phase.target > 0 ? Math.round((phaseWords / phase.target) * 100) : 0;
-    const isActive = isPhaseActive(phase);
-    html += `<div class="card" style="padding:14px 16px;border-color:${isActive ? 'rgba(88,187,194,.3)' : 'rgba(255,255,255,.07)'};background:${isActive ? 'rgba(88,187,194,.06)' : 'rgba(255,255,255,.02)'};"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-size:12px;font-weight:700;${isActive ? 'color:var(--teal)' : ''}">${phase.name}</div><div style="font-size:10px;color:var(--slate);">${phase.start} – ${phase.end}</div></div><div style="text-align:right;"><div style="font-size:11px;font-weight:700;color:var(--teal);">${phaseWords.toLocaleString()} / ${phase.target.toLocaleString()}</div><div style="font-size:10px;color:var(--slate);">${phasePct}%</div></div></div>${phase.target > 0 ? `<div class="prog-track" style="height:4px;"><div class="prog-fill" style="width:${Math.min(phasePct, 100)}%"></div></div>` : ''}</div>`;
-  });
-  html += `</div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Session Log</div><div class="card" style="padding:16px 18px;"><div id="write-session-log" style="display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;">`;
-  if(writingState.sessions.length === 0) html += '<div style="font-size:11px;color:rgba(148,163,184,.3);font-style:italic;">No sessions logged yet</div>';
-  else writingState.sessions.slice(0, 20).forEach((s, i) => { const d = new Date(s.date); html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px;"><div><span style="color:var(--teal);font-weight:600;">${s.type}</span><span style="color:var(--slate);margin:0 8px;">·</span><span>${d.toLocaleDateString('en-US', {month:'short', day:'numeric'})}</span><span style="color:var(--slate);margin:0 8px;">·</span><span style="font-weight:600;">${s.words.toLocaleString()} words</span></div><button onclick="deleteWritingSession(${i})" style="background:none;border:none;color:rgba(148,163,184,.3);cursor:pointer;font-size:12px;">×</button></div>`; });
-  html += `</div><div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;gap:8px;"><button onclick="exportWritingLog()" style="background:rgba(88,187,194,.1);border:1px solid rgba(88,187,194,.25);border-radius:8px;color:var(--teal);padding:6px 12px;font-size:11px;cursor:pointer;flex:1;">⬇ Export CSV</button><button onclick="clearWritingLog()" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:8px;color:var(--urgent);padding:6px 12px;font-size:11px;cursor:pointer;flex:1;">Clear Log</button></div></div>`;
-  tab.innerHTML = html;
-}
-
-function isPhaseActive(phase) { const today = new Date(); const start = parsePhaseDate(phase.start); const end = parsePhaseDate(phase.end); return today >= start && today <= end; }
-function parsePhaseDate(dateStr) { const [month, day] = dateStr.split(' '); const months = {Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10}; return new Date(2026, months[month], parseInt(day)); }
-function logWritingSession() { const date = document.getElementById('write-date').value; const type = document.getElementById('write-type').value; const words = parseInt(document.getElementById('write-words').value) || 0; const phaseId = document.getElementById('write-phase').value; if(!date || words === 0) return; const isWeekend = new Date(date).getDay() % 6 === 0; if(isWeekend) alert('Weekend session — noted'); writingState.sessions.unshift({date, type, words, phaseId, ts: Date.now()}); writingState.totalWords += words; if(phaseId) writingState.phaseProgress[phaseId] = (writingState.phaseProgress[phaseId] || 0) + words; save(SK.writing, writingState); document.getElementById('write-words').value = ''; renderWriting(); }
-function deleteWritingSession(i) { const s = writingState.sessions[i]; writingState.totalWords -= s.words; if(s.phaseId) writingState.phaseProgress[s.phaseId] -= s.words; writingState.sessions.splice(i, 1); save(SK.writing, writingState); renderWriting(); }
-function exportWritingLog() { let csv = 'Date,Type,Words,Phase\n'; writingState.sessions.forEach(s => { const d = new Date(s.date).toLocaleDateString('en-US'); const phase = WRITING_PHASES.find(p => p.id === s.phaseId)?.name || ''; csv += `"${d}","${s.type}",${s.words},"${phase}"\n`; }); const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `writing-log-${new Date().toISOString().split('T')[0]}.csv`; a.click(); }
-function clearWritingLog() { if(confirm('Clear all sessions? This cannot be undone.')) { writingState.sessions = []; writingState.totalWords = 0; writingState.phaseProgress = {}; save(SK.writing, writingState); renderWriting(); } }
-
-let researchState = load(SK.research, {fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'pending', target:62500, deadline:'Jul 1, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], fiscalSponsors:[{name:'TSNE', rate:'14%', priority:'high'},{name:'Community Initiatives', rate:'10%', priority:'high'},{name:'Multiplier', rate:'9%', priority:'high'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], totalRaised:0});
-
-function renderResearch(){
-  const tab = document.getElementById('tab-research');
-  if(!tab) return;
-  const totalTarget = researchState.fundingSources.reduce((sum, f) => sum + f.target, 0);
-  const fundingPct = Math.round((researchState.totalRaised / totalTarget) * 100);
-  let html = `<div class="page-title mg">URI Recalibration Institute</div><p class="page-sub">Research Launch · Fiscal Sponsorship · Funding Architecture</p><div class="card" style="padding:20px 22px;margin-bottom:20px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:2px;">2026 Funding Goal (Medium Scenario)</div><div style="font-size:26px;font-weight:700;">$${researchState.totalRaised.toLocaleString()} <span style="font-size:13px;color:var(--slate);font-weight:400;">/ $${totalTarget.toLocaleString()}</span></div></div><div style="text-align:right;"><div style="font-size:28px;font-weight:700;color:var(--teal);">${fundingPct}%</div><div style="font-size:11px;color:var(--slate);">of target</div></div></div><div class="prog-track" style="height:8px;"><div class="prog-fill" style="width:${Math.min(fundingPct, 100)}%"></div></div></div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Funding Sources & Opportunities</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">`;
-  researchState.fundingSources.forEach(f => { const statusColor = f.status === 'submitted' ? 'var(--gold)' : f.status === 'funded' ? 'var(--done)' : 'var(--slate)'; html += `<div class="card" style="padding:16px 18px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;">${f.name}</div><span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.08);color:${statusColor};text-transform:uppercase;">${f.status}</span></div><div style="font-size:11px;color:var(--slate);margin-bottom:6px;">Target: $${f.target.toLocaleString()}</div><div style="font-size:10px;color:rgba(148,163,184,.5);">Deadline: ${f.deadline}</div></div>`; });
-  html += `</div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Fiscal Sponsorship Prospects</div><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">`;
-  researchState.fiscalSponsors.forEach(s => { const priorityColor = s.priority === 'high' ? 'var(--teal)' : 'var(--slate)'; html += `<div class="card" style="padding:14px 16px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">${s.name}</div><div style="font-size:10px;color:var(--slate);">Fee: ${s.rate}</div></div><div style="text-align:right;"><span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.08);color:${priorityColor};text-transform:uppercase;">${s.priority}</span></div></div></div>`; });
-  html += `</div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Budget Scenario: MEDIUM</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;"><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Staff & Contractors</div><div style="font-size:18px;font-weight:700;">$185,000</div></div><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Research & Data</div><div style="font-size:18px;font-weight:700;">$87,000</div></div><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Total Budget</div><div style="font-size:18px;font-weight:700;color:var(--teal);">$365,000</div></div></div>`;
-  tab.innerHTML = html;
-}
-
-renderWriting();
-renderResearch();
 
 // ── PWA SERVICE WORKER ──
 if('serviceWorker' in navigator){
