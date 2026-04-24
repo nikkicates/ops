@@ -1837,7 +1837,7 @@ function exportWritingLog() { let csv = 'Date,Type,Words,Phase\n'; writingState.
 function clearWritingLog() { if(confirm('Clear all sessions? This cannot be undone.')) { writingState.sessions = []; writingState.totalWords = 0; writingState.phaseProgress = {}; save(SK.writing, writingState); renderWriting(); } }
 
 let researchState = load(SK.research, {
-  fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'pending', target:62500, deadline:'Jul 1, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], 
+  fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'URGENT-intent-May-4', target:62500, deadline:'INTENT DUE MAY 4, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], 
   fiscalSponsors:[{name:'TSNE', rate:'14%', priority:'high'},{name:'Community Initiatives', rate:'10%', priority:'high'},{name:'Multiplier', rate:'9%', priority:'high'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], 
   totalRaised:0,
   sprints: [
@@ -1872,10 +1872,11 @@ let researchState = load(SK.research, {
     ]}
   ],
   professors: [
-    {name:'Dr. Erika V. Hall', school:'Emory Goizueta', focus:'Race, gender, class biases', bridge:'Interpersonal evidence for structural argument', email:'erika.hall@emory.edu', status:'to-outreach'},
-    {name:'Dr. Melissa J. Williams', school:'Emory Goizueta', focus:'Social identities & hierarchies', bridge:'Authority doubts as empirical window into RAA', email:'melissa.j.williams@emory.edu', status:'to-outreach'},
-    {name:'Dr. Bettina Judd', school:'Emory AAS', focus:'Black feminist thought, "feelin"', bridge:'Affective dimensions as feminist knowledge', email:'bettina.a.judd@emory.edu', status:'follow-up-may'},
-    {name:'Dr. Amey Victoria Adkins-Jones', school:'Emory Candler', focus:'Womanist theology, AI & Black life', bridge:'Theological framing of AI burden-routing', email:'ameyavaj@emory.edu', status:'connected'},
+    {name:'Dr. Erika V. Hall', school:'Emory Goizueta', focus:'Race, gender, class biases', bridge:'Interpersonal evidence for structural argument', email:'erika.hall@emory.edu', status:'sent-apr-24'},
+    {name:'Dr. Melissa J. Williams', school:'Emory Goizueta', focus:'Social identities & hierarchies', bridge:'Authority doubts as empirical window into RAA', email:'mjwilliams@emory.edu', status:'sent-apr-24'},
+    {name:'Dean Teresa L. Fry Brown', school:'Candler School of Theology', focus:'Homiletics, womanism, womanist ethics', bridge:'Academic advisor — MRPL completion, AAS PhD path, warm introductions', email:'teresa.brown@emory.edu', status:'email-may-4-9'},
+    {name:'Dr. Bettina Judd', school:'Emory AAS', focus:'Black feminist thought, Feelin', bridge:'Affective dimensions as feminist knowledge', email:'bettina.a.judd@emory.edu', status:'remind-may-19'},
+    {name:'Dr. Amey Victoria Adkins-Jones', school:'Emory Candler', focus:'Womanist theology, AI and Black life', bridge:'Theological framing of AI burden-routing', email:'ameyavaj@emory.edu', status:'follow-up-may-26'},
     {name:'Prof. Kristin Wall', school:'Emory Rollins', focus:'Epidemiology, resource allocation', bridge:'Analytical tools for burden allocation', email:'Enrolled Fall 2026', status:'enrolled'}
   ]
 });
@@ -1887,7 +1888,41 @@ function renderResearch(){
   const fundingPct = Math.round((researchState.totalRaised / totalTarget) * 100);
   
   let html = `<div class="page-title mg">URI Recalibration Institute</div><p class="page-sub">Research Launch · Fiscal Sponsorship · Funding Architecture</p>
-    
+
+    <!-- URGENT ALERT BANNER -->
+    <div style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;">
+      <div style="font-size:18px;flex-shrink:0;">🔴</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px;">URGENT: Spencer Racial Equity Research Grant — Intent Due May 4, 2026</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.5;">Up to $75,000 available. URI Recalibration Institute research agenda is a strong fit. Submit letter of intent before May 4. Identify fiscal sponsor (TSNE, Community Initiatives, or Multiplier) as organizational applicant. Draft one-paragraph research intent statement centered on the RAA Index validation study.</div>
+      </div>
+    </div>
+
+    <!-- OUTREACH CALENDAR -->
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Faculty Outreach Calendar</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div><div style="font-size:11px;font-weight:700;color:#22c55e;">SENT Apr 24</div><div style="font-size:12px;font-weight:600;">Dr. Erika V. Hall</div><div style="font-size:10px;color:var(--slate);">Goizueta · Race, gender, workplace bias · erika.hall@emory.edu</div></div>
+        <span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,.15);color:#22c55e;font-weight:700;">SENT</span>
+      </div>
+      <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div><div style="font-size:11px;font-weight:700;color:#22c55e;">SENT Apr 24</div><div style="font-size:12px;font-weight:600;">Dr. Melissa J. Williams</div><div style="font-size:10px;color:var(--slate);">Goizueta · Social identities and hierarchies · mjwilliams@emory.edu</div></div>
+        <span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,.15);color:#22c55e;font-weight:700;">SENT</span>
+      </div>
+      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div><div style="font-size:11px;font-weight:700;color:#ef4444;">SEND May 4-9</div><div style="font-size:12px;font-weight:600;">Dean Teresa L. Fry Brown</div><div style="font-size:10px;color:var(--slate);">Candler · Academic advisor · MRPL completion + AAS PhD path + warm intros · teresa.brown@emory.edu</div></div>
+        <span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(239,68,68,.15);color:#ef4444;font-weight:700;">UPCOMING</span>
+      </div>
+      <div style="background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div><div style="font-size:11px;font-weight:700;color:#d4af37;">SEND May 19</div><div style="font-size:12px;font-weight:600;">Dr. Bettina Judd</div><div style="font-size:10px;color:var(--slate);">AAS · Black feminist thought · Read Feelin first · bettina.a.judd@emory.edu</div></div>
+        <span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(212,175,55,.15);color:#d4af37;font-weight:700;">REMINDER</span>
+      </div>
+      <div style="background:rgba(172,109,191,.08);border:1px solid rgba(172,109,191,.2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div><div style="font-size:11px;font-weight:700;color:#ac6dbf;">SEND May 26</div><div style="font-size:12px;font-weight:600;">Dr. Amey Victoria Adkins-Jones</div><div style="font-size:10px;color:var(--slate);">Candler · Womanist theology + AI · Lead with See No Evil + Ch.4 bridge · ameyavaj@emory.edu</div></div>
+        <span style="font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(172,109,191,.15);color:#ac6dbf;font-weight:700;">REMINDER</span>
+      </div>
+    </div>
+
     <!-- Funding & Budget -->
     <div class="card" style="padding:20px 22px;margin-bottom:20px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
