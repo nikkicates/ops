@@ -1836,19 +1836,160 @@ function deleteWritingSession(i) { const s = writingState.sessions[i]; writingSt
 function exportWritingLog() { let csv = 'Date,Type,Words,Phase\n'; writingState.sessions.forEach(s => { const d = new Date(s.date).toLocaleDateString('en-US'); const phase = WRITING_PHASES.find(p => p.id === s.phaseId)?.name || ''; csv += `"${d}","${s.type}",${s.words},"${phase}"\n`; }); const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `writing-log-${new Date().toISOString().split('T')[0]}.csv`; a.click(); }
 function clearWritingLog() { if(confirm('Clear all sessions? This cannot be undone.')) { writingState.sessions = []; writingState.totalWords = 0; writingState.phaseProgress = {}; save(SK.writing, writingState); renderWriting(); } }
 
-let researchState = load(SK.research, {fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'pending', target:62500, deadline:'Jul 1, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], fiscalSponsors:[{name:'TSNE', rate:'14%', priority:'high'},{name:'Community Initiatives', rate:'10%', priority:'high'},{name:'Multiplier', rate:'9%', priority:'high'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], totalRaised:0});
+let researchState = load(SK.research, {
+  fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'pending', target:62500, deadline:'Jul 1, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], 
+  fiscalSponsors:[{name:'TSNE', rate:'14%', priority:'high'},{name:'Community Initiatives', rate:'10%', priority:'high'},{name:'Multiplier', rate:'9%', priority:'high'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], 
+  totalRaised:0,
+  sprints: [
+    {id:'A', name:'Sprint A — Structural Strain, RAA, and Masking Tax', dates:'May 5–12', status:'not-started', readings:[
+      {id:'A1', author:'Karasek & Theorell', title:'Healthy Work', construct:'Structural Strain, RAA', done:false},
+      {id:'A2', author:'Wingfield', title:'Flatlining', construct:'Masking Tax, Load Path', done:false},
+      {id:'A3', author:'Woods-Giscombé', title:'Superwoman Schema', construct:'Masking Tax, Structural Strain', done:false},
+      {id:'A4', author:'Hochschild', title:'The Managed Heart', construct:'Masking Tax', done:false},
+      {id:'A5', author:'JSWE (2025)', title:'Black Women Social Workers', construct:'Masking Tax', done:false}
+    ]},
+    {id:'B', name:'Sprint B — Distributive Burden, Recognition, and Legitimacy Labor', dates:'Weeks 3-4', status:'not-started', readings:[
+      {id:'B1', author:'Fraser', title:'Justice Interruptus', construct:'Distributive Burden, RAA', done:false},
+      {id:'B2', author:'Padilla', title:'Ethnic Minority Scholars', construct:'Legitimacy Labor', done:false},
+      {id:'B3', author:'Creary', title:'Making Diversity Work', construct:'Legitimacy Labor', done:false},
+      {id:'B4', author:'McMillan Cottom', title:'Lower Ed', construct:'Legitimacy Labor, Distributive Burden', done:false},
+      {id:'B5', author:'Ray', title:'Theory of Racialized Organizations', construct:'Load Path, Legitimacy Labor', done:false}
+    ]},
+    {id:'C', name:'Sprint C — Load Path, Moral Residue, and Adaptive Burden Transfer', dates:'Weeks 5-6', status:'not-started', readings:[
+      {id:'C1', author:'Meyer & Rowan', title:'Institutionalized Organizations', construct:'Load Path', done:false},
+      {id:'C2', author:'Weick', title:'Social Psychology of Organizing', construct:'Load Path, Structural Strain', done:false},
+      {id:'C3', author:'Litz et al.', title:'Moral Injury and Moral Repair', construct:'Moral Residue', done:false},
+      {id:'C4', author:'JVB (2025)', title:'Moral Injury in Organizations', construct:'Moral Residue', done:false},
+      {id:'C5', author:'Geronimus', title:'Weathering', construct:'Structural Strain, Moral Residue', done:false}
+    ]},
+    {id:'D', name:'Sprint D — AI Burden Routing, Structural Sovereignty', dates:'Weeks 7-8', status:'not-started', readings:[
+      {id:'D1', author:'Benjamin', title:'Race After Technology', construct:'AI Burden Routing', done:false},
+      {id:'D2', author:'Noble', title:'Algorithms of Oppression', construct:'AI Burden Routing', done:false},
+      {id:'D3', author:'Buolamwini & Gebru', title:'Gender Shades', construct:'AI Burden Routing', done:false},
+      {id:'D4', author:'OECD (2025)', title:'Algorithmic Management', construct:'AI Burden Routing', done:false},
+      {id:'D5', author:'ILO (2025)', title:'The Artificial Intelligence Illusion', construct:'AI Burden Routing', done:false},
+      {id:'D6', author:'Fraser', title:'Recognition or Redistribution?', construct:'Structural Sovereignty', done:false}
+    ]}
+  ],
+  professors: [
+    {name:'Dr. Erika V. Hall', school:'Emory Goizueta', focus:'Race, gender, class biases', bridge:'Interpersonal evidence for structural argument', email:'erika.hall@emory.edu', status:'to-outreach'},
+    {name:'Dr. Melissa J. Williams', school:'Emory Goizueta', focus:'Social identities & hierarchies', bridge:'Authority doubts as empirical window into RAA', email:'melissa.j.williams@emory.edu', status:'to-outreach'},
+    {name:'Dr. Bettina Judd', school:'Emory AAS', focus:'Black feminist thought, "feelin"', bridge:'Affective dimensions as feminist knowledge', email:'bettina.a.judd@emory.edu', status:'follow-up-may'},
+    {name:'Dr. Amey Victoria Adkins-Jones', school:'Emory Candler', focus:'Womanist theology, AI & Black life', bridge:'Theological framing of AI burden-routing', email:'ameyavaj@emory.edu', status:'connected'},
+    {name:'Prof. Kristin Wall', school:'Emory Rollins', focus:'Epidemiology, resource allocation', bridge:'Analytical tools for burden allocation', email:'Enrolled Fall 2026', status:'enrolled'}
+  ]
+});
 
 function renderResearch(){
   const tab = document.getElementById('tab-research');
   if(!tab) return;
   const totalTarget = researchState.fundingSources.reduce((sum, f) => sum + f.target, 0);
   const fundingPct = Math.round((researchState.totalRaised / totalTarget) * 100);
-  let html = `<div class="page-title mg">URI Recalibration Institute</div><p class="page-sub">Research Launch · Fiscal Sponsorship · Funding Architecture</p><div class="card" style="padding:20px 22px;margin-bottom:20px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:2px;">2026 Funding Goal (Medium Scenario)</div><div style="font-size:26px;font-weight:700;">$${researchState.totalRaised.toLocaleString()} <span style="font-size:13px;color:var(--slate);font-weight:400;">/ $${totalTarget.toLocaleString()}</span></div></div><div style="text-align:right;"><div style="font-size:28px;font-weight:700;color:var(--teal);">${fundingPct}%</div><div style="font-size:11px;color:var(--slate);">of target</div></div></div><div class="prog-track" style="height:8px;"><div class="prog-fill" style="width:${Math.min(fundingPct, 100)}%"></div></div></div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Funding Sources & Opportunities</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">`;
+  
+  let html = `<div class="page-title mg">URI Recalibration Institute</div><p class="page-sub">Research Launch · Fiscal Sponsorship · Funding Architecture</p>
+    
+    <!-- Funding & Budget -->
+    <div class="card" style="padding:20px 22px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-bottom:2px;">2026 Funding Goal (Medium Scenario)</div>
+          <div style="font-size:26px;font-weight:700;">$${researchState.totalRaised.toLocaleString()} <span style="font-size:13px;color:var(--slate);font-weight:400;">/ $${totalTarget.toLocaleString()}</span></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:28px;font-weight:700;color:var(--teal);">${fundingPct}%</div>
+          <div style="font-size:11px;color:var(--slate);">of target</div>
+        </div>
+      </div>
+      <div class="prog-track" style="height:8px;"><div class="prog-fill" style="width:${Math.min(fundingPct, 100)}%"></div></div>
+    </div>
+
+    <!-- SPRINT RESEARCH READING LIST -->
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+      <span>Academic Sprint Research</span>
+      <span style="font-size:10px;color:var(--slate);font-weight:400;">One sprint per week · Start May 5</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">`;
+  
+  researchState.sprints.forEach((s, sIdx) => {
+    const doneCount = s.readings.filter(r => r.done).length;
+    const totalCount = s.readings.length;
+    const sprintPct = Math.round((doneCount / totalCount) * 100);
+    
+    html += `<div class="card" style="padding:16px 18px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--teal);">${s.name}</div>
+          <div style="font-size:10px;color:var(--slate);">${s.dates}</div>
+        </div>
+        <div style="text-align:right;font-size:11px;font-weight:700;">${doneCount}/${totalCount} <span style="color:var(--slate);font-weight:400;">sources</span></div>
+      </div>
+      <div class="prog-track" style="height:4px;margin-bottom:12px;"><div class="prog-fill" style="width:${sprintPct}%"></div></div>
+      <div style="display:flex;flex-direction:column;gap:6px;">`;
+    
+    s.readings.forEach((r, rIdx) => {
+      html += `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:11px;">
+        <input type="checkbox" ${r.done ? 'checked' : ''} onclick="toggleReading(${sIdx}, ${rIdx})" style="cursor:pointer;">
+        <div style="flex:1;${r.done ? 'opacity:.4;text-decoration:line-through;' : ''}">
+          <span style="font-weight:700;">${r.author}</span> · <em>${r.title}</em>
+          <div style="font-size:9px;color:var(--slate);margin-top:2px;">Construct: ${r.construct}</div>
+        </div>
+      </div>`;
+    });
+    
+    html += `</div></div>`;
+  });
+
+  html += `</div>
+
+    <!-- PROFESSOR OUTREACH -->
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Faculty Outreach & PhD Alignment</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">`;
+  
+  researchState.professors.forEach(p => {
+    html += `<div class="card" style="padding:16px 18px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div>
+          <div style="font-size:12px;font-weight:700;">${p.name}</div>
+          <div style="font-size:10px;color:var(--slate);">${p.school}</div>
+        </div>
+        <span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.08);color:var(--teal);text-transform:uppercase;">${p.status}</span>
+      </div>
+      <div style="font-size:10px;color:var(--slate);margin-bottom:6px;"><span style="color:white;font-weight:600;">Focus:</span> ${p.focus}</div>
+      <div style="font-size:10px;line-height:1.4;background:rgba(255,255,255,.03);padding:8px;border-radius:6px;border-left:2px solid var(--teal);">
+        <span style="color:var(--teal);font-weight:700;font-size:9px;text-transform:uppercase;">Bridge:</span> ${p.bridge}
+      </div>
+    </div>`;
+  });
+
+  html += `</div>
+
+    <!-- Funding Sources -->
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Funding Sources & Opportunities</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">`;
+  
   researchState.fundingSources.forEach(f => { const statusColor = f.status === 'submitted' ? 'var(--gold)' : f.status === 'funded' ? 'var(--done)' : 'var(--slate)'; html += `<div class="card" style="padding:16px 18px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;">${f.name}</div><span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.08);color:${statusColor};text-transform:uppercase;">${f.status}</span></div><div style="font-size:11px;color:var(--slate);margin-bottom:6px;">Target: $${f.target.toLocaleString()}</div><div style="font-size:10px;color:rgba(148,163,184,.5);">Deadline: ${f.deadline}</div></div>`; });
-  html += `</div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Fiscal Sponsorship Prospects</div><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">`;
+  
+  html += `</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Fiscal Sponsorship Prospects</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">`;
+  
   researchState.fiscalSponsors.forEach(s => { const priorityColor = s.priority === 'high' ? 'var(--teal)' : 'var(--slate)'; html += `<div class="card" style="padding:14px 16px;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:12px;font-weight:700;">${s.name}</div><div style="font-size:10px;color:var(--slate);">Fee: ${s.rate}</div></div><div style="text-align:right;"><span style="font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;background:rgba(255,255,255,.08);color:${priorityColor};text-transform:uppercase;">${s.priority}</span></div></div></div>`; });
-  html += `</div><div style="font-size:13px;font-weight:700;margin-bottom:12px;">Budget Scenario: MEDIUM</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;"><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Staff & Contractors</div><div style="font-size:18px;font-weight:700;">$185,000</div></div><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Research & Data</div><div style="font-size:18px;font-weight:700;">$87,000</div></div><div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Total Budget</div><div style="font-size:18px;font-weight:700;color:var(--teal);">$365,000</div></div></div>`;
+  
+  html += `</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:12px;">Budget Scenario: MEDIUM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Staff & Contractors</div><div style="font-size:18px;font-weight:700;">$185,000</div></div>
+      <div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Research & Data</div><div style="font-size:18px;font-weight:700;">$87,000</div></div>
+      <div class="card" style="padding:16px 18px;"><div style="font-size:10px;color:var(--slate);margin-bottom:8px;">Total Budget</div><div style="font-size:18px;font-weight:700;color:var(--teal);">$365,000</div></div>
+    </div>`;
+  
   tab.innerHTML = html;
+}
+
+function toggleReading(sIdx, rIdx) {
+  researchState.sprints[sIdx].readings[rIdx].done = !researchState.sprints[sIdx].readings[rIdx].done;
+  save(SK.research, researchState);
+  renderResearch();
 }
 
 renderWriting();
