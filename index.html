@@ -1837,8 +1837,8 @@ function exportWritingLog() { let csv = 'Date,Type,Words,Phase\n'; writingState.
 function clearWritingLog() { if(confirm('Clear all sessions? This cannot be undone.')) { writingState.sessions = []; writingState.totalWords = 0; writingState.phaseProgress = {}; save(SK.writing, writingState); renderWriting(); } }
 
 let researchState = load(SK.research, {
-  fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research', status:'URGENT-intent-May-4', target:62500, deadline:'INTENT DUE MAY 4, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], 
-  fiscalSponsors:[{name:'TSNE', rate:'14%', priority:'high'},{name:'Community Initiatives', rate:'10%', priority:'high'},{name:'Multiplier', rate:'9%', priority:'high'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], 
+  fundingSources:[{name:'W.K. Kellogg Foundation', status:'pending', target:112500, deadline:'Rolling'},{name:'RWJF Evidence for Action', status:'pending', target:187500, deadline:'Rolling'},{name:'Spencer Racial Equity Research (2027)', status:'build-now', target:62500, deadline:'Intent ~May 2027 — Building toward this'},{name:'AERA Dissertation Grant (NSF)', status:'urgent', target:20000, deadline:'DEADLINE: May 20, 2026'},{name:'Kapor Foundation Fellowship', status:'pending', target:35000, deadline:'Rolling'},{name:'Anchor Donors (4-6)', status:'pending', target:110000, deadline:'Q2-Q3 2026'},{name:'Academic Subaward', status:'pending', target:73000, deadline:'Q3 2026'}], 
+  fiscalSponsors:[{name:'Multiplier', rate:'9%', priority:'ACTIVE — Inquiry sent, awaiting response'},{name:'TSNE', rate:'14%', priority:'2-3 month turnaround — pursue after Multiplier'},{name:'Community Initiatives', rate:'10%', priority:'Next deadline June 1 — pursue if Multiplier declines'},{name:'Panorama Global', rate:'10-12%', priority:'medium'},{name:'Players Philanthropy Fund', rate:'6%', priority:'medium'}], 
   totalRaised:0,
   sprints: [
     {id:'A', name:'Sprint A — Structural Strain, RAA, and Masking Tax', dates:'May 5–12', status:'not-started', readings:[
@@ -1893,8 +1893,8 @@ function renderResearch(){
     <div style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;">
       <div style="font-size:18px;flex-shrink:0;">🔴</div>
       <div>
-        <div style="font-size:12px;font-weight:700;color:#ef4444;margin-bottom:4px;">URGENT: Spencer Racial Equity Research Grant — Intent Due May 4, 2026</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.5;">Up to $75,000 available. URI Recalibration Institute research agenda is a strong fit. Submit letter of intent before May 4. Identify fiscal sponsor (TSNE, Community Initiatives, or Multiplier) as organizational applicant. Draft one-paragraph research intent statement centered on the RAA Index validation study.</div>
+        <div style="font-size:12px;font-weight:700;color:#f59e0b;margin-bottom:4px;">ACTION: Multiplier Fiscal Sponsorship Inquiry — Send Today</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);line-height:1.5;">Spencer 2026 deferred — PI doctorate requirement not yet met + fiscal sponsor not in place. Strategy: (1) Apply to Multiplier now to establish URI as a fiscally sponsored project on your timeline. (2) Complete RAA Index by late May 2026. (3) Complete ABAI by late June 2026. (4) Run qualitative pilot with 10-15 BIWOC participants Aug-Oct 2026. (5) Secure faculty PI partner Nov 2026. (6) Submit Spencer 2027 intent with full infrastructure in place. AERA Dissertation Grant (up to $20,000) is open NOW — deadline May 20, 2026.</div>
       </div>
     </div>
 
